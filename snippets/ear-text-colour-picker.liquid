@@ -1,0 +1,149 @@
+{% comment %}
+  Renders colour swatches for an ear text field.
+  Accepts:
+  - colour_set: {Metaobject} resolved colour_set metaobject
+  - product_form_id: {String}
+  - property_name: {String} e.g. properties[1st Ear Text Colour]
+  - group_label: {String} accessible label for the radiogroup
+  - error_id: {String}
+  - error_message: {String}
+  - start_visible: {Boolean} optional — show swatches without waiting for ear text
+  - heading_text: {String} optional — visible heading (defaults to ear text copy)
+  - picker_kind: {String} optional — 'ear' (default), 'colour-set', or 'embroidery-text'
+{% endcomment %}
+{%- liquid
+  assign start_visible = start_visible | default: false
+  assign heading_text = heading_text | default: 'Choose your text colour'
+  assign picker_kind = picker_kind | default: 'ear'
+
+  assign resolved_colour_set = blank
+  if colour_set != blank
+    assign colour_set_source = colour_set.value | default: colour_set
+    assign colour_probe = colour_set_source.colour_name.value | default: colour_set_source.colour_name
+    if colour_probe != blank
+      assign resolved_colour_set = colour_set_source
+    else
+      for colour_set_entry in colour_set_source
+        assign colour_set_candidate = colour_set_entry.value | default: colour_set_entry
+        assign candidate_probe = colour_set_candidate.colour_name.value | default: colour_set_candidate.colour_name
+        if candidate_probe != blank
+          assign resolved_colour_set = colour_set_candidate
+          break
+        endif
+      endfor
+      if resolved_colour_set == blank
+        assign first_colour_set_entry = colour_set_source.first
+        if first_colour_set_entry != blank
+          assign colour_set_candidate = first_colour_set_entry.value | default: first_colour_set_entry
+          assign candidate_probe = colour_set_candidate.colour_name.value | default: colour_set_candidate.colour_name
+          if candidate_probe != blank
+            assign resolved_colour_set = colour_set_candidate
+          endif
+        endif
+      endif
+    endif
+  endif
+
+  assign colour_names = blank
+  assign colour_choices = blank
+  if resolved_colour_set != blank
+    assign colour_names = resolved_colour_set.colour_name.value
+    if colour_names == blank
+      assign colour_names = resolved_colour_set.colour_name
+    endif
+    assign colour_choices = resolved_colour_set.colour_choice.value
+    if colour_choices == blank
+      assign colour_choices = resolved_colour_set.colour_choice
+    endif
+  endif
+-%}
+{%- assign swatch_count = 0 -%}
+{%- if colour_names != blank and colour_choices != blank -%}
+  {%- for colour_name in colour_names -%}
+    {%- assign colour_idx = forloop.index0 -%}
+    {%- assign colour_hex = colour_choices[colour_idx] -%}
+    {%- if colour_name != blank and colour_hex != blank -%}
+      {%- assign swatch_count = swatch_count | plus: 1 -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+{%- if swatch_count > 0 -%}
+  {%- assign colour_heading_id = error_id | replace: '-error', '-heading' -%}
+  <div
+    class="ear-text-field__colour{% unless start_visible %} hidden{% endunless %}"
+    {% if picker_kind == 'colour-set' %}
+      data-variant-colour-set-picker
+      data-colour-set-label="{{ group_label | escape }}"
+      data-property-name="{{ property_name | escape }}"
+    {% elsif picker_kind == 'embroidery-text' %}
+      data-embroidery-text-colour-picker
+      data-property-name="{{ property_name | escape }}"
+    {% else %}
+      data-ear-colour-picker
+      data-property-name="{{ property_name | escape }}"
+    {% endif %}
+    data-has-colours="true"
+  >
+    <fieldset class="ear-text-field__colour-group" aria-labelledby="{{ colour_heading_id }}">
+      <legend class="ear-text-field__colour-legend visually-hidden">{{ group_label }}</legend>
+      {%- if picker_kind == 'embroidery-text' -%}
+        <div class="ear-text-field__colour-heading-row">
+          <p id="{{ colour_heading_id }}" class="ear-text-field__colour-heading">{{ heading_text }}</p>
+          <span class="ear-text-field__colour-heading-hint">You can choose up to 3 colours</span>
+        </div>
+      {%- else -%}
+        <p id="{{ colour_heading_id }}" class="ear-text-field__colour-heading">{{ heading_text }}</p>
+      {%- endif -%}
+      <div class="ear-text-field__colour-swatches" role="presentation">
+        {%- if picker_kind == 'embroidery-text' -%}
+          <input
+            type="hidden"
+            name="{{ property_name }}"
+            value=""
+            form="{{ product_form_id }}"
+            data-embroidery-colour-choice-value
+            disabled
+          >
+        {%- endif -%}
+        {%- for colour_name in colour_names -%}
+          {%- assign colour_idx = forloop.index0 -%}
+          {%- assign colour_hex = colour_choices[colour_idx] -%}
+          {%- if colour_name != blank and colour_hex != blank -%}
+            <label class="ear-colour-swatch">
+              {%- if picker_kind == 'embroidery-text' -%}
+                <input
+                  type="checkbox"
+                  value="{{ colour_name | escape }}"
+                  data-embroidery-text-colour-checkbox
+                  aria-label="{{ colour_name | escape }}"
+                >
+              {%- else -%}
+                <input
+                  type="radio"
+                  name="{{ property_name }}"
+                  value="{{ colour_name | escape }}"
+                  form="{{ product_form_id }}"
+                  aria-label="{{ colour_name | escape }}"
+                >
+              {%- endif -%}
+              <span
+                class="ear-colour-swatch__fill"
+                style="background-color: {{ colour_hex }};"
+                aria-hidden="true"
+              ></span>
+              <span class="ear-colour-swatch__tooltip" aria-hidden="true">{{ colour_name | escape }}</span>
+            </label>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </fieldset>
+    <div
+      id="{{ error_id }}"
+      class="ear-text-field__colour-error form__message hidden"
+      role="alert"
+    >
+      {{- 'icon-error.svg' | inline_asset_content -}}
+      <span class="error-message">{{ error_message }}</span>
+    </div>
+  </div>
+{%- endif -%}

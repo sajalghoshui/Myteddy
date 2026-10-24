@@ -1,0 +1,111 @@
+{% comment %}
+  Rush Order upsell card (product handle: rush-my-order, tag: rushorder).
+  Renders when the cart has at least one non–rush-order line item.
+{% endcomment %}
+{%- liquid
+  assign rush_product = all_products['rush-my-order']
+  assign rush_variant = rush_product.selected_or_first_available_variant
+  assign show_rush_card = false
+  assign rush_in_cart = false
+  assign rush_line_index = 0
+  assign card_context = context | default: 'cart'
+  assign tooltip_id = 'RushOrderInfo-' | append: card_context
+
+  if rush_product != blank and rush_variant != blank
+    assign rush_image = rush_variant.featured_image
+    if rush_image == blank
+      assign rush_image = rush_product.featured_image
+    endif
+
+    for item in cart.items
+      if item.product_id == rush_product.id
+        assign rush_in_cart = true
+        assign rush_line_index = item.index | plus: 1
+      elsif item.quantity > 0
+        assign show_rush_card = true
+      endif
+    endfor
+  endif
+-%}
+
+{%- if show_rush_card and rush_variant != blank -%}
+  {{ 'component-rush-order.css' | asset_url | stylesheet_tag }}
+
+  <rush-order-card
+    class="rush-order-card"
+    data-variant-id="{{ rush_variant.id }}"
+    data-product-id="{{ rush_product.id }}"
+    data-rush-line="{{ rush_line_index }}"
+  >
+    <div class="rush-order-card__inner">
+      <div class="rush-order-card__icon" aria-hidden="true">
+        {%- if rush_image != blank -%}
+          {{
+            rush_image
+            | image_url: width: 120
+            | image_tag:
+              class: 'rush-order-card__image',
+              widths: '60, 88, 120',
+              sizes: '44px',
+              loading: 'lazy',
+              alt: ''
+          }}
+        {%- else -%}
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" role="img">
+            <path d="M8 18h4l2-6h20l3 6h4v22H8V18z" fill="#e05a4f"/>
+            <path d="M14 12h20l2.5 6H11.5L14 12z" fill="#f0786a"/>
+            <path d="M6 22h3M4 26h4M5 30h3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" opacity="0.9"/>
+            <path d="M28 20l-4 10h3l-1 6 6-12h-3l3-4z" fill="#fff"/>
+          </svg>
+        {%- endif -%}
+      </div>
+
+      <div class="rush-order-card__main">
+        <div class="rush-order-card__top">
+          <p class="rush-order-card__eyebrow">Rush order</p>
+          <div class="rush-order-card__checkbox-wrap">
+            <label class="rush-order-card__checkbox-label">
+              <input
+                type="checkbox"
+                class="rush-order-card__checkbox"
+                id="RushOrder-{{ card_context }}"
+                name="rush-order-toggle"
+                aria-label="Add rush order for {{ rush_variant.price | money }}"
+                {% if rush_in_cart %}
+                  checked
+                {% endif %}
+              >
+              <span class="rush-order-card__checkbox-visual" aria-hidden="true"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="rush-order-card__heading-row">
+          <h3 class="rush-order-card__title">Need it sooner?</h3>
+          <p class="rush-order-card__price">+{{ rush_variant.price | money }}</p>
+        </div>
+
+        <p class="rush-order-card__body">
+          Rush order allows you to skip the queue and move to the top of our production line.
+          <span class="rush-order-card__info-wrap">
+            <button
+              type="button"
+              class="rush-order-card__info"
+              aria-label="More about rush order"
+              aria-describedby="{{ tooltip_id }}"
+            >
+              <span aria-hidden="true">?</span>
+            </button>
+            <span id="{{ tooltip_id }}" class="rush-order-card__tooltip" role="tooltip">
+              <span class="rush-order-card__tooltip-inner">
+                <span class="rush-order-card__tooltip-para">These orders have priority design and dispatch, and will usually leave us the same or next business day. (Monday – Friday)</span>
+                <span class="rush-order-card__tooltip-para">It does not relate to how your item is posted, combine with Express Post for the quickest possible delivery time.</span>
+                <span class="rush-order-card__tooltip-para">Perfect if you have left it to the last minute, or need your item in a hurry.</span>
+              </span>
+            </span>
+          </span>
+        </p>
+      </div>
+    </div>
+  </rush-order-card>
+{%- endif -%}

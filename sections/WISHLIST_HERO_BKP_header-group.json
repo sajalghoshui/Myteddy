@@ -1,0 +1,86 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.header.name",
+  "type": "header",
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "blocks": {
+        "announcement_w9WyKf": {
+          "type": "announcement",
+          "settings": {
+            "text": "Fast turnaround, secure delivery",
+            "link": ""
+          }
+        },
+        "announcement-bar-0": {
+          "type": "announcement",
+          "settings": {
+            "text": "Yes! We accept Afterpay!!",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "announcement_w9WyKf",
+        "announcement-bar-0"
+      ],
+      "settings": {
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "color_scheme": "scheme-3dc9f179-1f0d-4a0a-8f74-aa26894896c3",
+        "show_line_separator": true,
+        "show_social": false,
+        "enable_country_selector": false,
+        "enable_language_selector": false
+      }
+    },
+    "header": {
+      "type": "header",
+      "blocks": {
+        "mega_menu_BFDkTj": {
+          "type": "mega_menu",
+          "settings": {
+            "title": "Shop All",
+            "menu_1": "shop-by-product",
+            "menu_title_1": "Shop by Product",
+            "menu_2": "shop-by-occasion",
+            "menu_title_2": "Shop by Occasion",
+            "feature_image": "shopify://shop_images/ChatGPT_Image_Aug_29_2026_01_20_56_AM_2b885e86-c211-4bd1-b09f-ef370f182417.png",
+            "feature_title": ""
+          }
+        }
+      },
+      "block_order": [
+        "mega_menu_BFDkTj"
+      ],
+      "settings": {
+        "logo_position": "middle-center",
+        "mobile_logo_position": "center",
+        "menu": "main-menu",
+        "menu_type_desktop": "mega",
+        "sticky_header_type": "on-scroll-up",
+        "show_line_separator": true,
+        "color_scheme": "scheme-1",
+        "menu_color_scheme": "scheme-1",
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "margin_bottom": 0,
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    }
+  },
+  "order": [
+    "announcement-bar",
+    "header"
+  ]
+}

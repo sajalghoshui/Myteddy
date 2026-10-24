@@ -1,0 +1,25 @@
+{%- comment -%}
+  Renders an inline SVG country flag from ISO 3166-1 alpha-2 code.
+
+  Accepts:
+    - iso_code: {String} Two-letter country code (e.g. AU, US)
+{%- endcomment -%}
+{%- liquid
+  assign code = iso_code | downcase | strip
+-%}
+<span class="country-flag" aria-hidden="true">
+  {%- case code -%}
+    {%- when 'au' -%}
+      {{- 'flag-au.svg' | inline_asset_content -}}
+    {%- when 'jp' -%}
+      {{- 'flag-jp.svg' | inline_asset_content -}}
+    {%- when 'my' -%}
+      {{- 'flag-my.svg' | inline_asset_content -}}
+    {%- when 'nz' -%}
+      {{- 'flag-nz.svg' | inline_asset_content -}}
+    {%- when 'sg' -%}
+      {{- 'flag-sg.svg' | inline_asset_content -}}
+    {%- else -%}
+      {{- 'flag-default.svg' | inline_asset_content -}}
+  {%- endcase -%}
+</span>

@@ -1,0 +1,292 @@
+.rush-order-card {
+     display: block;
+    position: relative;
+    z-index: 2;
+    margin: 1.2rem 0 0;
+    padding: 1.25rem 1.35rem;
+    background: #fff;
+    border: 1px solid #b564a7;
+    border-radius: 14px;
+    color: #1a1a1a;
+    overflow: visible;
+}
+
+.rush-order-card[hidden] {
+  display: none !important;
+}
+
+.rush-order-card__inner {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  overflow: visible;
+}
+
+.rush-order-card__icon {
+  width: 4.4rem;
+  height: 4.4rem;
+  border-radius: 10px;
+  background: #f9d6d6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.rush-order-card__icon svg {
+  width: 2.6rem;
+  height: 2.6rem;
+}
+
+.rush-order-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.rush-order-card__main {
+  flex: 1;
+  min-width: 0;
+  overflow: visible;
+}
+
+.rush-order-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.15rem;
+}
+
+.rush-order-card__eyebrow {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #e05a4f;
+}
+
+.rush-order-card__heading-row {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.rush-order-card__title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: #1a1a1a;
+}
+
+.rush-order-card__price {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #e05a4f;
+  white-space: nowrap;
+}
+
+.rush-order-card__checkbox-wrap {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.rush-order-card__checkbox-label {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  margin: 0;
+  cursor: pointer;
+}
+
+/* Beat Dawn base.css `input[type='checkbox'] { width: auto }`. Keep input focusable; draw custom box on span. */
+.rush-order-card input[type='checkbox'].rush-order-card__checkbox {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  width: 2.2rem;
+  height: 2.2rem;
+  min-width: 2.2rem;
+  min-height: 2.2rem;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.rush-order-card input[type='checkbox'].rush-order-card__checkbox:disabled {
+  cursor: wait;
+}
+
+.rush-order-card input[type='checkbox'].rush-order-card__checkbox:disabled + .rush-order-card__checkbox-visual {
+  opacity: 0.55;
+}
+
+.rush-order-card__checkbox-visual {
+  display: block;
+  box-sizing: border-box;
+  width: 2.2rem;
+  height: 2.2rem;
+  min-width: 2.2rem;
+  min-height: 2.2rem;
+  border: 2px solid #e05a4f;
+  border-radius: 5px;
+  background: #fff;
+  position: relative;
+  pointer-events: none;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.rush-order-card input[type='checkbox'].rush-order-card__checkbox:checked + .rush-order-card__checkbox-visual {
+  background: #e05a4f;
+  border-color: #e05a4f;
+}
+
+.rush-order-card input[type='checkbox'].rush-order-card__checkbox:checked + .rush-order-card__checkbox-visual::after {
+ content: "";
+    position: absolute;
+    left: .68rem;
+    top: 3px;
+    width: 6px;
+    height: 10px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.rush-order-card input[type='checkbox'].rush-order-card__checkbox:focus-visible + .rush-order-card__checkbox-visual {
+  outline: 2px solid #e05a4f;
+  outline-offset: 2px;
+}
+
+.rush-order-card__body {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #4a4a4a;
+}
+
+.rush-order-card__info-wrap {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+  margin-left: 0.15rem;
+  top: -0.05rem;
+}
+
+.rush-order-card__info {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  margin: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(26, 26, 26, 0.25);
+  background: rgba(255, 255, 255, 0.85);
+  font-size:12px;
+  font-weight: 700;
+  line-height: 1;
+  color: #666;
+  cursor: help;
+}
+
+.rush-order-card__info:hover,
+.rush-order-card__info:focus-visible {
+  border-color: #e05a4f;
+  color: #e05a4f;
+  outline: none;
+}
+
+.rush-order-card__info:focus-visible {
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #e05a4f;
+}
+
+.rush-order-card__tooltip {
+  position: absolute;
+  bottom: calc(100% + 0.55rem);
+  left: 0;
+  z-index: 1001;
+  width: max-content;
+  max-width: min(24.5rem, calc(100vw - 3rem));
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.15s ease, visibility 0.15s ease;
+}
+
+.rush-order-card__tooltip-inner {
+  position: relative;
+  display: block;
+  padding: 0.75rem 0.9rem;
+  background: #b564a7;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.45;
+  text-align: left;
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+}
+
+.rush-order-card__tooltip-inner::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0.35rem;
+  border: 6px solid transparent;
+  border-top-color: #b564a7;
+}
+
+.rush-order-card__tooltip-para {
+  display: block;
+}
+
+.rush-order-card__tooltip-para + .rush-order-card__tooltip-para {
+  margin-top: 0.65rem;
+}
+
+.rush-order-card__info-wrap:hover .rush-order-card__tooltip,
+.rush-order-card__info-wrap:focus-within .rush-order-card__tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.cart-drawer .drawer__footer:has(.rush-order-card) {
+  overflow: visible;
+}
+
+.cart-drawer .rush-order-card {
+  margin-top: 0;
+  margin-bottom: 1.2rem;
+}
+
+@media screen and (max-width: 749px) {
+  .rush-order-card__heading-row {
+    padding-right: 0;
+  }
+
+  .rush-order-card__tooltip {
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .rush-order-card__tooltip-inner::after {
+    right: auto;
+    left: 50%;
+    margin-left: -6px;
+  }
+}

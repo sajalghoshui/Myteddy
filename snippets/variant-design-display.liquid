@@ -1,0 +1,495 @@
+{% comment %}
+  Variant design line-item picker (properties[Design]).
+  Standalone: design_set from current variant, or from a variant matching Embroidery template
+  option when that option exists (not Back Embroidery).
+  Template swatch block: design_set from design_variant / design_product (template add-on).
+
+  Accepts:
+  - variant: {Object} main product variant (standalone resolution)
+  - product: {Object} main product
+  - design_variant: {Object} optional — template swatch variant for metafield source
+  - design_product: {Object} optional — template swatch product (metafield fallback)
+  - section_id: {String}
+  - product_form_id: {String}
+  - mini_design_helper_text: {String} optional helper copy under the Mini Design heading
+  - addon_product_id: {String|Number} optional — template swatch product id
+  - start_hidden: {Boolean} optional — hide block until swatch selected
+  - render_mode: {String} optional — "template_block" for per-swatch swatches only; default full picker
+{% endcomment %}
+{%- liquid
+  if product_form_id == blank
+    assign product_form_id = 'product-form-' | append: section_id
+  endif
+
+  assign render_mode = render_mode | default: 'standalone'
+  assign design_set = blank
+
+  if render_mode == 'template_block'
+    assign design_source_variant = design_variant
+    assign design_source_product = design_product
+    if design_source_variant != blank
+      assign design_set = design_source_variant.metafields.custom.choose_mini_design.value
+      if design_set == blank
+        assign design_set = design_source_variant.metafields.custom.choose_mini_design
+      endif
+      if design_set == blank
+        assign design_set = design_source_variant.metafields.custom.choose_design.value
+        if design_set == blank
+          assign design_set = design_source_variant.metafields.custom.choose_design
+        endif
+      endif
+    endif
+    if design_set == blank and design_source_product != blank
+      assign design_set = design_source_product.metafields.custom.choose_mini_design.value
+      if design_set == blank
+        assign design_set = design_source_product.metafields.custom.choose_mini_design
+      endif
+      if design_set == blank
+        assign design_set = design_source_product.metafields.custom.choose_design.value
+        if design_set == blank
+          assign design_set = design_source_product.metafields.custom.choose_design
+        endif
+      endif
+    endif
+  else
+    assign embroidery_template_option_index = blank
+
+    if product != blank
+      for product_option in product.options
+        assign option_label_down = product_option | downcase | strip
+        if option_label_down contains 'embroidery template'
+          unless option_label_down contains 'back embroidery'
+            assign embroidery_template_option_index = forloop.index0
+            break
+          endunless
+        endif
+      endfor
+    endif
+
+    if embroidery_template_option_index != blank
+      assign embroidery_template_value = variant.options[embroidery_template_option_index]
+      for search_variant in product.variants
+        assign search_template_value = search_variant.options[embroidery_template_option_index]
+        if search_template_value == embroidery_template_value
+          assign candidate_design_set = search_variant.metafields.custom.choose_mini_design.value
+          if candidate_design_set == blank
+            assign candidate_design_set = search_variant.metafields.custom.choose_mini_design
+          endif
+          if candidate_design_set == blank
+            assign candidate_design_set = search_variant.metafields.custom.choose_design.value
+            if candidate_design_set == blank
+              assign candidate_design_set = search_variant.metafields.custom.choose_design
+            endif
+          endif
+          if candidate_design_set != blank
+            assign design_set = candidate_design_set
+            break
+          endif
+        endif
+      endfor
+    else
+      assign design_set = variant.metafields.custom.choose_mini_design.value
+      if design_set == blank
+        assign design_set = variant.metafields.custom.choose_mini_design
+      endif
+      if design_set == blank
+        assign design_set = variant.metafields.custom.choose_design.value
+        if design_set == blank
+          assign design_set = variant.metafields.custom.choose_design
+        endif
+      endif
+    endif
+  endif
+
+  assign design_names_list = blank
+  assign design_images = blank
+  assign design_list_entries_mode = false
+
+  if design_set != blank
+    assign design_names_raw = design_set.name.value
+    if design_names_raw == blank
+      assign design_names_raw = design_set.name
+    endif
+    if design_names_raw != blank
+      assign design_names_list = design_names_raw | join: '|||' | split: '|||'
+    endif
+
+    assign design_images = design_set.design_image.value
+    if design_images == blank
+      assign design_images = design_set.design_image
+    endif
+
+    if design_names_list == blank and design_images == blank
+      assign design_list_entries_mode = true
+    endif
+  endif
+-%}
+
+{%- liquid
+  assign design_swatch_count = 0
+  assign design_loop_from_images = false
+
+  if design_set != blank
+    if design_list_entries_mode
+      for design_entry in design_set
+        assign entry_name = design_entry.name.value
+        if entry_name == blank
+          assign entry_name = design_entry.name
+        endif
+        assign entry_image = design_entry.design_image.value
+        if entry_image == blank
+          assign entry_image = design_entry.design_image
+        endif
+        if entry_name != blank and entry_image != blank
+          assign design_img_src = blank
+          if entry_image.preview_image != blank
+            assign design_img_src = entry_image.preview_image | image_url: width: 200
+          elsif entry_image.media_type == 'image' or entry_image.width != blank
+            assign design_img_src = entry_image | image_url: width: 200
+          elsif entry_image.url != blank
+            assign design_img_src = entry_image.url
+          endif
+          if design_img_src != blank
+            assign design_swatch_count = design_swatch_count | plus: 1
+          endif
+        endif
+      endfor
+    else
+      if design_images != blank
+        assign design_loop_from_images = true
+        for design_image_entry in design_images
+          assign design_name = blank
+          if design_names_list != blank
+            assign design_name = design_names_list[forloop.index0]
+          endif
+          if design_name != blank and design_image_entry != blank
+            assign design_img_src = blank
+            if design_image_entry.preview_image != blank
+              assign design_img_src = design_image_entry.preview_image | image_url: width: 200
+            elsif design_image_entry.media_type == 'image' or design_image_entry.width != blank
+              assign design_img_src = design_image_entry | image_url: width: 200
+            elsif design_image_entry.url != blank
+              assign design_img_src = design_image_entry.url
+            endif
+            if design_img_src != blank
+              assign design_swatch_count = design_swatch_count | plus: 1
+            endif
+          endif
+        endfor
+      elsif design_names_list != blank
+        for design_name in design_names_list
+          if design_name != blank
+            assign design_idx = forloop.index0
+            assign design_image_entry = blank
+            if design_images != blank
+              assign design_image_entry = design_images[design_idx]
+            endif
+            assign design_img_src = blank
+            if design_image_entry != blank
+              if design_image_entry.preview_image != blank
+                assign design_img_src = design_image_entry.preview_image | image_url: width: 200
+              elsif design_image_entry.media_type == 'image' or design_image_entry.width != blank
+                assign design_img_src = design_image_entry | image_url: width: 200
+              elsif design_image_entry.url != blank
+                assign design_img_src = design_image_entry.url
+              endif
+            endif
+            if design_img_src != blank
+              assign design_swatch_count = design_swatch_count | plus: 1
+            endif
+          endif
+        endfor
+      endif
+    endif
+  endif
+
+  assign design_block_hidden = false
+  if start_hidden or addon_product_id != blank
+    assign design_block_hidden = true
+  endif
+-%}
+
+{%- if design_swatch_count > 0 -%}
+  {%- if render_mode == 'template_block' -%}
+    <div
+      class="design-selection__template-block{% if design_block_hidden %} hidden{% endif %}"
+      data-mini-design-template-block
+      data-addon-product-id="{{ addon_product_id }}"
+      data-has-design-block="true"
+    >
+      <div class="design-selection__swatches ear-text-field__colour-swatches" role="presentation">
+        {%- if design_list_entries_mode -%}
+          {%- for design_entry in design_set -%}
+            {%- assign entry_name = design_entry.name.value -%}
+            {%- if entry_name == blank -%}
+              {%- assign entry_name = design_entry.name -%}
+            {%- endif -%}
+            {%- assign entry_image = design_entry.design_image.value -%}
+            {%- if entry_image == blank -%}
+              {%- assign entry_image = design_entry.design_image -%}
+            {%- endif -%}
+            {%- if entry_name != blank and entry_image != blank -%}
+              {%- assign design_img_src = blank -%}
+              {%- if entry_image.preview_image != blank -%}
+                {%- assign design_img_src = entry_image.preview_image | image_url: width: 200 -%}
+              {%- elsif entry_image.media_type == 'image' or entry_image.width != blank -%}
+                {%- assign design_img_src = entry_image | image_url: width: 200 -%}
+              {%- elsif entry_image.url != blank -%}
+                {%- assign design_img_src = entry_image.url -%}
+              {%- endif -%}
+              {%- if design_img_src != blank -%}
+                <label class="ear-colour-swatch design-selection-swatch">
+                  <input
+                    type="radio"
+                    name="properties[Design]"
+                    value="{{ entry_name | escape }}"
+                    form="{{ product_form_id }}"
+                    aria-label="{{ entry_name | escape }}"
+                    {% if design_block_hidden %}
+                      disabled
+                    {% endif %}
+                  >
+                  <img
+                    class="design-selection-swatch__image"
+                    src="{{ design_img_src }}"
+                    alt=""
+                    width="64"
+                    height="64"
+                    loading="lazy"
+                  >
+                  <span class="ear-colour-swatch__tooltip" aria-hidden="true">{{ entry_name | escape }}</span>
+                </label>
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- elsif design_loop_from_images -%}
+          {%- for design_image_entry in design_images -%}
+            {%- assign design_name = blank -%}
+            {%- if design_names_list != blank -%}
+              {%- assign design_name = design_names_list[forloop.index0] -%}
+            {%- endif -%}
+            {%- if design_name != blank and design_image_entry != blank -%}
+              {%- assign design_img_src = blank -%}
+              {%- if design_image_entry.preview_image != blank -%}
+                {%- assign design_img_src = design_image_entry.preview_image | image_url: width: 200 -%}
+              {%- elsif design_image_entry.media_type == 'image' or design_image_entry.width != blank -%}
+                {%- assign design_img_src = design_image_entry | image_url: width: 200 -%}
+              {%- elsif design_image_entry.url != blank -%}
+                {%- assign design_img_src = design_image_entry.url -%}
+              {%- endif -%}
+              {%- if design_img_src != blank -%}
+                <label class="ear-colour-swatch design-selection-swatch">
+                  <input
+                    type="radio"
+                    name="properties[Design]"
+                    value="{{ design_name | escape }}"
+                    form="{{ product_form_id }}"
+                    aria-label="{{ design_name | escape }}"
+                    {% if design_block_hidden %}
+                      disabled
+                    {% endif %}
+                  >
+                  <img
+                    class="design-selection-swatch__image"
+                    src="{{ design_img_src }}"
+                    alt=""
+                    width="64"
+                    height="64"
+                    loading="lazy"
+                  >
+                  <span class="ear-colour-swatch__tooltip" aria-hidden="true">{{ design_name | escape }}</span>
+                </label>
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- elsif design_names_list != blank -%}
+          {%- for design_name in design_names_list -%}
+            {%- if design_name != blank -%}
+              {%- assign design_idx = forloop.index0 -%}
+              {%- assign design_image_entry = blank -%}
+              {%- if design_images != blank -%}
+                {%- assign design_image_entry = design_images[design_idx] -%}
+              {%- endif -%}
+              {%- assign design_img_src = blank -%}
+              {%- if design_image_entry != blank -%}
+                {%- if design_image_entry.preview_image != blank -%}
+                  {%- assign design_img_src = design_image_entry.preview_image | image_url: width: 200 -%}
+                {%- elsif design_image_entry.media_type == 'image' or design_image_entry.width != blank -%}
+                  {%- assign design_img_src = design_image_entry | image_url: width: 200 -%}
+                {%- elsif design_image_entry.url != blank -%}
+                  {%- assign design_img_src = design_image_entry.url -%}
+                {%- endif -%}
+              {%- endif -%}
+              {%- if design_img_src != blank -%}
+                <label class="ear-colour-swatch design-selection-swatch">
+                  <input
+                    type="radio"
+                    name="properties[Design]"
+                    value="{{ design_name | escape }}"
+                    form="{{ product_form_id }}"
+                    aria-label="{{ design_name | escape }}"
+                    {% if design_block_hidden %}
+                      disabled
+                    {% endif %}
+                  >
+                  <img
+                    class="design-selection-swatch__image"
+                    src="{{ design_img_src }}"
+                    alt=""
+                    width="64"
+                    height="64"
+                    loading="lazy"
+                  >
+                  <span class="ear-colour-swatch__tooltip" aria-hidden="true">{{ design_name | escape }}</span>
+                </label>
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+    </div>
+  {%- else -%}
+  <div
+    class="design-selection"
+    data-design-selection-picker
+    data-has-designs="true"
+  >
+    <fieldset class="design-selection__group" aria-labelledby="VariantDesign-heading-{{ section_id }}">
+      <legend class="design-selection__legend visually-hidden">Choose your design</legend>
+      <p id="VariantDesign-heading-{{ section_id }}" class="design-selection__heading form__label">Mini Design</p>
+      {%- if mini_design_helper_text != blank -%}
+        <p class="product-form__option-hint design-selection__hint">{{ mini_design_helper_text | escape }}</p>
+      {%- endif -%}
+      <div class="design-selection__swatches ear-text-field__colour-swatches" role="presentation">
+        {%- if design_list_entries_mode -%}
+          {%- for design_entry in design_set -%}
+            {%- assign entry_name = design_entry.name.value -%}
+            {%- if entry_name == blank -%}
+              {%- assign entry_name = design_entry.name -%}
+            {%- endif -%}
+            {%- assign entry_image = design_entry.design_image.value -%}
+            {%- if entry_image == blank -%}
+              {%- assign entry_image = design_entry.design_image -%}
+            {%- endif -%}
+            {%- if entry_name != blank and entry_image != blank -%}
+              {%- assign design_img_src = blank -%}
+              {%- if entry_image.preview_image != blank -%}
+                {%- assign design_img_src = entry_image.preview_image | image_url: width: 200 -%}
+              {%- elsif entry_image.media_type == 'image' or entry_image.width != blank -%}
+                {%- assign design_img_src = entry_image | image_url: width: 200 -%}
+              {%- elsif entry_image.url != blank -%}
+                {%- assign design_img_src = entry_image.url -%}
+              {%- endif -%}
+              {%- if design_img_src != blank -%}
+                <label class="ear-colour-swatch design-selection-swatch">
+                  <input
+                    type="radio"
+                    name="properties[Design]"
+                    value="{{ entry_name | escape }}"
+                    form="{{ product_form_id }}"
+                    aria-label="{{ entry_name | escape }}"
+                  >
+                  <img
+                    class="design-selection-swatch__image"
+                    src="{{ design_img_src }}"
+                    alt=""
+                    width="64"
+                    height="64"
+                    loading="lazy"
+                  >
+                  <span class="ear-colour-swatch__tooltip" aria-hidden="true">{{ entry_name | escape }}</span>
+                </label>
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- elsif design_loop_from_images -%}
+          {%- for design_image_entry in design_images -%}
+            {%- assign design_name = blank -%}
+            {%- if design_names_list != blank -%}
+              {%- assign design_name = design_names_list[forloop.index0] -%}
+            {%- endif -%}
+            {%- if design_name != blank and design_image_entry != blank -%}
+              {%- assign design_img_src = blank -%}
+              {%- if design_image_entry.preview_image != blank -%}
+                {%- assign design_img_src = design_image_entry.preview_image | image_url: width: 200 -%}
+              {%- elsif design_image_entry.media_type == 'image' or design_image_entry.width != blank -%}
+                {%- assign design_img_src = design_image_entry | image_url: width: 200 -%}
+              {%- elsif design_image_entry.url != blank -%}
+                {%- assign design_img_src = design_image_entry.url -%}
+              {%- endif -%}
+              {%- if design_img_src != blank -%}
+                <label class="ear-colour-swatch design-selection-swatch">
+                  <input
+                    type="radio"
+                    name="properties[Design]"
+                    value="{{ design_name | escape }}"
+                    form="{{ product_form_id }}"
+                    aria-label="{{ design_name | escape }}"
+                  >
+                  <img
+                    class="design-selection-swatch__image"
+                    src="{{ design_img_src }}"
+                    alt=""
+                    width="64"
+                    height="64"
+                    loading="lazy"
+                  >
+                  <span class="ear-colour-swatch__tooltip" aria-hidden="true">{{ design_name | escape }}</span>
+                </label>
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- elsif design_names_list != blank -%}
+          {%- for design_name in design_names_list -%}
+            {%- if design_name != blank -%}
+              {%- assign design_idx = forloop.index0 -%}
+              {%- assign design_image_entry = blank -%}
+              {%- if design_images != blank -%}
+                {%- assign design_image_entry = design_images[design_idx] -%}
+              {%- endif -%}
+              {%- assign design_img_src = blank -%}
+              {%- if design_image_entry != blank -%}
+                {%- if design_image_entry.preview_image != blank -%}
+                  {%- assign design_img_src = design_image_entry.preview_image | image_url: width: 200 -%}
+                {%- elsif design_image_entry.media_type == 'image' or design_image_entry.width != blank -%}
+                  {%- assign design_img_src = design_image_entry | image_url: width: 200 -%}
+                {%- elsif design_image_entry.url != blank -%}
+                  {%- assign design_img_src = design_image_entry.url -%}
+                {%- endif -%}
+              {%- endif -%}
+              {%- if design_img_src != blank -%}
+                <label class="ear-colour-swatch design-selection-swatch">
+                  <input
+                    type="radio"
+                    name="properties[Design]"
+                    value="{{ design_name | escape }}"
+                    form="{{ product_form_id }}"
+                    aria-label="{{ design_name | escape }}"
+                  >
+                  <img
+                    class="design-selection-swatch__image"
+                    src="{{ design_img_src }}"
+                    alt=""
+                    width="64"
+                    height="64"
+                    loading="lazy"
+                  >
+                  <span class="ear-colour-swatch__tooltip" aria-hidden="true">{{ design_name | escape }}</span>
+                </label>
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+    </fieldset>
+    <div
+      id="DesignSelection-error-{{ section_id }}"
+      class="design-selection__error ear-text-field__colour-error form__message hidden"
+      role="alert"
+    >
+      {{- 'icon-error.svg' | inline_asset_content -}}
+      <span class="error-message">Please choose a design</span>
+    </div>
+  </div>
+  {%- endif -%}
+{%- endif -%}

@@ -1,0 +1,495 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "vendor": {
+          "type": "text",
+          "disabled": true,
+          "settings": {
+            "text": "{{ product.vendor }}",
+            "text_style": "uppercase"
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "judge_me_reviews_preview_badge_ymmRwq": {
+          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle",
+            "embroidery_template_helper_text": "Please pick the template / layout below. Each template has its own cost on top of the item cost. Colours are an option further down.",
+            "mini_design_helper_text": "Please pick a mini design to go in the template you picked, or none if wish none."
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": false,
+            "show_gift_card_recipient": false
+          }
+        },
+        "wishlist_hero_custom_product_button_xL9dwF": {
+          "type": "shopify://apps/wishlist-hero/blocks/custom-product-button/a9a5079b-59e8-47cb-b659-ecf1c60b9b72",
+          "settings": {
+            "displayButtonMode": "~",
+            "contentAlignment": "center",
+            "buttonAlignment": "center",
+            "overrideFont": false,
+            "customFont": "sans_serif_n4",
+            "buttonFullwidth": true,
+            "removeBoxShadowAndBorder": false,
+            "horizontalPadding": 20,
+            "iconTopOffset": 0,
+            "addedCssClassNames": "",
+            "addedContainerStyles": ""
+          }
+        },
+        "inventory_caD6bJ": {
+          "type": "inventory",
+          "settings": {
+            "text_style": "body",
+            "inventory_threshold": 10,
+            "show_inventory_quantity": true
+          }
+        },
+        "icon_with_text_WJwcMF": {
+          "type": "icon-with-text",
+          "disabled": true,
+          "settings": {
+            "layout": "horizontal",
+            "icon_1": "return",
+            "heading_1": "Postage from $9.90",
+            "icon_2": "return",
+            "heading_2": "Heading",
+            "icon_3": "truck",
+            "heading_3": "Heading"
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {}
+        },
+        "collapsible_tab_FPgMx9": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Delivery",
+            "icon": "check_mark",
+            "content": "<h2>Postage Costs</h2><p>Postage from $9.90.</p><p>All My Teddy orders made & sent quickly. Teddies usually arrive within the week, in Australia, but can take longer, depending on how busy we are and your destination.</p><p>Please order well in advance for Christmas, Easter and Valentines Day to avoid disappointment. Postal services are often more congested at these times.</p><p>We use Australia Post for all our teddy deliveries.</p><p>Our parcels within Australia require a signature and we can deliver your teddy bear to homes, businesses, PO Boxes, hospitals etc.</p><p>You can request for your teddy bear to be left somewhere safely with NO signature, just mention this on your order. This is at your own risk.</p><p>Postage time will depend on your location in Australia.</p><p>We use Air Mail for overseas parcels and, depending on your location, can take several weeks to arrive. New Zealand deliveries are generally 5-14 days.</p><p>Please note that overseas parcels do not have tracking.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_tab_njai6Y": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Guarantee",
+            "icon": "check_mark",
+            "content": "<h2>Our Guarantee</h2><p>We are confident you will be more than satisfied with the quality or the bear, jumper and embroidery of each My Teddy.<br/><br/>To support this confidence we guarantee that should for any reason you not be satisfied with you’re My Teddy bear then we will provide a full refund to you, on receipt of the complete package, as sent to you, within 40 days of the original order being submitted.<br/><br/>We recommend contacting us in the first instance in case there are any alternative solutions that we could agree to before you return the bear, however this is not a condition of this guarantee.<br/><br/>Similarly we would greatly appreciate feedback on what was not to your satisfaction for you to wish to return the bear you purchased.<br/><br/>Feedback can be provided on our ‘feedback page’, by phone, email or in writing. Your effort in helping us to improve our products and services are most welcomed.<br/><br/>In returning a My Teddy bear, the cost of return postage is at the purchasers cost.<br/>This being the only expense to the purchaser in the unlikely event that a bear needs to be returned.</p>",
+            "page": ""
+          }
+        },
+        "share": {
+          "type": "share",
+          "settings": {
+            "share_label": "Share"
+          }
+        }
+      },
+      "block_order": [
+        "vendor",
+        "title",
+        "judge_me_reviews_preview_badge_ymmRwq",
+        "price",
+        "variant_picker",
+        "quantity_selector",
+        "buy_buttons",
+        "wishlist_hero_custom_product_button_xL9dwF",
+        "inventory_caD6bJ",
+        "icon_with_text_WJwcMF",
+        "description",
+        "collapsible_tab_FPgMx9",
+        "collapsible_tab_njai6Y",
+        "share"
+      ],
+      "settings": {
+        "enable_sticky_info": true,
+        "color_scheme": "scheme-1",
+        "media_size": "medium",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "gallery_layout": "thumbnail_slider",
+        "mobile_thumbnails": "hide",
+        "media_position": "left",
+        "image_zoom": "none",
+        "hide_variants": true,
+        "enable_video_looping": false,
+        "padding_top": 36,
+        "padding_bottom": 12
+      }
+    },
+    "scroll_section_GRpMkw": {
+      "type": "scroll-section",
+      "blocks": {
+        "item_8K9Gxi": {
+          "type": "item",
+          "settings": {
+            "svg_code": "<svg viewbox=\"0 0 24 24\" class=\"size-5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 3l2.4 5.2 5.6.6-4.2 3.8 1.2 5.6L12 15.4 7 18.2l1.2-5.6L4 8.8l5.6-.6z\"></path></svg>",
+            "title": "Experience"
+          }
+        },
+        "item_KcHYnk": {
+          "type": "item",
+          "settings": {
+            "svg_code": "<svg viewbox=\"0 0 24 24\" class=\"size-5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z\"></path></svg>",
+            "title": "Security"
+          }
+        },
+        "item_hzGDg6": {
+          "type": "item",
+          "settings": {
+            "svg_code": "<svg viewbox=\"0 0 24 24\" class=\"size-5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z\"></path><path d=\"M9 12l2 2 4-4\"></path></svg>",
+            "title": "Safety"
+          }
+        },
+        "item_EWbiGB": {
+          "type": "item",
+          "settings": {
+            "svg_code": "<svg viewbox=\"0 0 24 24\" class=\"size-5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 3l8 3v5c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z\"></path><path d=\"M12 8v4M12 15h.01\"></path></svg>",
+            "title": "Trust"
+          }
+        },
+        "item_wQ68AF": {
+          "type": "item",
+          "settings": {
+            "svg_code": "<svg viewbox=\"0 0 24 24\" class=\"size-5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M13 3L4 14h6l-1 7 9-11h-6z\"></path></svg>",
+            "title": "Super Quick Delivery"
+          }
+        },
+        "item_Bg4q9i": {
+          "type": "item",
+          "settings": {
+            "svg_code": "<svg viewbox=\"0 0 24 24\" class=\"size-5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 4h11l3 3v13H6z\"></path><path d=\"M9 4v4M15 4v4M9 12h.01M12 12h.01M15 12h.01M9 16h.01M12 16h.01M15 16h.01\"></path></svg>",
+            "title": "Competitive Price"
+          }
+        },
+        "item_7CJNmL": {
+          "type": "item",
+          "settings": {
+            "svg_code": "<svg viewbox=\"0 0 24 24\" class=\"size-4\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" data-tsd-source=\"/src/routes/index.tsx:172:17\"><circle cx=\"12\" cy=\"12\" r=\"9\" data-tsd-source=\"/src/routes/index.tsx:181:19\"></circle><path d=\"M12 8v4l2.5 2.5\" data-tsd-source=\"/src/routes/index.tsx:182:19\"></path></svg>",
+            "title": "40 day money back guarantee*"
+          }
+        }
+      },
+      "block_order": [
+        "item_8K9Gxi",
+        "item_KcHYnk",
+        "item_hzGDg6",
+        "item_EWbiGB",
+        "item_wQ68AF",
+        "item_Bg4q9i",
+        "item_7CJNmL"
+      ],
+      "custom_css": [
+        ".section-infinite-marquee {margin-top: 80px;}",
+        "@media screen and (max-width: 749px) {.section-infinite-marquee {margin-top: 40px; }}"
+      ],
+      "name": "Infinite Marquee",
+      "settings": {
+        "color_scheme": "scheme-5",
+        "heading_size": "h2",
+        "speed": 20,
+        "gap": 40,
+        "icon_width": 32,
+        "pause_on_hover": true,
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "testimonials_pynMn4": {
+      "type": "testimonials",
+      "blocks": {
+        "testimonial_fMg3UR": {
+          "type": "testimonial",
+          "settings": {
+            "text": "Absolutely adorable! The bunny I purchased arrived in two days! It is so soft and will be a forever toy. My Teddy were so easy to deal with and responded to my queries straight away. Thank you! I will definitely be back!",
+            "name": "Frankie",
+            "date": "March 2021"
+          }
+        },
+        "testimonial_dWjKd7": {
+          "type": "testimonial",
+          "settings": {
+            "text": "Beautiful and quick contact. It arrived so quick during the Xmas week which was amazing. Thank you",
+            "name": "Peta",
+            "date": "December 2020"
+          }
+        },
+        "testimonial_TGqNmK": {
+          "type": "testimonial",
+          "settings": {
+            "text": "Thank you Chris! Amazing service, such speedy delivery and the Teddy is just perfect! Highly recommend",
+            "name": "Rita",
+            "date": "December 2020"
+          }
+        },
+        "testimonial_iL8Lye": {
+          "type": "testimonial",
+          "settings": {
+            "text": "I want to thank everyone at My Teddy for the fast service and delivery. My granddaughter ended up in hospital and I ordered a personalised Charlie Cream 47cm Gund bear. He is beautiful, and you made his top look exactly as I envisaged it. Amazing job, amazing speed. Thank you! I will be recommending you to everyone.",
+            "name": "Ana",
+            "date": "September 2020"
+          }
+        },
+        "testimonial_WNFc7H": {
+          "type": "testimonial",
+          "settings": {
+            "text": "Extremely happy with the service received from My Teddy. I have ordered 4 times through this company and i have to say I am most impressed with the latest order. I ordered a personalised easter bunny for my baby's 1st easter on Monday 06/04/2020. I had received the proof to approve on Tuedsay 07/04/2020 at 8:34 QLD time, to which I approved. The order was sent on Wednesday 08/04/2020 and received Today 09/04/2020 in the AM. I honestly did not think I would have received this before easter. I am extremely thankful that the team was able to put this through so promptly. I will definitely be back time and time again!!",
+            "name": "Bree ",
+            "date": "March 2020"
+          }
+        },
+        "testimonial_eWfjNt": {
+          "type": "testimonial",
+          "settings": {
+            "text": "Who ever would have thought there was a custom teddy shop. Wow.!!!! Best idea for a gift. Super friendly and fast delivery.",
+            "name": "Brent ",
+            "date": "Feb  2021"
+          }
+        },
+        "testimonial_QP6DF3": {
+          "type": "testimonial",
+          "settings": {
+            "text": "I am amazed by the excellent service I received from the My Teddy team. Toni was amazing and made sure that I received my teddy in time for when I needed it. It also arrived earlier than I expected. The whole process was extremely easy and I am extremely happy with my teddy and the quality of it. 100% would recommend them to everyone!!",
+            "name": "Vanitha ",
+            "date": "Aug 2019"
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_fMg3UR",
+        "testimonial_dWjKd7",
+        "testimonial_TGqNmK",
+        "testimonial_iL8Lye",
+        "testimonial_WNFc7H",
+        "testimonial_eWfjNt",
+        "testimonial_QP6DF3"
+      ],
+      "disabled": true,
+      "name": "Testimonials Swiper",
+      "settings": {
+        "subheading": "My Teddy Bear Store",
+        "heading": "Testimonials"
+      }
+    },
+    "custom_faq_eBCHJL": {
+      "type": "custom-faq",
+      "blocks": {
+        "faq_nPDmXF": {
+          "type": "faq",
+          "settings": {
+            "title": "General Queries",
+            "answer": ""
+          }
+        },
+        "faq_UUjbaL": {
+          "type": "faq",
+          "settings": {
+            "title": "How do details get transmitted through the website?",
+            "answer": "<p>Payment details are transmitted through a company called SecurePay that specialises in secure payment transactions. They use the latest technology available to ensure, as far as practicable, that your information is safe from fraudulent activity.</p><p>Full details of SecurePay can be found at their website of&nbsp;<a href=\"http://www.securepay.com.au/\" target=\"_blank\">http://www.securepay.com.au/</a></p>"
+          }
+        },
+        "faq_A6NAWT": {
+          "type": "faq",
+          "settings": {
+            "title": "Who can I contact if I am having problems using the site?",
+            "answer": "<p>If you have difficulty using or viewing this site, please contact us as we'd like to help.</p><p>We are most interested in what browser and computer you are using and also the nature of the problem if you can have these ready for us it would be helpful.</p><p>We can be contacted by phone, via our feedback form or via the lightning bold message option.</p>"
+          }
+        },
+        "faq_6mirpR": {
+          "type": "faq",
+          "settings": {
+            "title": "Payment Method",
+            "answer": ""
+          }
+        },
+        "faq_CUiigy": {
+          "type": "faq",
+          "settings": {
+            "title": "What payment methods can be used to purchase a My Teddy?",
+            "answer": "<p>We accept Visa, MasterCard, AMEX, Paypal, bank deposit, Pay by phone and <a href=\"https://www.afterpay.com.au/buy-with-afterpay/\">AfterPay</a>.</p><p>With bank deposit, it can take 2 business days to clear.  We start work on your teddy when your payment clears.  </p><p>If you would prefer not to pay over the internet, select Pay by Phone as an option at check out, and give us a call to finalise.  Our contact details will be sent to you.</p><p><a href=\"https://www.afterpay.com.au/buy-with-afterpay/\">AfterPay</a> is a buy now pay later credit option.  You may purchase with us using this method, if you have an Afterpay account.</p><p>Contact us if you have any problems at <a href=\"mailto:yourgift@myteddy.com.au\">yourgift@myteddy.com.au</a></p>"
+          }
+        },
+        "faq_BERzUL": {
+          "type": "faq",
+          "settings": {
+            "title": "Is it safe to use credit cards through the online shop?",
+            "answer": "<p>We have used the latest secure, encryption services to ensure, as far as practicable, that your shopping with us is as safe as can be. Our server security is constantly monitored and updated to remain compliant to <a href=\"https://www.pcisecuritystandards.org/organization_info/index.php\" target=\"_blank\">PCI-DSS</a> requirements.</p><p>My Teddy do not see or retain any credit card details when you use our online facility. This information is passed between yourself and our merchant bank in encrypted form.</p>"
+          }
+        },
+        "faq_8z7pY4": {
+          "type": "faq",
+          "settings": {
+            "title": "Shipping",
+            "answer": ""
+          }
+        },
+        "faq_UYLgcc": {
+          "type": "faq",
+          "settings": {
+            "title": "When will my My Teddy be received?",
+            "answer": "<p>It depends on the shipping that you choose at checkout from us sending. Within Aus we offer Express Post or Registered Post. From sending, Express is 1-2 business days from sending. Registered is around 1 week East Coast, a bit longer for Vic/ TAS/ SA and can be 2 weeks plus for WA / NT. We strive to make and send as soon as possible but depends on a few factors. We send your draft for approval within a couple of business days but if you don't respond we can't make it. Check your junk folder. Once approved, we generally make and send within a couple of business days. These timeframes change depending on the time of year. For example leading up to Easter and Christmas we get really busy and may extend a couple of days. For outside Aus we only send 'pack and track'. NZ is about 1-2 weeks and further away longer. Contact if would like specifics. Please note once we post, it is out of our hands and we do not guarantee timeframes as not in our control.</p>"
+          }
+        },
+        "faq_6KFhJG": {
+          "type": "faq",
+          "settings": {
+            "title": "What is the Shipping Costs?",
+            "answer": "<p>Registered Parcel $10.90</p><p>Express Post $16.90</p><p>Please note that this is the method of shipping only, and does not speed up processing and production times.  </p><p>If you would like to speed up your processing (jump the queue as such). Please add Rush order at $22.</p>"
+          }
+        },
+        "faq_UmUEpi": {
+          "type": "faq",
+          "settings": {
+            "title": "What is the Processing Times?",
+            "answer": "<p>Processing time depends on how busy we are, and our workload.  We aim to be as quick as possible.<br/><br/>We work through each personalised item in the order that it was recieved, so can't guarantee a time that your order will arrive.  <br/><br/>If you would like to speed things up, you can choose our Rush My Order option, which is $22. </p>"
+          }
+        },
+        "faq_TPUAtD": {
+          "type": "faq",
+          "settings": {
+            "title": "How to Rush My Order?",
+            "answer": "<p>If you would like your order to be prioritised, you might like to use the Rush My Order option.  </p><p>This will put your order to proirity processing and design, to get your order out as soon as possible.  Please note that Rush order is not relevent to your shipping method.  If you want to recieve your order in the fastest possible time frame.  Please also select express post. Remembering for outside Aus there is no Express option.</p><p>Keep in mind that we cant rush any order unless you have approved the design first. We also don't despatch on Saturday or Sunday.</p><p> Hit the lighting bolt symbol if you have any questions. </p>"
+          }
+        },
+        "faq_J4fEj9": {
+          "type": "faq",
+          "settings": {
+            "title": "Can I send to hospitals, PO Boxes, work places etc?",
+            "answer": "<p>We use Australia Post to send our personalised Teddies, bunnies and plushies, so you can post to any address, including Parcel Locker, home, business, hospital, PO Box</p><p>With delivery to hospitals, allow a little extra time for the hospital to process the parcel internally.</p><p>Allow for the fact the Australia Post don't deliver on weekends.</p>"
+          }
+        },
+        "faq_ELfUef": {
+          "type": "faq",
+          "settings": {
+            "title": "Can I send a My Teddy bear overseas?",
+            "answer": "<p>Absolutely, we send our teddy bears to a lot of countries around the world.</p><p>Please check the drop down box to see if the country you would like to send to is there.</p><p>Please note since Brexit we no longer can send to the UK as they have imposed a 20% VAT on the entire price whuch must be collected and paid for in advance of sending orpaid by the recipient.</p><p>Similarly the European Union (EU) have imposed the same at 21% since July 1 2021 so we will no longer send to the EU.</p><p>As of May 2025 due to severe insurance changes we can no longer send to the USA.</p><p>Delivery times around the world will vary, so please allow between 2 - 8 weeks for delivery depending on the destination. This will change over time as free trade agreements are established, stay tuned.</p><h5><br/>International Couriers</h5><p>Auckland is generally around 4 business days from dispatch and depending on how remote, allow for about a week to 10 days to other NZ destinations. Aus Post advise officially to allow up to 12 business days from sending, and can be longer in busy times.</p><h5>International Couriers</h5><p>If you need to arrive really quickly there are options like Air Mail Express Post, Fedex and TNT. They can be pricey, we encourage you to get a quote and arrange this type of service, we're happy for them to collect from us.  We don't work with couriers or get quotes, but if you would like to arrange that, we are happy to have them collect from us.  Please contact us to discuss.</p><p>Finally, we are obliged to advise that there are NO export restrictions on sending overseas, as confirmed with the Australian Customs Service.</p><p>Some countries charge duty on incoming goods over a certain amount (eg in Australia this is $1000). We do mark our parcels as gifts for customs purposes.  They shouldn't incur any customs charges, but we cannot absolutely promise as is out of our control.</p><p>A good link to look at to assist with the destination countries requirements is <a href=\"http://auspost.com.au/apps/international-post-guide.html\" target=\"_blank\">http://auspost.com.au/apps/international-post-guide.html</a></p>"
+          }
+        },
+        "faq_niNpb4": {
+          "type": "faq",
+          "settings": {
+            "title": "Can my teddy bear be changed once I have completed the order?",
+            "answer": "<p>We endeavour to get your order going asap, so, should you need to change anything, email us immediately using the confirmation that you were sent via email.  If you haven't got it, please check your junk folder. </p><p>If we haven't started your embroidery, changes can be made easily.  </p><p>So remember – CHECK, DOUBLE CHECK and TRIPLE CHECK – the details.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_nPDmXF",
+        "faq_UUjbaL",
+        "faq_A6NAWT",
+        "faq_6mirpR",
+        "faq_CUiigy",
+        "faq_BERzUL",
+        "faq_8z7pY4",
+        "faq_UYLgcc",
+        "faq_6KFhJG",
+        "faq_UmUEpi",
+        "faq_TPUAtD",
+        "faq_J4fEj9",
+        "faq_ELfUef",
+        "faq_niNpb4"
+      ],
+      "name": "Custom FAQ",
+      "settings": {
+        "color_scheme": "scheme-3dc9f179-1f0d-4a0a-8f74-aa26894896c3",
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "subheading": "Frequently Asked Questions",
+        "heading": "You might still have some questions",
+        "desc": "<p>Here's some answers to some questions that you might have about how we make our teddy bears and how things work..</p>",
+        "heading_alignment": "center"
+      }
+    },
+    "disclosures": {
+      "type": "disclosures",
+      "settings": {
+        "heading": "Disclosures",
+        "heading_size": "h2",
+        "open_by_default": false,
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 0
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "heading": "You may also like",
+        "heading_size": "h1",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-2",
+        "image_ratio": "portrait",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": true,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "17884841651a754ed2": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_7xyJqy": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "real_data",
+            "max_width": 1200,
+            "show_shop_reviews": true,
+            "empty_state": "empty_widget"
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_7xyJqy"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    }
+  },
+  "order": [
+    "main",
+    "scroll_section_GRpMkw",
+    "testimonials_pynMn4",
+    "custom_faq_eBCHJL",
+    "disclosures",
+    "related-products",
+    "17884841651a754ed2"
+  ]
+}

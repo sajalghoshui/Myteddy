@@ -1,0 +1,153 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "about_hero": {
+      "type": "image-banner",
+      "blocks": {
+        "about_hero_heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "About Us",
+            "heading_size": "h0"
+          }
+        }
+      },
+      "block_order": [
+        "about_hero_heading"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/Personalised_Jasper_Bunny_Sky_Blue_Large_Personalised_Jasper_Bunny_Sky_Blue_Large_webp_1300x1300_b928de90-02c5-4b84-a113-98c645144f7e.webp",
+        "image_overlay_opacity": 40,
+        "image_height": "small",
+        "image_behavior": "none",
+        "desktop_content_position": "middle-center",
+        "desktop_content_alignment": "center",
+        "show_text_box": true,
+        "color_scheme": "scheme-3",
+        "stack_images_on_mobile": true,
+        "mobile_content_alignment": "center",
+        "show_text_below": false
+      }
+    },
+    "about_story": {
+      "type": "about-story",
+      "blocks": {
+        "story_history_one": {
+          "type": "story",
+          "settings": {
+            "heading": "",
+            "text": "<p>Our litte gift shop business started in Brisbane 16 years ago in our spare room.  Since then we have grown and grown by providing quality work in all of our teddy bears and moving our online following to well over 100k. Check out our 800 five star reviews too.  My Teddy has a reputation for quality work over many years. </p><p>Many have tried to emulate us, yet we continue to delight hundreds of children and adults each week with our personalised creations, made with care and attention in our Caloundra workshop.  </p>",
+            "image": "shopify://shop_images/ChatGPT_Image_Sep_15_2026_06_49_34_AM.png",
+            "image_alt": "",
+            "image_position": "left"
+          }
+        },
+        "story_quote": {
+          "type": "quote",
+          "settings": {
+            "quote": "You will find cheaper, but you won't find better."
+          }
+        },
+        "story_history_two": {
+          "type": "story",
+          "settings": {
+            "heading": "",
+            "text": "<p>We guarantee 100% satisfaction with our product and we promise speedy dispatch, you will usually have your gift inside a week within Australia.  </p><p>All of our beautiful embroidery is done on real industrial embroidery machines with the required quality to last for years, which give you a far superior result to home crafter machines, so your gift will last and last.</p>",
+            "image": "shopify://shop_images/ChatGPT_Image_Sep_15_2026_06_52_19_AM.png",
+            "image_alt": "",
+            "image_position": "right"
+          }
+        },
+        "value_experience": {
+          "type": "value",
+          "settings": {
+            "title": "Experience",
+            "description": "<p>We’ve been operating as a full time business for 16 years now and we know how to produce an outstanding embroidery product that will last for years.  We use professional commercial machines, as opposed to domestic machines, and embroider each gift to order.<br/><br/></p>"
+          }
+        },
+        "value_security": {
+          "type": "value",
+          "settings": {
+            "title": "Security",
+            "description": "<p>The My Teddy site has the all important “https” prefix in the address bar. This means that all of your information is secure.  You will also see the little padlock in the web address bar, make sure everyone you buy from online has this padlock for your safety.</p>"
+          }
+        },
+        "value_safety": {
+          "type": "value",
+          "settings": {
+            "title": "Safety",
+            "description": "<p>All of our toys meet all Australian safety standards.  We don’t alter or unpick any seams to keep this safety standard intact, when dealing with items for little ones, this is very important.</p>"
+          }
+        },
+        "value_trust": {
+          "type": "value",
+          "settings": {
+            "title": "Trust",
+            "description": "<p>My Teddy is an established business with a registered business name, and ABN.  We openly list our address and our phone number on our website.  So you know who we are, where we are and that you can contact us should you need to.  These are important things to look for when choosing an online retailer.  We’ve established credibility in the industry over many years. </p>"
+          }
+        },
+        "value_delivery": {
+          "type": "value",
+          "settings": {
+            "title": "Super Quick Delivery",
+            "description": "<p>All of our parcels of stuffed animals and plush toys go express and registered.  This includes tracking, so you know where your parcel is at any given time once it leaves our workshop.  (International deliveries use airmail).  Most of bears and gifts are delivered within the week, this varies on where you are and how busy we are, but if you need it by a certain date, mention that on your order so we can speed it up for you.</p>"
+          }
+        },
+        "value_price": {
+          "type": "value",
+          "settings": {
+            "title": "Price",
+            "description": "<p>Our prices are competitive and in line with the quality that we offer.  We guarantee the integrity of all of our products and ensure that your gift will be beautiful, and lasting over the years.<br/><br/>We're confident that we can provide you with a professional and seemless gift experience.  Please feel free to drop us a line if you have any questions.  </p>"
+          }
+        }
+      },
+      "block_order": [
+        "story_history_one",
+        "story_quote",
+        "story_history_two",
+        "value_experience",
+        "value_security",
+        "value_safety",
+        "value_trust",
+        "value_delivery",
+        "value_price"
+      ],
+      "settings": {
+        "founder_image": "shopify://shop_images/ChatGPT_Image_Sep_15_2026_06_49_34_AM.png",
+        "founder_image_alt": "",
+        "founder_kicker": "Meet the maker",
+        "founder_name": "",
+        "founder_role": "Founder",
+        "founder_bio": "<p>Our gift shop began in Brisbane sixteen years ago, from a spare room. Today the workshop in Caloundra still focuses on quality personalised teddy bears—the same commitment behind our 800 five-star reviews and a following of well over 100k.</p>",
+        "story_intro_heading": "My Teddy's History",
+        "values_heading": "Why Choose My Teddy?",
+        "color_scheme": "scheme-1",
+        "padding_top": 64,
+        "padding_bottom": 80,
+        "mobile_padding_top": 40,
+        "mobile_padding_bottom": 48
+      }
+    }
+  },
+  "order": [
+    "main",
+    "about_hero",
+    "about_story"
+  ]
+}

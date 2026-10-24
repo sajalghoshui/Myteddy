@@ -1,0 +1,149 @@
+{% comment %}
+  Ear text fields shown when the matching ear variant option is Yes (not metafields).
+
+  Accepts:
+  - variant: {Object}
+  - product: {Object}
+  - product_form_id: {String}
+  - section_id: {String}
+  - part: {String} optional — 'first', 'second', or 'shared' (colour + font block)
+{% endcomment %}
+{%- liquid
+  if product_form_id == blank
+    assign product_form_id = 'product-form-' | append: section_id
+  endif
+
+  assign ear_part = part | default: 'all'
+  assign product_has_first_ear_option = false
+  assign product_has_second_ear_option = false
+  assign first_ear_yes = false
+  assign second_ear_yes = false
+
+  for product_option in product.options
+    assign option_label_down = product_option | downcase | strip
+    if option_label_down contains 'ear'
+      if option_label_down contains '1st' or option_label_down contains 'first'
+        assign product_has_first_ear_option = true
+        assign first_ear_option_index = forloop.index0
+        assign first_ear_value = variant.options[first_ear_option_index]
+        assign first_ear_value_down = first_ear_value | downcase
+        if first_ear_value_down contains 'yes'
+          assign first_ear_yes = true
+        endif
+      elsif option_label_down contains '2nd' or option_label_down contains 'second'
+        assign product_has_second_ear_option = true
+        assign second_ear_option_index = forloop.index0
+        assign second_ear_value = variant.options[second_ear_option_index]
+        assign second_ear_value_down = second_ear_value | downcase
+        if second_ear_value_down contains 'yes'
+          assign second_ear_yes = true
+        endif
+      endif
+    endif
+  endfor
+
+  assign any_ear_text = false
+  if product_has_first_ear_option or product_has_second_ear_option
+    assign any_ear_text = true
+  endif
+
+  assign ear_colour_set = variant.metafields.custom.colour_set.value
+  if ear_colour_set == blank
+    assign ear_colour_set = product.metafields.custom.colour_set.value
+  endif
+  if ear_colour_set != blank
+    assign ear_colour_probe = ear_colour_set.colour_name.value | default: ear_colour_set.colour_name
+    if ear_colour_probe == blank
+      assign ear_colour_set = ear_colour_set.first
+    endif
+  endif
+-%}
+
+{%- if ear_part == 'first' or ear_part == 'all' -%}
+  {%- if product_has_first_ear_option -%}
+    <div
+      class="ear-text-field{% unless first_ear_yes %} hidden{% endunless %}"
+      data-ear-text-field="first"
+    >
+      <label for="FirstEarText-{{ section_id }}">Text for 1st Ear</label>
+      <input
+        type="text"
+        id="FirstEarText-{{ section_id }}"
+        name="properties[1st Ear Text]"
+        maxlength="11"
+        placeholder="Enter first ear text"
+        minlength="1"
+        pattern=".*\S.*"
+        form="{{ product_form_id }}"
+        autocomplete="off"
+        data-ear-text-input
+        data-ear-text-order="1"
+        {% unless first_ear_yes %}disabled{% endunless %}
+      >
+      <div id="FirstEarText-error-{{ section_id }}" class="ear-text-field__error form__message hidden" role="alert">
+        {{- 'icon-error.svg' | inline_asset_content -}}
+        <span class="error-message">Please enter text for the 1st ear</span>
+      </div>
+    </div>
+  {%- endif -%}
+{%- endif -%}
+
+{%- if ear_part == 'second' or ear_part == 'all' -%}
+  {%- if product_has_second_ear_option -%}
+    <div
+      class="ear-text-field{% unless second_ear_yes %} hidden{% endunless %}"
+      data-ear-text-field="second"
+    >
+      <label for="SecondEarText-{{ section_id }}">Text for 2nd Ear</label>
+      <input
+        type="text"
+        id="SecondEarText-{{ section_id }}"
+        name="properties[2nd Ear Text]"
+        maxlength="11"
+        placeholder="Enter second ear text"
+        minlength="1"
+        pattern=".*\S.*"
+        form="{{ product_form_id }}"
+        autocomplete="off"
+        data-ear-text-input
+        data-ear-text-order="2"
+        {% unless second_ear_yes %}disabled{% endunless %}
+      >
+      <div id="SecondEarText-error-{{ section_id }}" class="ear-text-field__error form__message hidden" role="alert">
+        {{- 'icon-error.svg' | inline_asset_content -}}
+        <span class="error-message">Please enter text for the 2nd ear</span>
+      </div>
+    </div>
+  {%- endif -%}
+{%- endif -%}
+
+{%- if ear_part == 'shared' or ear_part == 'all' -%}
+  {%- if any_ear_text -%}
+    <div class="variant-ear-text-shared" data-variant-ear-text-shared>
+      {%- if ear_colour_set != blank -%}
+        {%- assign ear_text_colour_error_id = 'EarTextColour-' | append: section_id | append: '-error' -%}
+        {% render 'ear-text-colour-picker',
+          colour_set: ear_colour_set,
+          product_form_id: product_form_id,
+          property_name: 'properties[Ear text colour]',
+          group_label: 'Ear text colour',
+          error_id: ear_text_colour_error_id,
+          error_message: 'Please choose a colour',
+          heading_text: 'Choose your text colour'
+        %}
+      {%- endif -%}
+      {%- render 'font-selection-picker',
+        product: product,
+        product_form_id: product_form_id,
+        section_id: section_id,
+        start_hidden: true
+      -%}
+    </div>
+  {%- else -%}
+    {%- render 'font-selection-picker',
+      product: product,
+      product_form_id: product_form_id,
+      section_id: section_id
+    -%}
+  {%- endif -%}
+{%- endif -%}

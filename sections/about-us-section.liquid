@@ -1,0 +1,557 @@
+<section
+  class="teddy-about teddy-about--{{ section.id }}"
+  style="
+    --teddy-bg: {{ section.settings.background_color }};
+    --teddy-text: {{ section.settings.text_color }};
+    --teddy-accent: {{ section.settings.button_color }};
+  "
+>
+  <div class="teddy-about__lines" aria-hidden="true">
+    <svg
+      class="teddy-about__svg"
+      viewBox="0 0 1600 900"
+      preserveAspectRatio="none"
+    >
+      <path
+        class="teddy-line teddy-line--one"
+        d="M-80 130
+           C 120 10, 250 80, 320 230
+           C 390 380, 530 470, 760 530
+           C 1030 600, 1270 700, 1510 600
+           C 1640 545, 1700 570, 1730 610"
+      />
+
+      <path
+        class="teddy-line teddy-line--two"
+        d="M-80 720
+           C 180 900, 420 850, 650 720
+           C 880 590, 1080 590, 1280 680
+           C 1450 755, 1570 820, 1720 730"
+      />
+
+    
+    </svg>
+  </div>
+
+  <div class="teddy-about__container">
+
+    <!-- IMAGE AREA -->
+    <div class="teddy-about__images">
+
+      {% if section.settings.image_1 != blank %}
+        <div class="teddy-about__image teddy-about__image--main">
+          {{
+            section.settings.image_1
+            | image_url: width: 1000
+            | image_tag:
+              loading: 'lazy',
+              widths: '400, 600, 800, 1000',
+              sizes: '(max-width: 749px) 80vw, 45vw'
+          }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.image_2 != blank %}
+        <div class="teddy-about__image teddy-about__image--top">
+          {{
+            section.settings.image_2
+            | image_url: width: 500
+            | image_tag:
+              loading: 'lazy',
+              widths: '200, 300, 400, 500',
+              sizes: '180px'
+          }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.image_3 != blank %}
+        <div class="teddy-about__image teddy-about__image--bottom">
+          {{
+            section.settings.image_3
+            | image_url: width: 700
+            | image_tag:
+              loading: 'lazy',
+              widths: '300, 500, 700',
+              sizes: '(max-width: 749px) 70vw, 350px'
+          }}
+        </div>
+      {% endif %}
+
+    </div>
+
+    <!-- CONTENT -->
+    <div class="teddy-about__content">
+
+      {% if section.settings.heading != blank %}
+        <h2 class="teddy-about__heading h1 ">
+          {{ section.settings.heading }}
+        </h2>
+      {% endif %}
+
+      {% if section.settings.subheading != blank %}
+        <div class="teddy-about__subheading">
+          {{ section.settings.subheading }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.description != blank %}
+        <div class="teddy-about__description">
+          {{ section.settings.description }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.button_text != blank %}
+        <a
+          href="{{ section.settings.button_link }}"
+          class="btn about-btn"
+        >
+          {{ section.settings.button_text }}
+        </a>
+      {% endif %}
+
+    </div>
+
+  </div>
+</section>
+
+<style>
+
+  .teddy-about--{{ section.id }} {
+    position: relative;
+    overflow: hidden;
+    background: var(--teddy-bg);
+    color: var(--teddy-text);
+    min-height: 800px;
+    display: flex;
+    align-items: center;
+    isolation: isolate;
+  }
+
+  /* =========================================
+     CONTAINER
+  ========================================= */
+
+  .teddy-about--{{ section.id }} .teddy-about__container {
+    width: min(1200px, calc(100% - 80px));
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 48% 52%;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* =========================================
+     ANIMATED LINES
+  ========================================= */
+
+  .teddy-about--{{ section.id }} .teddy-about__lines {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity:0.3
+  }
+
+  .teddy-about--{{ section.id }} .teddy-about__svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: visible;
+  }
+
+  .teddy-about--{{ section.id }} .teddy-line {
+    fill: none;
+    stroke: #fff;
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+
+    /*
+      This creates the animated drawing effect.
+    */
+    stroke-dasharray: 2200;
+    stroke-dashoffset: 2200;
+
+    animation:
+      teddyLineDraw 4s ease-out forwards,
+      teddyLineFloat 8s ease-in-out 4s infinite alternate;
+  }
+
+  .teddy-about--{{ section.id }} .teddy-line--two {
+    animation-delay: 0.8s, 4.8s;
+  }
+
+  .teddy-about--{{ section.id }} .teddy-line--three {
+    animation-delay: 1.4s, 5.4s;
+  }
+
+  @keyframes teddyLineDraw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes teddyLineFloat {
+    from {
+      transform: translate3d(-8px, 0, 0);
+    }
+
+    to {
+      transform: translate3d(8px, 5px, 0);
+    }
+  }
+
+  /* =========================================
+     IMAGE AREA
+  ========================================= */
+
+  .teddy-about--{{ section.id }} .teddy-about__images {
+    position: relative;
+    height: 500px;
+    width: 100%;
+  }
+
+  .teddy-about--{{ section.id }} .teddy-about__image {
+    position: absolute;
+    overflow: hidden;
+  }
+
+  .teddy-about--{{ section.id }} .teddy-about__image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Main image */
+
+  .teddy-about--{{ section.id }} .teddy-about__image--main {
+    width: 350px;
+    height: 500px;
+
+    left: 20px;
+    top: 75px;
+
+    border-radius: 14px 0 0 0;
+
+    z-index: 2;
+  }
+
+  /* Top/right image */
+
+  .teddy-about--{{ section.id }} .teddy-about__image--top {
+       width: 200px;
+    height: 216px;
+    left: 337px;
+    top: 12px;
+    border-radius: 15px;
+    z-index: 4;
+
+    border-radius: 15px;
+
+    z-index: 4;
+  }
+
+  /* Bottom image */
+
+  .teddy-about--{{ section.id }} .teddy-about__image--bottom {
+    width: 295px;
+    height: 170px;
+
+    left: 110px;
+    top: 310px;
+
+    border-radius: 15px 15px 0 0;
+
+    z-index: 3;
+        width: 295px;
+    height: 170px;
+    left: 148px;
+    top: 439px;
+    border-radius: 15px 15px 0 0;
+    z-index: 3;
+  }
+
+  /* =========================================
+     CONTENT
+  ========================================= */
+
+  .teddy-about--{{ section.id }} .teddy-about__content {
+    max-width: 530px;
+    padding: 40px 0 40px 20px;
+  }
+
+  .teddy-about--{{ section.id }} .teddy-about__heading {
+    margin: 0 0 12px;
+
+    color: var(--teddy-text);
+    line-height: 1.25;
+  }
+
+  .teddy-about--{{ section.id }} .teddy-about__subheading {
+
+    font-size: 17px;
+    line-height: 1.35;
+    font-weight: 700;
+
+    margin-bottom: 18px;
+  }
+
+  .teddy-about--{{ section.id }} .teddy-about__description {
+    font-size: 14px;
+    line-height: 1.35;
+    max-width: 500px;
+    margin-bottom: 32px;
+  }
+
+  /* =========================================
+     BUTTON
+  ========================================= */
+
+  .teddy-about--{{ section.id }} .teddy-about__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 82px;
+    min-height: 36px;
+
+    padding: 7px 15px;
+
+    background: var(--teddy-accent);
+    color: #fff;
+
+    border-radius: 20px;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    transition:
+      transform .25s ease,
+      opacity .25s ease;
+  }
+
+  .teddy-about--{{ section.id }} .teddy-about__button:hover {
+    transform: translateY(-2px);
+    opacity: .9;
+  }
+
+  /* =========================================
+     TABLET
+  ========================================= */
+
+  @media screen and (max-width: 989px) {
+
+    .teddy-about--{{ section.id }} {
+      min-height: 650px;
+    }
+
+    .teddy-about--{{ section.id }} .teddy-about__container {
+      width: min(92%, 760px);
+      grid-template-columns: 45% 55%;
+    }
+
+    .teddy-about--{{ section.id }} .teddy-about__images {
+      transform: scale(.85);
+      transform-origin: left center;
+    }
+
+    .teddy-about--{{ section.id }} .teddy-about__heading {
+    }
+
+    .teddy-about--{{ section.id }} .teddy-about__content {
+      padding-left: 0;
+    }
+  }
+
+  /* =========================================
+     MOBILE
+  ========================================= */
+
+  @media screen and (max-width: 749px) {
+
+    .teddy-about--{{ section.id }} {
+      min-height: auto;
+      padding: 50px 0 60px;
+    }
+
+    .teddy-about--{{ section.id }} .teddy-about__container {
+      width: calc(100% - 36px);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .teddy-about--{{ section.id }} .teddy-about__images {
+      width: 100%;
+      height: 390px;
+      transform: none;
+      margin-bottom: 20px;
+    }
+
+    .teddy-about--{{ section.id }} .teddy-about__image--main {
+      width: 65%;
+      height: 245px;
+
+      left: 0;
+      top: 35px;
+    }
+
+    .teddy-about--{{ section.id }} .teddy-about__image--top {
+      width: 105px;
+      height: 110px;
+
+      left: 61%;
+      top: 0;
+    }
+
+    .teddy-about--{{ section.id }} .teddy-about__image--bottom {
+      width: 65%;
+      height: 145px;
+
+      left: 25%;
+      top: 230px;
+    }
+
+    .teddy-about--{{ section.id }} .teddy-about__content {
+      width: 100%;
+      max-width: none;
+      padding: 0;
+    }
+
+    .teddy-about--{{ section.id }} .teddy-about__heading {
+      line-height: 1.2;
+    }
+
+    .teddy-about--{{ section.id }} .teddy-about__subheading {
+      font-size: 16px;
+    }
+
+    .teddy-about--{{ section.id }} .teddy-about__description {
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .teddy-about--{{ section.id }} .teddy-line {
+      stroke-width: 4;
+    }
+  }
+
+  /* Accessibility */
+
+  @media (prefers-reduced-motion: reduce) {
+
+    .teddy-about--{{ section.id }} .teddy-line {
+      animation: none;
+      stroke-dashoffset: 0;
+    }
+
+  }
+
+</style>
+
+{% schema %}
+{
+  "name": "Teddy About",
+  "tag": "section",
+  "class": "section-teddy-about",
+  "settings": [
+
+    {
+      "type": "header",
+      "content": "Images"
+    },
+
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Main image"
+    },
+
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Top image"
+    },
+
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Bottom image"
+    },
+
+    {
+      "type": "header",
+      "content": "Content"
+    },
+
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "My Teddy, the Teddy Bear Store Today"
+    },
+
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "We celebrate our 16th year of being self employed and working for My Teddy this year."
+    },
+
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>We're adding to our online gift shop site all the time, in the last few years we have added the lovely cuddly cubbies and critters. There are also personalised teddies and blankets, and every Christmas we do our famous personalised Santa sacks.</p>"
+    },
+
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "SEE THEM HERE"
+    },
+
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#33bfc5"
+    },
+
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    },
+
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button color",
+      "default": "#D36BA4"
+    }
+
+  ],
+
+  "presets": [
+    {
+      "name": "Teddy About"
+    }
+  ]
+}
+{% endschema %}

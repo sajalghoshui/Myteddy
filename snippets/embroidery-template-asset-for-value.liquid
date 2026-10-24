@@ -1,0 +1,34 @@
+{% comment %}
+  Outputs the theme asset filename for an embroidery template option value, or nothing if no match.
+  Accepts:
+  - option_value: {String} variant option value label
+{% endcomment %}
+{%- liquid
+  assign normalized_value = option_value | handleize
+  assign expected_canonical = normalized_value | append: '.png'
+
+  assign matched_asset = ''
+  assign preferred_asset = ''
+  assign embroidery_asset_catalog = '156824 three names star.PNG|3 names boy.png|angel.png|Arrow wreath boy.png|be my valentine.png|birth 1.PNG|birth 2.png|birth 3.png|birth 4 layla.png|Birth 5.png|Birth 6.png|birthday template.png|cancer ribbon hero.png|christening template greens.png|decades - pinks.png|decades pink.png|Easter 1 first blue.png|Easter 1 First pink.png|Easter 2 first blue.png|Easter 2 first pink.png|Easter 2 happy blue.png|Easter 2 HAPPY pink.png|Easter 3 FIRST blue.png|Easter 3 FIRST pink.png|Easter 3 Happy blue.png|Easter 3 Happy pink.png|Easter 4 FIRST pink.png|Easter 4 First.png|easter 5 happy blue.png|Easter 5 HAPPY.png|Family bear template.png|fancy frame valentines.png|Fathers Day 3.png|Flower Circle.png|Get Well Soon From.png|Get Well Soon.png|graduation boy.PNG|grandmas monster.png|Monster chaser.png|Mothers Day 1.png|Mothers Day 2.png|Mothers Day 3.png|Mothers Day 4 Wreath.png|Mothers Day 5.png|Mothers Day Nana.png|name and DOB template.png|Name Only.png|Name with design boy.png|Name with design girl.png|prep graduation girl.PNG|rainbow of hope baby.png|Scar Buddy.png|Star Circle.png|teacher 2.PNG|teacher 2_1.PNG|valentine block.png|valentines heart frame.png|valentines two names.png|will you marry me .png|Xmas1.png|xmas2.png'
+
+  assign catalog_assets = embroidery_asset_catalog | split: '|'
+
+  for asset_filename in catalog_assets
+    assign asset_stem = asset_filename | split: '.' | first
+    assign asset_handle = asset_stem | handleize
+
+    if asset_handle == normalized_value
+      if matched_asset == ''
+        assign matched_asset = asset_filename
+      endif
+      assign asset_filename_downcase = asset_filename | downcase
+      if asset_filename_downcase == expected_canonical
+        assign preferred_asset = asset_filename
+      endif
+    endif
+  endfor
+
+  if preferred_asset != ''
+    assign matched_asset = preferred_asset
+  endif
+-%}{{- matched_asset -}}

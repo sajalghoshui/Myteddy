@@ -1,0 +1,367 @@
+<section
+  id="ImageTextEditorial-{{ section.id }}"
+  class="image-text-editorial color-{{ section.settings.color_scheme }} gradient"
+>
+    <div class="shape-wrapper">
+         {% if section.settings.heading != blank %}
+          <h2 class="image-text-editorial__heading">
+            {{ section.settings.heading }}
+          </h2>
+        {% endif %}
+     <div class="hero-shape-new">
+        <svg style="--shape-width:100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100">
+          <path style="fill: #a0338d;" d="M 1440 100 C 877.646 -22.8296 592.706 -37.0938 0 100 V 0 C 1426.456 0.282 1279.409 -0.271 1440.013 -1.082 V 46.168 Z"></path>
+        </svg>
+           </div>
+
+  </div>
+  <div class="image-text-editorial__wrapper page-width">
+      <div class="image-text-editorial__grid">
+      <!-- Center Content -->
+      <div class="image-text-editorial__content">
+        {% if section.settings.text != blank %}
+          <div class="image-text-editorial__text rte">
+            {{ section.settings.text }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+<style>
+    .image-text-editorial__heading{
+      position:absolute;
+      color:#fff;
+    }
+    .shape-wrapper{
+        padding-top:350px;
+        background:#a0338d;
+        pointer-events:none;
+        position:relative;
+    }
+  .page-about .hero-shape{
+     display:none;
+    }
+    .hero-shape-new{
+        overflow: hidden;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    line-height: 0;
+    z-index: 1;
+    pointer-events: none;
+    }
+   .page-about .content-for-layout{
+        padding-top:0;
+    } 
+    .image-text-editorial {
+  padding-top: var(--editorial-padding-top);
+  padding-bottom: var(--editorial-padding-bottom);
+  padding-top:0;
+}
+
+.image-text-editorial__wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  position:relative;
+  z-index:1;
+  padding-top:100px;
+}
+
+.image-text-editorial__grid {
+  display: grid;
+ 
+  align-items: center;
+  gap: 50px;
+}
+
+
+/* =========================
+   LEFT IMAGES
+========================= */
+
+.image-text-editorial__left {
+  position: relative;
+  min-height: 340px;
+}
+
+.image-text-editorial__image {
+  overflow: hidden;
+  border-radius: var(--editorial-image-radius);
+}
+
+.image-text-editorial__image--large {
+  width: 220px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+}
+
+.image-text-editorial__image--small {
+  width: 150px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 2;
+}
+
+.image-text-editorial__img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+
+/* =========================
+   CONTENT
+========================= */
+
+.image-text-editorial__content {
+  width: 100%;
+  max-width: var(--editorial-content-width);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.image-text-editorial__heading {
+ color: #fff;
+    font-size: clamp(30px, 3vw, 42px);
+    line-height: 1.15;
+    font-weight: 700;
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.image-text-editorial__text {
+  color: rgb(var(--color-foreground));
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+.image-text-editorial__text p {
+  margin: 0 0 24px;
+}
+
+.image-text-editorial__text p:last-child {
+  margin-bottom: 0;
+}
+
+
+/* =========================
+   RIGHT IMAGE
+========================= */
+
+.image-text-editorial__right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.image-text-editorial__image--right {
+  width: 220px;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media screen and (max-width: 989px) {
+
+  .image-text-editorial {
+    padding-top: var(--editorial-mobile-padding-top);
+    padding-bottom: var(--editorial-mobile-padding-bottom);
+  }
+
+  .image-text-editorial__grid {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .image-text-editorial__left {
+    width: 100%;
+    min-height: 250px;
+    order: 2;
+  }
+
+  .image-text-editorial__content {
+    order: 1;
+    max-width: 700px;
+  }
+
+  .image-text-editorial__right {
+    width: 100%;
+    justify-content: center;
+    order: 3;
+  }
+
+  .image-text-editorial__image--large {
+    width: 60%;
+    max-width: 280px;
+    left: 0;
+    bottom: 0;
+  }
+
+  .image-text-editorial__image--small {
+    width: 40%;
+    max-width: 170px;
+    right: 5%;
+    top: 0;
+  }
+
+  .image-text-editorial__image--right {
+    width: 70%;
+    max-width: 320px;
+  }
+
+  .image-text-editorial__heading {
+    font-size: 30px;
+  }
+
+  .image-text-editorial__text {
+    font-size: 15px;
+  }
+}
+
+
+@media screen and (max-width: 749px) {
+
+  .image-text-editorial__grid {
+    gap: 25px;
+  }
+
+  .image-text-editorial__left {
+    min-height: 210px;
+  }
+
+  .image-text-editorial__heading {
+    font-size: 28px;
+  }
+
+  .image-text-editorial__text {
+    font-size: 14px;
+  }
+
+  .image-text-editorial__image--large {
+    width: 65%;
+  }
+
+  .image-text-editorial__image--small {
+    width: 42%;
+  }
+}
+</style>
+{% schema %}
+{
+  "name": "Image text editorial",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Hard Work and a Passion for Quality"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Content",
+      "default": "<p>Toyo has established itself as a premier destination for parents and caregivers seeking top-quality baby clothes, footwear, stuffed toys, and accessories. With a commitment to providing a delightful shopping experience and a wide range of meticulously curated products, Toyo has become a trusted name in the baby retail industry.</p><p>From adorable onesies to cosy footwear and lovable stuffed companions, Toyo offers an extensive selection of products that cater to the needs of every precious bundle of joy. Toyo has established itself as a premier destination for parents and caregivers seeking top-quality baby clothes, footwear, stuffed toys, and accessories.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "left_image",
+      "label": "Left large image"
+    },
+    {
+      "type": "image_picker",
+      "id": "top_left_image",
+      "label": "Left small image"
+    },
+    {
+      "type": "image_picker",
+      "id": "right_image",
+      "label": "Right image"
+    },
+    {
+      "type": "range",
+      "id": "image_radius",
+      "label": "Image corner radius",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "content_width",
+      "label": "Content width",
+      "min": 400,
+      "max": 900,
+      "step": 10,
+      "unit": "px",
+      "default": 620
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Desktop top padding",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Desktop bottom padding",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "label": "Mobile top padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "label": "Mobile bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image text editorial"
+    }
+  ]
+}
+{% endschema %}

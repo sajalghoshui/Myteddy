@@ -1,0 +1,324 @@
+{% comment %}
+  Renders product variant-picker
+
+  Accepts:
+  - product: {Object} product object.
+  - block: {Object} passing the block information.
+  - product_form_id: {String} Id of the product form to which the variant picker is associated.
+  Usage:
+  {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
+{% endcomment %}
+{%- liquid
+  if product_form_id == blank
+    assign product_form_id = 'product-form-' | append: section.id
+  endif
+
+  assign embroidery_template_collection = product.metafields.custom.embroidery_template.value | default: product.metafields.custom.embroidery_template
+  assign use_embroidery_template_products = false
+  if embroidery_template_collection != blank
+    for embroidery_template_product in embroidery_template_collection.products limit: 50
+      if embroidery_template_product == blank or embroidery_template_product.id == blank
+        continue
+      endif
+      for embroidery_template_variant in embroidery_template_product.variants
+        if embroidery_template_variant.available
+          assign use_embroidery_template_products = true
+          break
+        endif
+      endfor
+      if use_embroidery_template_products
+        break
+      endif
+    endfor
+  endif
+
+  assign product_has_embroidery_template_option = false
+  for scan_option in product.options_with_values
+    assign scan_option_name = scan_option.name | downcase | strip
+    if scan_option_name == 'choose your embroidery template' or scan_option_name contains 'embroidery template'
+      unless scan_option_name contains 'back embroidery'
+        assign product_has_embroidery_template_option = true
+        break
+      endunless
+    endif
+  endfor
+
+  assign selected_variant = product.selected_or_first_available_variant
+-%}
+{%- unless product.has_only_default_variant -%}
+  <variant-selects
+    id="variant-selects-{{ section.id }}"
+    data-section="{{ section.id }}"
+    data-product-handle="{{ product.handle }}"
+    data-product-title="{{ product.title | escape }}"
+    data-product-id="{{ product.id }}"
+    data-currency-code="{{ cart.currency.iso_code }}"
+    {% # theme-check-disable %}
+    data-selected-price-amount="{{ product.selected_or_first_available_variant.price | default: 0 | money_amount | escape }}"
+    {% # theme-check-enable %}
+    {{ block.shopify_attributes }}
+  >
+    {%- assign back_embroidery_lines_rendered = false -%}
+    {%- assign embroidery_metafield_block_rendered = false -%}
+    {%- assign first_ear_text_rendered = false -%}
+    {%- assign second_ear_text_rendered = false -%}
+    {%- assign product_has_back_embroidery_option = false -%}
+    {%- assign product_has_mini_design_option = false -%}
+    {%- for product_option in product.options -%}
+      {%- assign scan_label = product_option | downcase | strip -%}
+      {%- if scan_label contains 'back embroidery' -%}
+        {%- assign product_has_back_embroidery_option = true -%}
+      {%- endif -%}
+      {%- if scan_label contains 'mini design' -%}
+        {%- assign product_has_mini_design_option = true -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- for option in product.options_with_values -%}
+      {%- liquid
+        assign swatch_count = option.values | map: 'swatch' | compact | size
+        assign picker_type = block.settings.picker_type
+
+        if swatch_count > 0 and block.settings.swatch_shape != 'none'
+          if block.settings.picker_type == 'dropdown'
+            assign picker_type = 'swatch_dropdown'
+          else
+            assign picker_type = 'swatch'
+          endif
+        endif
+
+        assign option_name_normalized = option.name | downcase | strip
+        assign embroidery_template_option = false
+        if option_name_normalized == 'choose your embroidery template' or option_name_normalized contains 'embroidery template'
+          unless option_name_normalized contains 'back embroidery'
+            assign embroidery_template_option = true
+          endunless
+        endif
+        assign render_embroidery_metafield_slot = false
+        if use_embroidery_template_products and product_has_embroidery_template_option == false and embroidery_metafield_block_rendered == false
+          if product_has_mini_design_option and option_name_normalized contains 'mini design'
+            assign render_embroidery_metafield_slot = true
+          elsif product_has_mini_design_option == false and product_has_back_embroidery_option and option_name_normalized contains 'back embroidery'
+            assign render_embroidery_metafield_slot = true
+          elsif product_has_mini_design_option == false and product_has_back_embroidery_option == false and forloop.first
+            assign render_embroidery_metafield_slot = true
+          endif
+        endif
+        assign back_embroidery_option = false
+        if option_name_normalized contains 'back embroidery'
+          assign back_embroidery_option = true
+        endif
+        assign first_ear_option = false
+        assign second_ear_option = false
+        if option_name_normalized contains 'ear'
+          if option_name_normalized contains '1st' or option_name_normalized contains 'first'
+            assign first_ear_option = true
+          elsif option_name_normalized contains '2nd' or option_name_normalized contains 'second'
+            assign second_ear_option = true
+          endif
+        endif
+      -%}
+      {%- if render_embroidery_metafield_slot -%}
+        {%- assign embroidery_metafield_block_rendered = true -%}
+        {% render 'embroidery-template-products',
+          product: product,
+          section_id: section.id,
+          product_form_id: product_form_id,
+          colour_variant: selected_variant,
+          helper_text: block.settings.embroidery_template_helper_text,
+          mini_design_helper_text: block.settings.mini_design_helper_text
+        %}
+        {%- unless use_embroidery_template_products -%}
+          {% render 'variant-design-display',
+            variant: selected_variant,
+            product: product,
+            section_id: section.id,
+            product_form_id: product_form_id,
+            mini_design_helper_text: block.settings.mini_design_helper_text
+          %}
+        {%- endunless -%}
+      {%- endif -%}
+      {%- if embroidery_template_option and use_embroidery_template_products -%}
+        {%- assign embroidery_metafield_block_rendered = true -%}
+        {% render 'embroidery-template-products',
+          product: product,
+          section_id: section.id,
+          product_form_id: product_form_id,
+          colour_variant: selected_variant,
+          option_name: option.name,
+          helper_text: block.settings.embroidery_template_helper_text,
+          mini_design_helper_text: block.settings.mini_design_helper_text
+        %}
+        {%- continue -%}
+      {%- endif -%}
+      {%- if picker_type == 'swatch' -%}
+        <fieldset class="js product-form__input product-form__input--swatch{% if embroidery_template_option %} product-form__input--embroidery-template{% endif %}{% if back_embroidery_option %} product-form__input--back-embroidery{% endif %}">
+          <legend class="form__label">
+            {{ option.name }}:
+            <span data-selected-value>
+              {{- option.selected_value -}}
+            </span>
+          </legend>
+          {%- if embroidery_template_option and block.settings.embroidery_template_helper_text != blank -%}
+            <p class="product-form__option-hint">{{ block.settings.embroidery_template_helper_text | escape }}</p>
+          {%- endif -%}
+          {% render 'product-variant-options',
+            product: product,
+            option: option,
+            block: block,
+            picker_type: picker_type,
+            embroidery_template_option: embroidery_template_option
+          %}
+        </fieldset>
+      {%- elsif picker_type == 'button' -%}
+        <fieldset class="js product-form__input{% if embroidery_template_option %} product-form__input--embroidery-template{% else %} product-form__input--pill{% endif %}{% if back_embroidery_option %} product-form__input--back-embroidery{% endif %}">
+          <legend class="form__label">{{ option.name }}</legend>
+          {%- if embroidery_template_option and block.settings.embroidery_template_helper_text != blank -%}
+            <p class="product-form__option-hint">{{ block.settings.embroidery_template_helper_text | escape }}</p>
+          {%- endif -%}
+          {% render 'product-variant-options',
+            product: product,
+            option: option,
+            block: block,
+            picker_type: picker_type,
+            embroidery_template_option: embroidery_template_option
+          %}
+        </fieldset>
+      {%- else -%}
+        <div class="product-form__input product-form__input--dropdown{% if back_embroidery_option %} product-form__input--back-embroidery{% endif %}">
+          <label class="form__label" for="Option-{{ section.id }}-{{ forloop.index0 }}">
+            {{ option.name }}
+          </label>
+          {%- if embroidery_template_option and block.settings.embroidery_template_helper_text != blank -%}
+            <p class="product-form__option-hint">{{ block.settings.embroidery_template_helper_text | escape }}</p>
+          {%- endif -%}
+          <div class="select">
+            {%- if picker_type == 'swatch_dropdown' -%}
+              <span
+                data-selected-value
+                class="dropdown-swatch"
+              >
+                {% render 'swatch', swatch: option.selected_value.swatch, shape: block.settings.swatch_shape %}
+              </span>
+            {%- endif -%}
+            <select
+              id="Option-{{ section.id }}-{{ forloop.index0 }}"
+              class="select__select"
+              name="options[{{ option.name | escape }}]"
+              form="{{ product_form_id }}"
+            >
+              {% render 'product-variant-options',
+                product: product,
+                option: option,
+                block: block,
+                picker_type: picker_type,
+                embroidery_template_option: embroidery_template_option
+              %}
+            </select>
+            <span class="svg-wrapper">
+              {{- 'icon-caret.svg' | inline_asset_content -}}
+            </span>
+          </div>
+        </div>
+      {%- endif -%}
+      {%- if embroidery_template_option -%}
+        {% render 'variant-design-display',
+          variant: selected_variant,
+          product: product,
+          section_id: section.id,
+          product_form_id: product_form_id,
+          mini_design_helper_text: block.settings.mini_design_helper_text
+        %}
+      {%- endif -%}
+      {%- if back_embroidery_lines_rendered == false and option_name_normalized contains 'back embroidery' -%}
+        {%- assign back_embroidery_lines_rendered = true -%}
+        {% render 'back-embroidery-lines',
+          variant: selected_variant,
+          product: product,
+          section_id: section.id,
+          product_form_id: product_form_id
+        %}
+      {%- endif -%}
+      {%- if first_ear_option and first_ear_text_rendered == false -%}
+        {%- assign first_ear_text_rendered = true -%}
+        {% render 'variant-ear-text-fields',
+          variant: selected_variant,
+          product: product,
+          product_form_id: product_form_id,
+          section_id: section.id,
+          part: 'first'
+        %}
+      {%- endif -%}
+      {%- if second_ear_option and second_ear_text_rendered == false -%}
+        {%- assign second_ear_text_rendered = true -%}
+        {% render 'variant-ear-text-fields',
+          variant: selected_variant,
+          product: product,
+          product_form_id: product_form_id,
+          section_id: section.id,
+          part: 'second'
+        %}
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- if use_embroidery_template_products and product_has_embroidery_template_option == false and embroidery_metafield_block_rendered == false -%}
+      {%- assign embroidery_metafield_block_rendered = true -%}
+      {% render 'embroidery-template-products',
+        product: product,
+        section_id: section.id,
+        product_form_id: product_form_id,
+        colour_variant: selected_variant,
+        helper_text: block.settings.embroidery_template_helper_text,
+        mini_design_helper_text: block.settings.mini_design_helper_text
+      %}
+    {%- endif -%}
+
+    {% render 'variant-ear-text-fields',
+      variant: selected_variant,
+      product: product,
+      product_form_id: product_form_id,
+      section_id: section.id,
+      part: 'shared'
+    %}
+
+    <script type="application/json" data-selected-variant>
+      {{ product.selected_or_first_available_variant | json }}
+    </script>
+  </variant-selects>
+  {%- unless use_embroidery_template_products -%}
+    {% render 'variant-embroidery-text-fields',
+      variant: selected_variant,
+      product: product,
+      section_id: section.id,
+      product_form_id: product_form_id
+    %}
+  {%- endunless -%}
+{%- endunless -%}
+{%- if product.has_only_default_variant -%}
+  {%- if use_embroidery_template_products -%}
+    {% render 'embroidery-template-products',
+      product: product,
+      section_id: section.id,
+      product_form_id: product_form_id,
+      colour_variant: selected_variant,
+      helper_text: block.settings.embroidery_template_helper_text,
+      mini_design_helper_text: block.settings.mini_design_helper_text
+    %}
+  {%- endif -%}
+  {%- unless use_embroidery_template_products -%}
+    {% render 'variant-design-display',
+      variant: product.selected_or_first_available_variant,
+      product: product,
+      section_id: section.id,
+      product_form_id: product_form_id,
+      mini_design_helper_text: block.settings.mini_design_helper_text
+    %}
+  {%- endunless -%}
+  {%- unless use_embroidery_template_products -%}
+    {% render 'variant-embroidery-text-fields',
+      variant: selected_variant,
+      product: product,
+      section_id: section.id,
+      product_form_id: product_form_id
+    %}
+  {%- endunless -%}
+{%- endif -%}

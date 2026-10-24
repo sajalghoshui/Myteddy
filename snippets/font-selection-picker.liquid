@@ -1,0 +1,232 @@
+{% comment %}
+  Product-level font line-item picker (properties[Font]).
+  Visibility: product.metafields.custom.enable_font_selection (metaobject reference, type font_selection),
+  with fallback to custom.font_selection on product or selected variant.
+  Accepts:
+  - product: {Object}
+  - product_form_id: {String}
+  - section_id: {String}
+{% endcomment %}
+{%- liquid
+  assign font_set = product.metafields.custom.enable_font_selection.value
+  if font_set == blank
+    assign font_set = product.metafields.custom.enable_font_selection
+  endif
+  if font_set == blank
+    assign font_set = product.metafields.custom.font_selection.value
+    if font_set == blank
+      assign font_set = product.metafields.custom.font_selection
+    endif
+  endif
+  if font_set == blank
+    assign font_set = product.selected_or_first_available_variant.metafields.custom.enable_font_selection.value
+    if font_set == blank
+      assign font_set = product.selected_or_first_available_variant.metafields.custom.enable_font_selection
+    endif
+  endif
+  if font_set == blank
+    assign font_set = product.selected_or_first_available_variant.metafields.custom.font_selection.value
+    if font_set == blank
+      assign font_set = product.selected_or_first_available_variant.metafields.custom.font_selection
+    endif
+  endif
+
+  assign font_names_list = blank
+  assign font_images = blank
+
+  if font_set != blank
+    assign font_names_raw = font_set.font_name.value
+    if font_names_raw == blank
+      assign font_names_raw = font_set.font_name
+    endif
+    if font_names_raw != blank
+      assign font_names_list = font_names_raw | join: '|||' | split: '|||'
+    endif
+
+    assign font_images = font_set.font_image.value
+    if font_images == blank
+      assign font_images = font_set.font_image
+    endif
+
+    if font_names_list == blank and font_images == blank
+      for list_entry in font_set
+        assign try_names_raw = list_entry.font_name.value
+        if try_names_raw == blank
+          assign try_names_raw = list_entry.font_name
+        endif
+        assign try_images = list_entry.font_image.value
+        if try_images == blank
+          assign try_images = list_entry.font_image
+        endif
+        if try_names_raw != blank or try_images != blank
+          if try_names_raw != blank
+            assign font_names_list = try_names_raw | join: '|||' | split: '|||'
+          endif
+          assign font_images = try_images
+          break
+        endif
+      endfor
+    endif
+  endif
+-%}
+
+{%- liquid
+  assign font_swatch_count = 0
+  assign font_loop_from_images = false
+
+  if font_images != blank
+    assign font_loop_from_images = true
+    for font_image_entry in font_images
+      assign font_name = blank
+      if font_names_list != blank
+        assign font_name = font_names_list[forloop.index0]
+      endif
+      if font_name != blank and font_image_entry != blank
+        assign font_img_src = blank
+        if font_image_entry.preview_image != blank
+          assign font_img_src = font_image_entry.preview_image | image_url: width: 200
+        elsif font_image_entry.media_type == 'image' or font_image_entry.width != blank
+          assign font_img_src = font_image_entry | image_url: width: 200
+        elsif font_image_entry.url != blank
+          assign font_img_src = font_image_entry.url
+        endif
+        if font_img_src != blank
+          assign font_swatch_count = font_swatch_count | plus: 1
+        endif
+      endif
+    endfor
+  elsif font_names_list != blank
+    for font_name in font_names_list
+      if font_name != blank
+        assign font_idx = forloop.index0
+        assign font_image_entry = blank
+        if font_images != blank
+          assign font_image_entry = font_images[font_idx]
+        endif
+        assign font_img_src = blank
+        if font_image_entry != blank
+          if font_image_entry.preview_image != blank
+            assign font_img_src = font_image_entry.preview_image | image_url: width: 200
+          elsif font_image_entry.media_type == 'image' or font_image_entry.width != blank
+            assign font_img_src = font_image_entry | image_url: width: 200
+          elsif font_image_entry.url != blank
+            assign font_img_src = font_image_entry.url
+          endif
+        endif
+        if font_img_src != blank
+          assign font_swatch_count = font_swatch_count | plus: 1
+        endif
+      endif
+    endfor
+  endif
+
+  assign show_font_picker = false
+  if font_set != blank and font_swatch_count > 0
+    assign show_font_picker = true
+  endif
+
+  assign font_start_hidden = start_hidden | default: false
+-%}
+
+{%- if show_font_picker -%}
+  <div
+    class="font-selection{% if font_start_hidden %} hidden{% endif %}"
+    data-font-selection-picker
+    data-has-fonts="true"
+  >
+    <fieldset class="font-selection__group" aria-labelledby="FontSelection-heading-{{ section_id }}">
+      <legend class="font-selection__legend visually-hidden">Choose your font</legend>
+      <p id="FontSelection-heading-{{ section_id }}" class="font-selection__heading form__label">
+        Choose your font
+      </p>
+      <div class="font-selection__swatches ear-text-field__colour-swatches" role="presentation">
+        {%- if font_loop_from_images -%}
+          {%- for font_image_entry in font_images -%}
+            {%- assign font_name = blank -%}
+            {%- if font_names_list != blank -%}
+              {%- assign font_name = font_names_list[forloop.index0] -%}
+            {%- endif -%}
+            {%- if font_name != blank and font_image_entry != blank -%}
+              {%- assign font_img_src = blank -%}
+              {%- if font_image_entry.preview_image != blank -%}
+                {%- assign font_img_src = font_image_entry.preview_image | image_url: width: 200 -%}
+              {%- elsif font_image_entry.media_type == 'image' or font_image_entry.width != blank -%}
+                {%- assign font_img_src = font_image_entry | image_url: width: 200 -%}
+              {%- elsif font_image_entry.url != blank -%}
+                {%- assign font_img_src = font_image_entry.url -%}
+              {%- endif -%}
+              {%- if font_img_src != blank -%}
+                <label class="ear-colour-swatch font-selection-swatch">
+                  <input
+                    type="radio"
+                    name="properties[Font]"
+                    value="{{ font_name | escape }}"
+                    form="{{ product_form_id }}"
+                    aria-label="{{ font_name | escape }}"
+                  >
+                  <img
+                    class="font-selection-swatch__image"
+                    src="{{ font_img_src }}"
+                    alt=""
+                    width="64"
+                    height="64"
+                    loading="lazy"
+                  >
+                  <span class="ear-colour-swatch__tooltip" aria-hidden="true">{{ font_name | escape }}</span>
+                </label>
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- elsif font_names_list != blank -%}
+          {%- for font_name in font_names_list -%}
+            {%- if font_name != blank -%}
+              {%- assign font_idx = forloop.index0 -%}
+              {%- assign font_image_entry = blank -%}
+              {%- if font_images != blank -%}
+                {%- assign font_image_entry = font_images[font_idx] -%}
+              {%- endif -%}
+              {%- assign font_img_src = blank -%}
+              {%- if font_image_entry != blank -%}
+                {%- if font_image_entry.preview_image != blank -%}
+                  {%- assign font_img_src = font_image_entry.preview_image | image_url: width: 200 -%}
+                {%- elsif font_image_entry.media_type == 'image' or font_image_entry.width != blank -%}
+                  {%- assign font_img_src = font_image_entry | image_url: width: 200 -%}
+                {%- elsif font_image_entry.url != blank -%}
+                  {%- assign font_img_src = font_image_entry.url -%}
+                {%- endif -%}
+              {%- endif -%}
+              {%- if font_img_src != blank -%}
+                <label class="ear-colour-swatch font-selection-swatch">
+                  <input
+                    type="radio"
+                    name="properties[Font]"
+                    value="{{ font_name | escape }}"
+                    form="{{ product_form_id }}"
+                    aria-label="{{ font_name | escape }}"
+                  >
+                  <img
+                    class="font-selection-swatch__image"
+                    src="{{ font_img_src }}"
+                    alt=""
+                    width="64"
+                    height="64"
+                    loading="lazy"
+                  >
+                  <span class="ear-colour-swatch__tooltip" aria-hidden="true">{{ font_name | escape }}</span>
+                </label>
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+    </fieldset>
+    <div
+      id="FontSelection-error-{{ section_id }}"
+      class="font-selection__error ear-text-field__colour-error form__message hidden"
+      role="alert"
+    >
+      {{- 'icon-error.svg' | inline_asset_content -}}
+      <span class="error-message">Please choose a font</span>
+    </div>
+  </div>
+{%- endif -%}

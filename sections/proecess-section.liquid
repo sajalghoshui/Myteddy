@@ -1,0 +1,676 @@
+<section
+  class="gift-process-section"
+  id="gift-process-{{ section.id }}"
+>
+  <div
+    class="gift-process-wrapper"
+    style="
+      --gift-bg: {{ section.settings.background_color }};
+      --gift-circle: {{ section.settings.icon_background }};
+      --gift-icon: {{ section.settings.icon_color }};
+      --gift-heading: {{ section.settings.heading_color }};
+      --gift-text: {{ section.settings.text_color }};
+      --gift-line: {{ section.settings.line_color }};
+      --gift-animation: {{ section.settings.animation_color }};
+    "
+  >
+
+    {% if section.settings.heading != blank %}
+      <h2 class="gift-process-heading">
+        {{ section.settings.heading }}
+      </h2>
+    {% endif %}
+
+    <div class="gift-process">
+
+      {% for block in section.blocks %}
+
+        <div
+          class="gift-process-step"
+          {{ block.shopify_attributes }}
+        >
+
+          <div class="gift-process-icon">
+
+            {% if block.settings.icon == 'teddy' %}
+
+              <!-- Teddy -->
+             <img src="{{ 'icon1.png' | asset_url }}" alt="">
+
+            {% elsif block.settings.icon == 'special' %}
+
+              <!-- Make it special -->
+             <img src="{{ 'icon2.png' | asset_url }}" alt="">
+
+            {% elsif block.settings.icon == 'gift' %}
+
+              <!-- Gift -->
+             <img src="{{ 'icon3.png' | asset_url }}" alt="">
+
+            {% elsif block.settings.icon == 'heart' %}
+
+              <!-- Heart -->
+              <svg viewBox="0 0 64 64" aria-hidden="true">
+                <path d="M32 52S10 39 10 24c0-8 6-13 13-13 5 0 8 3 9 7 1-4 4-7 9-7 7 0 13 5 13 13 0 15-22 28-22 28z"></path>
+              </svg>
+
+            {% endif %}
+
+          </div>
+
+          {% if block.settings.title != blank %}
+            <h3 class="gift-process-title">
+              {{ block.settings.title }}
+            </h3>
+          {% endif %}
+
+          {% if block.settings.description != blank %}
+            <div class="gift-process-description">
+              {{ block.settings.description }}
+            </div>
+          {% endif %}
+
+        </div>
+
+
+        {% unless forloop.last %}
+
+          <div class="gift-process-connector" aria-hidden="true">
+
+            <svg
+              viewBox="0 0 300 100"
+              preserveAspectRatio="none"
+            >
+
+              <path
+                class="connector-base"
+                d="M0,50
+                   C65,85 145,85 205,55
+                   C245,35 270,35 300,50"
+              />
+
+              <path
+                class="connector-animation"
+                d="M0,50
+                   C65,85 145,85 205,55
+                   C245,35 270,35 300,50"
+              />
+
+            </svg>
+
+          </div>
+
+        {% endunless %}
+
+      {% endfor %}
+
+    </div>
+
+  </div>
+</section>
+
+
+<style>
+
+  #gift-process-{{ section.id }} {
+    --section-padding-top: {{ section.settings.padding_top }}px;
+    --section-padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  #gift-process-{{ section.id }} .gift-process-section {
+    width: 100%;
+  }
+
+  #gift-process-{{ section.id }} {
+    padding-top: var(--section-padding-top);
+    padding-bottom: var(--section-padding-bottom);
+  }
+
+  #gift-process-{{ section.id }} .gift-process-wrapper {
+    max-width: {{ section.settings.max_width }}px;
+    margin: 0 auto;
+
+    padding: 65px 60px 110px;
+
+    background: var(--gift-bg);
+
+    border-radius: {{ section.settings.border_radius }}px;
+
+    overflow: hidden;
+  }
+
+
+  /* =========================
+     HEADING
+  ========================= */
+
+  #gift-process-{{ section.id }} .gift-process-heading {
+    margin: 0 0 30px;
+
+    text-align: center;
+
+    color: var(--gift-heading);
+
+    font-size: {{ section.settings.heading_size }}px;
+
+    line-height: 1.2;
+
+    font-weight: 700;
+  }
+
+
+  /* =========================
+     PROCESS
+  ========================= */
+
+  #gift-process-{{ section.id }} .gift-process {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+
+  /* =========================
+     STEP
+  ========================= */
+
+  #gift-process-{{ section.id }} .gift-process-step {
+    flex: 0 0 auto;
+
+    position: relative;
+
+    z-index: 2;
+
+    text-align: center;
+  }
+
+
+  /* =========================
+     ICON
+  ========================= */
+
+  #gift-process-{{ section.id }} .gift-process-icon {
+    width: {{ section.settings.icon_size }}px;
+    height: {{ section.settings.icon_size }}px;
+
+    margin: 0 auto 0px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--gift-circle);
+
+    border-radius: 50%;
+        box-shadow: 0 10px 30px #0000001f;
+    border: dashed 2px #b564a7;
+  }
+
+
+  #gift-process-{{ section.id }} .gift-process-icon svg {
+    width: 55%;
+    height: 55%;
+
+    fill: none;
+
+    stroke: var(--gift-icon);
+
+    stroke-width: 3;
+
+    stroke-linecap: round;
+
+    stroke-linejoin: round;
+  }
+
+
+  /* =========================
+     TITLE
+  ========================= */
+
+  #gift-process-{{ section.id }} .gift-process-title {
+    margin: 0;
+
+    color: var(--gift-text);
+
+    font-size: {{ section.settings.title_size }}px;
+
+    line-height: 1.3;
+
+    font-weight: 600;
+    position:absolute;
+  }
+
+
+  /* =========================
+     DESCRIPTION
+  ========================= */
+
+  #gift-process-{{ section.id }} .gift-process-description {
+    margin-top: 8px;
+
+    color: var(--gift-text);
+
+    font-size: 16px;
+
+    line-height: 1.5;
+  }
+
+
+  /* =========================
+     CONNECTOR
+  ========================= */
+
+  #gift-process-{{ section.id }} .gift-process-connector {
+    flex: 1;
+
+    width: 100%;
+
+    height: 100px;
+
+    min-width: 80px;
+
+    max-width: 300px;
+
+    position: relative;
+
+    z-index: 1;
+  }
+
+
+  #gift-process-{{ section.id }} .gift-process-connector svg {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    overflow: visible;
+  }
+
+
+  /* Static dotted line */
+
+  #gift-process-{{ section.id }} .connector-base {
+    fill: none;
+
+    stroke: var(--gift-line);
+
+    stroke-width: 2;
+
+    stroke-dasharray: 7;
+  }
+
+
+  /* Animated dotted line */
+
+  #gift-process-{{ section.id }} .connector-animation {
+    fill: none;
+
+    stroke: var(--gift-animation);
+
+    stroke-width: 2;
+
+    stroke-linecap: round;
+
+    stroke-dasharray: 1 9;
+
+    animation:
+      giftProcessLine
+      {{ section.settings.animation_speed }}s
+      linear
+      infinite;
+  }
+
+
+  @keyframes giftProcessLine {
+
+    from {
+      stroke-dashoffset: 0;
+    }
+
+    to {
+      stroke-dashoffset: -30;
+    }
+
+  }
+
+
+  /* =========================
+     MOBILE
+  ========================= */
+
+  @media screen and (max-width: 749px) {
+
+    #gift-process-{{ section.id }} .gift-process-wrapper {
+      margin-left: 15px;
+      margin-right: 15px;
+
+      padding: 45px 20px 50px;
+
+      border-radius: 25px;
+    }
+
+
+    #gift-process-{{ section.id }} .gift-process-heading {
+      margin-bottom: 40px;
+
+      font-size: 34px;
+    }
+
+
+    #gift-process-{{ section.id }} .gift-process {
+      flex-direction: column;
+          align-items: flex-start;
+                  padding: 0 0 0 40px;
+    }
+
+
+    #gift-process-{{ section.id }} .gift-process-step {
+      flex: none;
+
+      width: 100%;
+    }
+
+
+    #gift-process-{{ section.id }} .gift-process-icon {
+      width: 90px;
+      height: 90px;
+      margin:0;
+    }
+
+
+    #gift-process-{{ section.id }} .gift-process-title {
+      font-size: 19px;
+    }
+
+
+    #gift-process-{{ section.id }} .gift-process-description {
+      font-size: 15px;
+    }
+
+
+    /*
+      Rotate the connector vertically
+    */
+
+    #gift-process-{{ section.id }} .gift-process-connector {
+      width: 140px;
+
+      height: 70px;
+
+      min-width: 140px;
+
+      max-width: 140px;
+
+      transform: rotate(90deg);
+
+      margin: 5px 0;
+              margin-left: -20px;
+    }
+      #gift-process-{{ section.id }} .gift-process-title {
+        left:109px;
+        top:50%;
+        transform:translateY(-50%)
+  }
+
+  }
+
+
+  /* =========================
+     REDUCED MOTION
+  ========================= */
+
+  @media (prefers-reduced-motion: reduce) {
+
+    #gift-process-{{ section.id }} .connector-animation {
+      animation: none;
+    }
+
+  }
+
+</style>
+
+
+{% schema %}
+{
+  "name": "Gift process",
+  "tag": "section",
+  "class": "gift-process-section",
+
+  "settings": [
+
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "It's Easy!"
+    },
+
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#F3EEF5"
+    },
+
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#555555"
+    },
+
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#747C84"
+    },
+
+    {
+      "type": "color",
+      "id": "icon_background",
+      "label": "Icon circle color",
+      "default": "#B45AAA"
+    },
+
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon color",
+      "default": "#FFFFFF"
+    },
+
+    {
+      "type": "color",
+      "id": "line_color",
+      "label": "Line color",
+      "default": "#C9C2CA"
+    },
+
+    {
+      "type": "color",
+      "id": "animation_color",
+      "label": "Animated line color",
+      "default": "#B45AAA"
+    },
+
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Maximum width",
+      "min": 800,
+      "max": 1600,
+      "step": 20,
+      "unit": "px",
+      "default": 1240
+    },
+
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    },
+
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 24,
+      "max": 64,
+      "step": 2,
+      "unit": "px",
+      "default": 48
+    },
+
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Step title size",
+      "min": 16,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 23
+    },
+
+    {
+      "type": "range",
+      "id": "icon_size",
+      "label": "Icon size",
+      "min": 70,
+      "max": 140,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    },
+
+    {
+      "type": "range",
+      "id": "animation_speed",
+      "label": "Line animation speed",
+      "min": 0.5,
+      "max": 5,
+      "step": 0.5,
+      "unit": "sec",
+      "default": 1.5
+    },
+
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top spacing",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom spacing",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    }
+
+  ],
+
+  "blocks": [
+
+    {
+      "type": "step",
+      "name": "Step",
+
+      "settings": [
+
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "teddy",
+              "label": "Teddy Bear"
+            },
+            {
+              "value": "special",
+              "label": "Make it special"
+            },
+            {
+              "value": "gift",
+              "label": "Gift"
+            },
+            {
+              "value": "heart",
+              "label": "Heart"
+            }
+          ],
+          "default": "teddy"
+        },
+
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Choose a gift"
+        },
+
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description"
+        }
+
+      ]
+    }
+
+  ],
+
+  "max_blocks": 3,
+
+  "presets": [
+
+    {
+      "name": "Gift process",
+
+      "blocks": [
+
+        {
+          "type": "step",
+          "settings": {
+            "icon": "teddy",
+            "title": "Choose a gift"
+          }
+        },
+
+        {
+          "type": "step",
+          "settings": {
+            "icon": "special",
+            "title": "Make it special"
+          }
+        },
+
+        {
+          "type": "step",
+          "settings": {
+            "icon": "gift",
+            "title": "Send your gift"
+          }
+        }
+
+      ]
+    }
+
+  ]
+}
+{% endschema %}

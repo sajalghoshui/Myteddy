@@ -1,0 +1,214 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  .marquee-{{ section.id }} {
+    overflow: hidden;
+    white-space: nowrap;
+    display: flex;
+    width: 100%;
+  }
+
+  .marquee__content-{{ section.id }} {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: {{ section.settings.gap }}px;
+    padding-right: {{ section.settings.gap }}px;
+    animation: marquee-scroll-{{ section.id }} {{ section.settings.speed }}s linear infinite;
+  }
+
+  {% if section.settings.pause_on_hover %}
+    .marquee-{{ section.id }}:hover .marquee__content-{{ section.id }} {
+      animation-play-state: paused;
+    }
+  {% endif %}
+
+  .marquee__item-{{ section.id }} {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+
+  .marquee__icon-{{ section.id }} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: {{ section.settings.icon_width }}px;
+    height: auto;
+  }
+
+  .marquee__icon-{{ section.id }} img,
+  .marquee__icon-{{ section.id }} svg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .marquee__title-{{ section.id }} {
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  @keyframes marquee-scroll-{{ section.id }} {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+  <div class="marquee-{{ section.id }}">
+    {%- comment -%} Repeated twice to ensure a seamless infinite loop without gaps {%- endcomment -%}
+    {%- for i in (1..2) -%}
+      <div class="marquee__content-{{ section.id }}" {% if forloop.index == 2 %}aria-hidden="true"{% endif %}>
+        {%- for block in section.blocks -%}
+          <div class="marquee__item-{{ section.id }}" {{ block.shopify_attributes }}>
+            {%- if block.settings.svg_code != blank -%}
+              <div class="marquee__icon-{{ section.id }}">
+                {{ block.settings.svg_code }}
+              </div>
+            {%- elsif block.settings.image != blank -%}
+              <div class="marquee__icon-{{ section.id }}">
+                {{ block.settings.image | image_url: width: 200 | image_tag: loading: 'lazy' }}
+              </div>
+            {%- endif -%}
+
+            {%- if block.settings.title != blank -%}
+              <p class="marquee__title-{{ section.id }} {{ section.settings.heading_size }}">
+                {{ block.settings.title | escape }}
+              </p>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Infinite Marquee",
+  "class": "section-infinite-marquee",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        { "value": "h3", "label": "Small" },
+        { "value": "h2", "label": "Medium" },
+        { "value": "h1", "label": "Large" }
+      ],
+      "default": "h2",
+      "label": "Text size"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "min": 5,
+      "max": 60,
+      "step": 1,
+      "unit": "s",
+      "label": "Scroll duration (speed)",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Gap between blocks",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "icon_width",
+      "min": 16,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Icon/Image width",
+      "default": 32
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "Pause on hover",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 20
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Marquee Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "html",
+          "id": "svg_code",
+          "label": "SVG Code",
+          "info": "Overrides image if provided"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Feature highlight"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Infinite Marquee",
+      "blocks": [
+        { "type": "item", "settings": { "title": "Free Shipping" } },
+        { "type": "item", "settings": { "title": "24/7 Support" } },
+        { "type": "item", "settings": { "title": "Easy Returns" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

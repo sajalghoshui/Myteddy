@@ -1,0 +1,23 @@
+{% comment %}
+  Renders an embroidery template add-on under its parent cart line.
+  Accepts:
+  - addon_item: {Object} cart line with _embroidery_template_addon
+{% endcomment %}
+{%- if addon_item != blank -%}
+  <div class="cart-item__embroidery-template">
+    <p class="cart-item__embroidery-template-heading caption-with-letter-spacing">
+      {{- 'Template' -}}
+    </p>
+    <div class="cart-item__embroidery-template-line product-option">
+      <span class="cart-item__embroidery-template-name">{{ addon_item.product.title | escape }}</span>
+      {%- if addon_item.original_price != addon_item.final_price -%}
+        <span class="cart-item__embroidery-template-price">
+          <s class="cart-item__old-price">{{ addon_item.original_price | money }}</s>
+          <strong>{{ addon_item.final_price | money }}</strong>
+        </span>
+      {%- else -%}
+        <span class="cart-item__embroidery-template-price">{{ addon_item.final_price | money }}</span>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}

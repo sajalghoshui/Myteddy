@@ -1,0 +1,68 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "collection_banner_custom_TTtCtp": {
+      "type": "collection-banner-custom",
+      "name": "Collection Banner Custom",
+      "settings": {
+        "color_scheme": "scheme-5",
+        "short_description": "",
+        "banner_background": "#f5f1ec",
+        "title_size": 48,
+        "mobile_title_size": 32,
+        "short_description_size": 16,
+        "border_radius": 0,
+        "description_background": "#ffffff",
+        "description_size": 16,
+        "read_more_text": "Read more",
+        "read_less_text": "Read less",
+        "read_more_size": 14,
+        "max_width": 1400,
+        "section_padding_top": 140,
+        "section_padding_bottom": 40
+      }
+    },
+    "banner": {
+      "type": "main-collection-banner",
+      "disabled": true,
+      "settings": {
+        "show_collection_description": true,
+        "show_collection_image": false,
+        "color_scheme": "scheme-1"
+      }
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "settings": {
+        "products_per_page": 100,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": true,
+        "quick_add": "none",
+        "enable_filtering": true,
+        "filter_type": "horizontal",
+        "enable_sorting": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "collection_banner_custom_TTtCtp",
+    "banner",
+    "product-grid"
+  ]
+}

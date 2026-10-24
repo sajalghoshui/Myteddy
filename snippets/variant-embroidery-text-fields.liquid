@@ -1,0 +1,189 @@
+{% comment %}
+  Dynamic embroidery text fields + shared colour palette from product metafield custom.embroidery_text.
+
+  Accepts:
+  - variant: {Object} optional — used for colour_set resolution only
+  - product: {Object}
+  - section_id: {String}
+  - product_form_id: {String}
+  - embroidery_raw_override: {String} optional — legacy fallback; prefer product.metafields.custom.embroidery_text
+  - colour_product: {Object} optional — main product; fallback colour_set when template swatch product has none
+  - colour_variant: {Object} optional — main product variant; last fallback for colour_set
+  - addon_product_id: {String|Number} optional — template swatch product id; fieldset stays hidden until that swatch is selected
+  - start_hidden: {Boolean} optional — hide fieldset on first paint (template swatch mode)
+{% endcomment %}
+{%- liquid
+  if product_form_id == blank
+    assign product_form_id = 'product-form-' | append: section_id
+  endif
+
+  assign colour_set_variant = colour_variant | default: variant
+
+  assign embroidery_raw = product.metafields.custom.embroidery_text.value | default: product.metafields.custom.embroidery_text | strip
+  if embroidery_raw == blank and embroidery_raw_override != blank
+    assign embroidery_raw = embroidery_raw_override | strip
+  endif
+  if embroidery_raw == blank
+    assign embroidery_raw = product.metafields.custom.embroydery_text_product.value | default: product.metafields.custom.embroydery_text_product | strip
+  endif
+
+  assign variant_colour_set = product.metafields.custom.colour_set.value | default: product.metafields.custom.colour_set
+  if variant_colour_set == blank and colour_product != blank
+    assign variant_colour_set = colour_product.metafields.custom.colour_set.value | default: colour_product.metafields.custom.colour_set
+  endif
+  if variant_colour_set == blank and colour_set_variant != blank
+    assign variant_colour_set = colour_set_variant.metafields.custom.colour_set.value | default: colour_set_variant.metafields.custom.colour_set
+  endif
+
+  assign resolved_variant_colour_set = blank
+  if variant_colour_set != blank
+    assign colour_set_source = variant_colour_set.value | default: variant_colour_set
+    assign colour_probe = colour_set_source.colour_name.value | default: colour_set_source.colour_name
+    if colour_probe != blank
+      assign resolved_variant_colour_set = colour_set_source
+    else
+      for colour_set_entry in colour_set_source
+        assign colour_set_candidate = colour_set_entry.value | default: colour_set_entry
+        assign candidate_probe = colour_set_candidate.colour_name.value | default: colour_set_candidate.colour_name
+        if candidate_probe != blank
+          assign resolved_variant_colour_set = colour_set_candidate
+          break
+        endif
+      endfor
+      if resolved_variant_colour_set == blank
+        assign first_colour_set_entry = colour_set_source.first
+        if first_colour_set_entry != blank
+          assign colour_set_candidate = first_colour_set_entry.value | default: first_colour_set_entry
+          assign candidate_probe = colour_set_candidate.colour_name.value | default: colour_set_candidate.colour_name
+          if candidate_probe != blank
+            assign resolved_variant_colour_set = colour_set_candidate
+          endif
+        endif
+      endif
+    endif
+  endif
+  assign variant_colour_set = resolved_variant_colour_set
+-%}
+
+{%- if embroidery_raw != blank -%}
+  {%- assign pair_delimiter = '§§PAIR§§' -%}
+  {%- assign embroidery_work = embroidery_raw | replace: '","', pair_delimiter -%}
+  {%- assign embroidery_work = embroidery_work | remove: '"' | strip -%}
+  {%- assign embroidery_work = embroidery_work | replace: ', ', ',' -%}
+  {%- if embroidery_work contains ',' -%}
+    {%- assign last_char = embroidery_work | slice: -1, 1 -%}
+    {%- if last_char == ',' -%}
+      {%- assign trim_size = embroidery_work.size | minus: 1 -%}
+      {%- assign embroidery_work = embroidery_work | slice: 0, trim_size -%}
+    {%- endif -%}
+  {%- endif -%}
+  {%- assign embroidery_pairs = embroidery_work | split: pair_delimiter -%}
+
+  {%- assign embroidery_valid_pair_count = 0 -%}
+  {%- for pair in embroidery_pairs -%}
+    {%- assign pair_stripped = pair | strip -%}
+    {%- if pair_stripped == blank -%}
+      {%- continue -%}
+    {%- endif -%}
+    {%- assign pair_parts = pair_stripped | split: ',' -%}
+    {%- if pair_parts.size < 2 -%}
+      {%- continue -%}
+    {%- endif -%}
+    {%- assign field_maxlength = pair_parts.last | strip | plus: 0 -%}
+    {%- assign field_label = '' -%}
+    {%- for part in pair_parts -%}
+      {%- unless forloop.last -%}
+        {%- if field_label != '' -%}
+          {%- assign field_label = field_label | append: ',' -%}
+        {%- endif -%}
+        {%- assign field_label = field_label | append: part -%}
+      {%- endunless -%}
+    {%- endfor -%}
+    {%- assign field_label = field_label | strip -%}
+    {%- if field_label == blank or field_maxlength == 0 -%}
+      {%- continue -%}
+    {%- endif -%}
+    {%- assign embroidery_valid_pair_count = embroidery_valid_pair_count | plus: 1 -%}
+  {%- endfor -%}
+
+  {%- if embroidery_valid_pair_count > 0 -%}
+    {%- liquid
+      assign embroidery_fields_hidden = false
+      if start_hidden or addon_product_id != blank
+        assign embroidery_fields_hidden = true
+      endif
+      assign embroidery_field_id_suffix = section_id
+      if addon_product_id != blank
+        assign embroidery_field_id_suffix = section_id | append: '-' | append: addon_product_id
+      endif
+    -%}
+    <div
+      class="ear-text-field variant-embroidery-text-fields{% if embroidery_fields_hidden %} hidden{% endif %}"
+      data-variant-embroidery-text-fields
+      {% if addon_product_id != blank %}
+        data-embroidery-template-text-fields
+        data-addon-product-id="{{ addon_product_id }}"
+      {% endif %}
+    >
+      <label class="variant-embroidery-text-fields__heading">Embroidery text</label>
+      <p class="hint-text">IMPORTANT..Please read: We will embroider EXACTLY as you type in the fields below so please be careful.</p>
+      {%- for pair in embroidery_pairs -%}
+        {%- assign pair_stripped = pair | strip -%}
+        {%- if pair_stripped == blank -%}
+          {%- continue -%}
+        {%- endif -%}
+        {%- assign pair_parts = pair_stripped | split: ',' -%}
+        {%- if pair_parts.size < 2 -%}
+          {%- continue -%}
+        {%- endif -%}
+        {%- assign field_maxlength = pair_parts.last | strip | plus: 0 -%}
+        {%- assign field_label = '' -%}
+        {%- for part in pair_parts -%}
+          {%- unless forloop.last -%}
+            {%- if field_label != '' -%}
+              {%- assign field_label = field_label | append: ',' -%}
+            {%- endif -%}
+            {%- assign field_label = field_label | append: part -%}
+          {%- endunless -%}
+        {%- endfor -%}
+        {%- assign field_label = field_label | strip -%}
+        {%- if field_label == blank or field_maxlength == 0 -%}
+          {%- continue -%}
+        {%- endif -%}
+        {%- assign field_id = 'VariantEmbroidery-' | append: embroidery_field_id_suffix | append: '-' | append: forloop.index0 -%}
+        {%- assign property_key = field_label -%}
+        <div class="variant-embroidery-text-fields__field" data-embroidery-text-field>
+          <label class="flabel-label" for="{{ field_id }}">{{ field_label }} <span>( max {{ field_maxlength }} characters )</span>:</label>
+          <input
+            type="text"
+            id="{{ field_id }}"
+            name="properties[{{ field_label | escape }}]"
+            data-line-item-property="{{ property_key | escape }}"
+            data-embroidery-text-input
+            maxlength="{{ field_maxlength }}"
+            form="{{ product_form_id }}"
+            autocomplete="off"
+            {% if embroidery_fields_hidden %}
+              disabled
+            {% endif %}
+          >
+        </div>
+      {%- endfor -%}
+      {%- if variant_colour_set != blank -%}
+        {%- assign embroidery_colour_property_name = 'properties[Colour choice]' -%}
+        {%- assign embroidery_colour_error_id = 'EmbroideryColourChoice-' | append: embroidery_field_id_suffix | append: '-error' -%}
+        {% render 'ear-text-colour-picker',
+          colour_set: variant_colour_set,
+          product_form_id: product_form_id,
+          property_name: embroidery_colour_property_name,
+          group_label: 'Colour choice',
+          error_id: embroidery_colour_error_id,
+          error_message: 'Please choose a colour',
+          start_visible: false,
+          heading_text: 'Choose your text colour',
+          picker_kind: 'embroidery-text'
+        %}
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+{%- endif -%}

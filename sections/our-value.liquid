@@ -1,0 +1,457 @@
+{{ 'section-our-values.css' | asset_url | stylesheet_tag }}
+
+<section
+  id="OurValues-{{ section.id }}"
+  class="our-values color-{{ section.settings.color_scheme }} gradient"
+>
+  <div class="our-values__decor our-values__decor--top"></div>
+  <div class="our-values__decor our-values__decor--bottom"></div>
+
+  <div class="page-width">
+    <div class="our-values__wrapper">
+
+      {% if section.settings.heading != blank %}
+        <h2 class="our-values__heading h1">
+          {{ section.settings.heading }}
+        </h2>
+      {% endif %}
+
+      {% if section.blocks.size > 0 %}
+        <div class="our-values__grid">
+
+          {% for block in section.blocks %}
+            <div
+              class="our-values__card"
+              {{ block.shopify_attributes }}
+            >
+
+              <div class="our-values__card-content">
+
+                {% if block.settings.title != blank %}
+                  <h3 class="our-values__title">
+                    {{ block.settings.title }}
+                  </h3>
+                {% endif %}
+
+                {% if block.settings.description != blank %}
+                  <div class="our-values__description rte">
+                    {{ block.settings.description }}
+                  </div>
+                {% endif %}
+
+              </div>
+
+              {% if block.settings.icon != blank %}
+                <div class="our-values__icon">
+                  {{
+                    block.settings.icon
+                    | image_url: width: 250
+                    | image_tag:
+                      loading: 'lazy',
+                      widths: '100,150,200,250',
+                      alt: block.settings.icon.alt
+                  }}
+                </div>
+              {% endif %}
+
+            </div>
+          {% endfor %}
+
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+</section>
+
+<style>
+  #OurValues-{{ section.id }} {
+    position: relative;
+    overflow: hidden;
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  #OurValues-{{ section.id }} .our-values__wrapper {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Heading */
+
+  #OurValues-{{ section.id }} .our-values__heading {
+    margin: 0 0 {{ section.settings.heading_spacing }}px;
+    text-align: center;
+    line-height: 1.15;
+  }
+
+  /* Grid */
+
+  #OurValues-{{ section.id }} .our-values__grid {
+    display: grid;
+    grid-template-columns: repeat({{ section.settings.columns }}, minmax(0, 1fr));
+    gap: {{ section.settings.card_gap }}px;
+    max-width: {{ section.settings.max_width }}px;
+    margin: 0 auto;
+  }
+
+  /* Card */
+
+  #OurValues-{{ section.id }} .our-values__card {
+    position: relative;
+    min-height: {{ section.settings.card_height }}px;
+    padding: 32px 28px 24px;
+    background: #ffffff;
+    border-radius: {{ section.settings.card_radius }}px;
+
+    /*
+      Offset shadow similar to the reference design.
+    */
+    box-shadow: -8px 9px 0 #111111;
+
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  /*
+    Large decorative cream shape inside card
+  */
+
+  #OurValues-{{ section.id }} .our-values__card::before {
+    content: "";
+    position: absolute;
+    width: 250px;
+    height: 170px;
+    left: -55px;
+    bottom: -45px;
+
+    background: #f4edd92b;
+
+    border-radius: 50%;
+
+    transform: rotate(12deg);
+
+    z-index: 0;
+  }
+
+  #OurValues-{{ section.id }} .our-values__card::after {
+    content: "";
+    position: absolute;
+    width: 230px;
+    height: 130px;
+    right: -95px;
+    top: 190px;
+
+    background: #f4edd92b;
+
+    border-radius: 50%;
+
+    transform: rotate(-25deg);
+
+    z-index: 0;
+  }
+
+  /* Card content */
+
+  #OurValues-{{ section.id }} .our-values__card-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Title */
+
+  #OurValues-{{ section.id }} .our-values__title {
+    margin: 0 0 22px;
+
+    color: rgb(var(--color-foreground));
+
+    font-size: {{ section.settings.title_size }}px;
+    line-height: 1.15;
+    font-weight: 700;
+  }
+
+  /* Description */
+
+  #OurValues-{{ section.id }} .our-values__description {
+    max-width: 330px;
+
+    color: rgba(var(--color-foreground), 0.8);
+
+    font-size: {{ section.settings.description_size }}px;
+    line-height: 1.5;
+  }
+
+  #OurValues-{{ section.id }} .our-values__description p {
+    margin: 0;
+  }
+
+  /* Icon */
+
+  #OurValues-{{ section.id }} .our-values__icon {
+    position: relative;
+    z-index: 3;
+
+    width: {{ section.settings.icon_size }}px;
+    height: {{ section.settings.icon_size }}px;
+
+    margin-left: auto;
+    margin-top: 10px;
+
+    flex-shrink: 0;
+  }
+
+  #OurValues-{{ section.id }} .our-values__icon img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+  }
+
+  /* Decorative shapes outside cards */
+
+  #OurValues-{{ section.id }} .our-values__decor {
+    position: absolute;
+    z-index: 1;
+
+    width: 190px;
+    height: 100px;
+
+    border: 14px solid rgba(255, 255, 255, 0.9);
+
+    border-radius: 50%;
+
+    pointer-events: none;
+  }
+
+  #OurValues-{{ section.id }} .our-values__decor--top {
+    top: -55px;
+    right: 80px;
+
+    transform: rotate(-18deg);
+  }
+
+  #OurValues-{{ section.id }} .our-values__decor--bottom {
+    left: -85px;
+    bottom: -70px;
+
+    transform: rotate(35deg);
+  }
+
+  /* Tablet */
+
+  @media screen and (max-width: 989px) {
+
+    #OurValues-{{ section.id }} .our-values__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    #OurValues-{{ section.id }} .our-values__card {
+      min-height: 330px;
+    }
+
+  }
+
+  /* Mobile */
+
+  @media screen and (max-width: 749px) {
+
+    #OurValues-{{ section.id }} {
+      padding-top: {{ section.settings.mobile_padding_top }}px;
+      padding-bottom: {{ section.settings.mobile_padding_bottom }}px;
+    }
+
+    #OurValues-{{ section.id }} .our-values__heading {
+      font-size: 34px;
+      margin-bottom: 35px;
+    }
+
+    #OurValues-{{ section.id }} .our-values__grid {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+
+    #OurValues-{{ section.id }} .our-values__card {
+      min-height: 320px;
+      padding: 28px 24px 22px;
+    }
+
+    #OurValues-{{ section.id }} .our-values__title {
+      font-size: 28px;
+    }
+
+    #OurValues-{{ section.id }} .our-values__description {
+      font-size: 15px;
+    }
+
+    #OurValues-{{ section.id }} .our-values__decor--top {
+      right: -60px;
+    }
+
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Our Values",
+  "tag": "section",
+  "class": "section section-our-values",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Our Values"
+    },
+    {
+      "type": "richtext",
+      "id": "desc",
+      "label": "Description"
+    },
+   
+    {
+      "type": "range",
+      "id": "card_height",
+      "label": "Card height",
+      "min": 250,
+      "max": 500,
+      "step": 10,
+      "unit": "px",
+      "default": 250
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "label": "Card gap",
+      "min": 10,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Desktop columns",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+   
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Desktop top padding",
+      "min": 20,
+      "max": 160,
+      "step": 5,
+      "unit": "px",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Desktop bottom padding",
+      "min": 20,
+      "max": 160,
+      "step": 5,
+      "unit": "px",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "label": "Mobile top padding",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "label": "Mobile bottom padding",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "value",
+      "name": "Value",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Organic"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Toyo takes great pride in sourcing materials for its products organically, ensuring the highest level of quality and safety.</p>"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Our Values",
+      "blocks": [
+        {
+          "type": "value",
+          "settings": {
+            "title": "Organic",
+            "description": "<p>Toyo takes great pride in sourcing materials for its products organically, ensuring the highest level of quality and safety.</p>"
+          }
+        },
+        {
+          "type": "value",
+          "settings": {
+            "title": "Innovative & Safe",
+            "description": "<p>At Toyo innovation meets safety as we curate products that spark joy and provide peace of mind for parents and their children.</p>"
+          }
+        },
+        {
+          "type": "value",
+          "settings": {
+            "title": "Eco Friendly",
+            "description": "<p>Toyo is committed to a greener future, offering eco-friendly products that nurture both babies and the planet they will inherit.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

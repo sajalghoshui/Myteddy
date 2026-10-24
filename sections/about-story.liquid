@@ -1,0 +1,347 @@
+{{ 'section-about-story.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  #AboutStory-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  @media screen and (max-width: 749px) {
+    #AboutStory-{{ section.id }} {
+      padding-top: {{ section.settings.mobile_padding_top }}px;
+      padding-bottom: {{ section.settings.mobile_padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign founder_alt = section.settings.founder_image_alt
+  if founder_alt == blank and section.settings.founder_image != blank and section.settings.founder_image.alt != blank
+    assign founder_alt = section.settings.founder_image.alt
+  endif
+  if founder_alt == blank
+    assign founder_alt = 'Founder of My Teddy'
+  endif
+
+  assign values_open = false
+-%}
+
+<section
+  id="AboutStory-{{ section.id }}"
+  class="about-story color-{{ section.settings.color_scheme }} gradient"
+>
+  <div class="about-story__inner">
+
+    <div class="about-story__founder">
+      <div class="about-story__founder-media">
+        {%- if section.settings.founder_image != blank -%}
+          {{
+            section.settings.founder_image
+            | image_url: width: 1200
+            | image_tag:
+              loading: 'lazy',
+              widths: '400, 600, 800, 1000, 1200',
+              sizes: '(max-width: 749px) 100vw, 45vw',
+              alt: founder_alt
+          }}
+        {%- else -%}
+          <div class="about-story__founder-placeholder" aria-hidden="true">
+            {{ 'image' | placeholder_svg_tag }}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="about-story__founder-copy">
+        <p class="about-story__founder-kicker">{{ section.settings.founder_kicker | escape }}</p>
+
+        {%- if section.settings.founder_name != blank -%}
+          <h2 class="about-story__founder-name h1">{{ section.settings.founder_name | escape }}</h2>
+        {%- endif -%}
+
+        {%- if section.settings.founder_role != blank -%}
+          <p class="about-story__founder-role">{{ section.settings.founder_role | escape }}</p>
+        {%- endif -%}
+
+        {%- if section.settings.founder_bio != blank -%}
+          <div class="about-story__founder-bio rte">
+            {{ section.settings.founder_bio }}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- if section.settings.story_intro_heading != blank -%}
+      <h2 class="about-story__story-heading h1">{{ section.settings.story_intro_heading | escape }}</h2>
+    {%- endif -%}
+
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'story' -%}
+          {%- liquid
+            assign row_class = 'about-story__row'
+            if block.settings.image == blank
+              assign row_class = row_class | append: ' about-story__row--text-only'
+            elsif block.settings.image_position == 'right'
+              assign row_class = row_class | append: ' about-story__row--reverse'
+            endif
+
+            assign story_alt = block.settings.image_alt
+            if story_alt == blank and block.settings.image != blank and block.settings.image.alt != blank
+              assign story_alt = block.settings.image.alt
+            endif
+          -%}
+          <div class="{{ row_class }}" {{ block.shopify_attributes }}>
+            {%- if block.settings.image != blank -%}
+              <div class="about-story__row-media">
+                {{
+                  block.settings.image
+                  | image_url: width: 1000
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '400, 600, 800, 1000',
+                    sizes: '(max-width: 749px) 100vw, 42vw',
+                    alt: story_alt
+                }}
+              </div>
+            {%- endif -%}
+
+            <div class="about-story__row-content">
+              {%- if block.settings.heading != blank -%}
+                <h3 class="about-story__row-title h2">{{ block.settings.heading | escape }}</h3>
+              {%- endif -%}
+
+              {%- if block.settings.text != blank -%}
+                <div class="about-story__row-text rte">
+                  {{ block.settings.text }}
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+
+        {%- when 'quote' -%}
+          {%- if block.settings.quote != blank -%}
+            <blockquote class="about-story__quote" {{ block.shopify_attributes }}>
+              <p class="about-story__quote-text">{{ block.settings.quote | escape }}</p>
+            </blockquote>
+          {%- endif -%}
+
+        {%- when 'value' -%}
+          {%- unless values_open -%}
+            {%- assign values_open = true -%}
+            <div class="about-story__values">
+              {%- if section.settings.values_heading != blank -%}
+                <h2 class="about-story__values-heading h1">{{ section.settings.values_heading | escape }}</h2>
+              {%- endif -%}
+              <div class="about-story__values-grid">
+          {%- endunless -%}
+
+          <article class="about-story__value-card" {{ block.shopify_attributes }}>
+            {%- if block.settings.title != blank -%}
+              <h3 class="about-story__value-title">{{ block.settings.title | escape }}</h3>
+            {%- endif -%}
+
+            {%- if block.settings.description != blank -%}
+              <div class="about-story__value-text rte">
+                {{ block.settings.description }}
+              </div>
+            {%- endif -%}
+          </article>
+
+      {%- endcase -%}
+    {%- endfor -%}
+
+    {%- if values_open -%}
+            </div>
+          </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About story",
+  "tag": "section",
+  "class": "section-about-story",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Founder"
+    },
+    {
+      "type": "image_picker",
+      "id": "founder_image",
+      "label": "Founder photo"
+    },
+    {
+      "type": "text",
+      "id": "founder_image_alt",
+      "label": "Founder photo alt text",
+      "info": "Leave blank to use the image alt from the file library."
+    },
+    {
+      "type": "text",
+      "id": "founder_kicker",
+      "label": "Founder label",
+      "default": "Meet the maker"
+    },
+    {
+      "type": "text",
+      "id": "founder_name",
+      "label": "Founder name",
+      "info": "Optional. Leave blank if you prefer not to show a name."
+    },
+    {
+      "type": "text",
+      "id": "founder_role",
+      "label": "Founder role",
+      "default": "Founder"
+    },
+    {
+      "type": "richtext",
+      "id": "founder_bio",
+      "label": "Founder bio",
+      "default": "<p>My Teddy started in a Brisbane spare room and grew into a Caloundra workshop known for quality personalised teddy bears and gifts. The founder still leads the team that embroiders each order on professional equipment—with the same care that built our reputation over sixteen years.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Story"
+    },
+    {
+      "type": "text",
+      "id": "story_intro_heading",
+      "label": "Story section heading",
+      "default": "My Teddy's History"
+    },
+    {
+      "type": "text",
+      "id": "values_heading",
+      "label": "Values heading",
+      "default": "Why Choose My Teddy?"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobile padding top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobile padding bottom",
+      "default": 48
+    }
+  ],
+  "blocks": [
+    {
+      "type": "story",
+      "name": "Story block",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Image alt text",
+          "info": "Leave blank to use the image alt from the file library."
+        },
+        {
+          "type": "select",
+          "id": "image_position",
+          "label": "Image position on desktop",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "left"
+        }
+      ]
+    },
+    {
+      "type": "quote",
+      "name": "Pull quote",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Quote",
+          "default": "You will find cheaper, but you won't find better."
+        }
+      ]
+    },
+    {
+      "type": "value",
+      "name": "Value card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Experience"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About story"
+    }
+  ]
+}
+{% endschema %}

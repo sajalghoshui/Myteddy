@@ -1,0 +1,15 @@
+{%- comment -%}
+  Visible country picker label: flag + one short token (currency or country code).
+
+  Accepts:
+    - country: {Object} localization country object
+    - show_currencies: {Boolean} show currency ISO when store has multiple currencies
+{%- endcomment -%}
+{%- render 'country-flag', iso_code: country.iso_code -%}
+<span class="country-picker-token" aria-hidden="true">
+  {%- if show_currencies -%}
+    {{- country.currency.iso_code -}}
+  {%- else -%}
+    {{- country.iso_code -}}
+  {%- endif -%}
+</span>

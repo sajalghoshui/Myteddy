@@ -1,0 +1,356 @@
+{% comment %}
+  Renders product variant options
+
+  Accepts:
+  - product: {Object} product object.
+  - option: {Object} current product_option object.
+  - block: {Object} block object.
+  - picker_type: {String} type of picker to dispay
+
+
+  Usage:
+  {% render 'product-variant-options',
+    product: product,
+    option: option,
+    block: block
+    picker_type: picker_type
+  %}
+{% endcomment %}
+{%- liquid
+  assign product_form_id = 'product-form-' | append: section.id
+
+  unless embroidery_template_option == true
+    assign option_name_normalized = option.name | downcase | strip
+    assign embroidery_template_option = false
+    if option_name_normalized == 'choose your embroidery template' or option_name_normalized contains 'embroidery template'
+      assign embroidery_template_option = true
+    endif
+  endunless
+
+  assign embroidery_template_base_price = blank
+  assign embroidery_option_index = blank
+  assign pricing_lock_0 = blank
+  assign pricing_lock_1 = blank
+  assign pricing_lock_2 = blank
+  if embroidery_template_option and picker_type != 'dropdown' and picker_type != 'swatch_dropdown'
+    assign embroidery_option_index = option.position | minus: 1
+    assign first_template_value = blank
+    for template_anchor_value in option.values limit: 1
+      assign first_template_value = template_anchor_value
+    endfor
+
+    assign back_embroidery_option_index = blank
+    for product_option in product.options
+      assign option_label_down = product_option | downcase | strip
+      if option_label_down contains 'back embroidery'
+        assign back_embroidery_option_index = forloop.index0
+        break
+      endif
+    endfor
+
+    if back_embroidery_option_index != blank
+      for back_embroidery_option in product.options_with_values
+        assign back_emb_idx = back_embroidery_option.position | minus: 1
+        if back_emb_idx == back_embroidery_option_index
+          for back_embroidery_value in back_embroidery_option.values
+            assign back_embroidery_value_down = back_embroidery_value | downcase
+            unless back_embroidery_value_down contains 'yes'
+              if back_embroidery_option_index == 0
+                assign pricing_lock_0 = back_embroidery_value
+              elsif back_embroidery_option_index == 1
+                assign pricing_lock_1 = back_embroidery_value
+              elsif back_embroidery_option_index == 2
+                assign pricing_lock_2 = back_embroidery_value
+              endif
+              break
+            endunless
+          endfor
+          break
+        endif
+      endfor
+    endif
+
+    for lock_build_idx in (0..2)
+      unless lock_build_idx == embroidery_option_index
+        assign lock_build_label = product.options[lock_build_idx] | downcase | strip
+        unless lock_build_label contains 'back embroidery'
+          assign cheapest_option_value = blank
+          assign cheapest_option_value_price = blank
+          for lock_build_option in product.options_with_values
+            assign lock_build_option_idx = lock_build_option.position | minus: 1
+            if lock_build_option_idx == lock_build_idx
+              for lock_candidate_value in lock_build_option.values
+                assign lock_candidate_price = blank
+                for search_variant in product.variants
+                  assign pricing_variant_matches = true
+                  if search_variant.options[lock_build_idx] != lock_candidate_value
+                    assign pricing_variant_matches = false
+                  endif
+                  if first_template_value != blank and search_variant.options[embroidery_option_index] != first_template_value
+                    assign pricing_variant_matches = false
+                  endif
+                  if pricing_variant_matches
+                    for check_idx in (0..2)
+                      unless check_idx == lock_build_idx or check_idx == embroidery_option_index
+                        assign check_lock = blank
+                        if check_idx == 0
+                          assign check_lock = pricing_lock_0
+                        elsif check_idx == 1
+                          assign check_lock = pricing_lock_1
+                        elsif check_idx == 2
+                          assign check_lock = pricing_lock_2
+                        endif
+                        if check_lock != blank and search_variant.options[check_idx] != check_lock
+                          assign pricing_variant_matches = false
+                        endif
+                      endunless
+                    endfor
+                  endif
+                  if pricing_variant_matches
+                    if lock_candidate_price == blank or search_variant.price < lock_candidate_price
+                      assign lock_candidate_price = search_variant.price
+                    endif
+                  endif
+                endfor
+                if lock_candidate_price != blank
+                  if cheapest_option_value_price == blank or lock_candidate_price < cheapest_option_value_price
+                    assign cheapest_option_value_price = lock_candidate_price
+                    assign cheapest_option_value = lock_candidate_value
+                  endif
+                endif
+              endfor
+              break
+            endif
+          endfor
+          if cheapest_option_value != blank
+            if lock_build_idx == 0
+              assign pricing_lock_0 = cheapest_option_value
+            elsif lock_build_idx == 1
+              assign pricing_lock_1 = cheapest_option_value
+            elsif lock_build_idx == 2
+              assign pricing_lock_2 = cheapest_option_value
+            endif
+          endif
+        endunless
+      endunless
+    endfor
+
+    for base_value in option.values
+      assign base_value_price = blank
+      for search_variant in product.variants
+        assign pricing_variant_matches = true
+        if search_variant.options[embroidery_option_index] != base_value
+          assign pricing_variant_matches = false
+        endif
+        if pricing_variant_matches
+          for check_idx in (0..2)
+            unless check_idx == embroidery_option_index
+              assign check_lock = blank
+              if check_idx == 0
+                assign check_lock = pricing_lock_0
+              elsif check_idx == 1
+                assign check_lock = pricing_lock_1
+              elsif check_idx == 2
+                assign check_lock = pricing_lock_2
+              endif
+              if check_lock != blank and search_variant.options[check_idx] != check_lock
+                assign pricing_variant_matches = false
+              endif
+            endunless
+          endfor
+        endif
+        if pricing_variant_matches
+          if base_value_price == blank or search_variant.price < base_value_price
+            assign base_value_price = search_variant.price
+          endif
+        endif
+      endfor
+      if base_value_price != blank
+        if embroidery_template_base_price == blank or base_value_price < embroidery_template_base_price
+          assign embroidery_template_base_price = base_value_price
+        endif
+      endif
+    endfor
+  endif
+-%}
+
+{%- for value in option.values -%}
+  {%- liquid
+    assign swatch_focal_point = null
+    if value.swatch.image
+      assign image_url = value.swatch.image | image_url: width: 50
+      assign swatch_value = 'url(' | append: image_url | append: ')'
+      assign swatch_focal_point = value.swatch.image.presentation.focal_point
+    elsif value.swatch.color
+      assign swatch_value = 'rgb(' | append: value.swatch.color.rgb | append: ')'
+    else
+      assign swatch_value = null
+    endif
+
+    assign option_disabled = true
+    if value.available
+      assign option_disabled = false
+    endif
+  -%}
+
+  {%- capture input_id -%}
+    {{ section.id }}-{{ option.position }}-{{ forloop.index0 -}}
+  {%- endcapture -%}
+
+  {%- capture input_name -%}
+    {{ option.name }}-{{ option.position }}
+  {%- endcapture -%}
+
+  {%- capture input_dataset -%}
+    data-product-url="{{ value.product_url }}"
+    data-option-value-id="{{ value.id }}"
+    data-option-name="{{ option.name | escape }}"
+  {%- endcapture -%}
+
+  {%- capture label_unavailable -%}
+    <span class="visually-hidden label-unavailable">
+      {{- 'products.product.variant_sold_out_or_unavailable' | t -}}
+    </span>
+  {%- endcapture -%}
+
+  {% assign escaped_value = value | escape %}
+
+  {%- if embroidery_template_option and picker_type != 'dropdown' and picker_type != 'swatch_dropdown' -%}
+    <input
+      type="radio"
+      id="{{ input_id }}"
+      name="{{ input_name | escape }}"
+      value="{{ escaped_value }}"
+      form="{{ product_form_id }}"
+      aria-label="{{ escaped_value }}"
+      {% if value.selected %}
+        checked
+      {% endif %}
+      {% if option_disabled %}
+        class="disabled"
+      {% endif %}
+      {{ input_dataset }}
+    >
+    {%- assign embroidery_predicted_filename = value | handleize | append: '.png' -%}
+    {%- assign embroidery_swatch_src = embroidery_predicted_filename | asset_url -%}
+    {%- assign embroidery_placeholder_url = 'embroidery-template-placeholder.svg' | asset_url -%}
+    {%- liquid
+      assign embroidery_value_price = blank
+      assign embroidery_price_additional = 0
+      if embroidery_option_index != blank
+        for search_variant in product.variants
+          assign pricing_variant_matches = true
+          if search_variant.options[embroidery_option_index] != value
+            assign pricing_variant_matches = false
+          endif
+          if pricing_variant_matches
+            for check_idx in (0..2)
+              unless check_idx == embroidery_option_index
+                assign check_lock = blank
+                if check_idx == 0
+                  assign check_lock = pricing_lock_0
+                elsif check_idx == 1
+                  assign check_lock = pricing_lock_1
+                elsif check_idx == 2
+                  assign check_lock = pricing_lock_2
+                endif
+                if check_lock != blank and search_variant.options[check_idx] != check_lock
+                  assign pricing_variant_matches = false
+                endif
+              endunless
+            endfor
+          endif
+          if pricing_variant_matches
+            if embroidery_value_price == blank or search_variant.price < embroidery_value_price
+              assign embroidery_value_price = search_variant.price
+            endif
+          endif
+        endfor
+      endif
+      if embroidery_value_price != blank and embroidery_template_base_price != blank
+        assign embroidery_price_additional = embroidery_value_price | minus: embroidery_template_base_price
+      endif
+    -%}
+
+    <label for="{{ input_id }}" class="embroidery-template-swatch">
+      <img
+        class="embroidery-template-swatch__image"
+        src="{{ embroidery_swatch_src }}"
+        alt=""
+        width="64"
+        height="64"
+        loading="lazy"
+        data-embroidery-placeholder="{{ embroidery_placeholder_url }}"
+        onerror="if(!this.dataset.embroideryFallback){this.dataset.embroideryFallback='1';this.src=this.dataset.embroideryPlaceholder;}"
+      >
+      <span class="embroidery-template-swatch__tooltip ear-colour-swatch__tooltip" aria-hidden="true">
+        {{- value -}}
+      </span>
+      {%- if embroidery_price_additional > 0 -%}
+        <span class="embroidery-template-swatch__price" aria-hidden="true">
+          +{{ embroidery_price_additional | money }}
+        </span>
+      {%- endif -%}
+      {{ label_unavailable }}
+    </label>
+  {%- elsif picker_type == 'swatch' -%}
+    {%- capture help_text -%}
+      <span class="visually-hidden">{{ escaped_value }}</span>
+      {{ label_unavailable }}
+    {%- endcapture -%}
+
+    {%
+      render 'swatch-input',
+      id: input_id,
+      name: input_name,
+      value: escaped_value,
+      swatch: value.swatch,
+      product_form_id: product_form_id,
+      checked: value.selected,
+      visually_disabled: option_disabled,
+      shape: block.settings.swatch_shape,
+      help_text: help_text,
+      additional_props: input_dataset
+    %}
+  {%- elsif picker_type == 'button' and embroidery_template_option != true -%}
+    <input
+      type="radio"
+      id="{{ input_id }}"
+      name="{{ input_name | escape }}"
+      value="{{ escaped_value }}"
+      form="{{ product_form_id }}"
+      {% if value.selected %}
+        checked
+      {% endif %}
+      {% if option_disabled %}
+        class="disabled"
+      {% endif %}
+      {{ input_dataset }}
+    >
+    <label for="{{ input_id }}">
+      {{ value -}}
+      {{ label_unavailable }}
+    </label>
+  {%- elsif picker_type == 'dropdown' or picker_type == 'swatch_dropdown' -%}
+    <option
+      id="{{ input_id }}"
+      value="{{ escaped_value }}"
+      {% if value.selected %}
+        selected="selected"
+      {% endif %}
+      {% if swatch_value and picker_type == 'swatch_dropdown' %}
+        data-option-swatch-value="{{ swatch_value }}"
+        {% if swatch_focal_point %}
+          data-option-swatch-focal-point="{{ swatch_focal_point }}"
+        {% endif %}
+      {% endif %}
+      {{ input_dataset }}
+    >
+      {% if option_disabled -%}
+        {{- 'products.product.value_unavailable' | t: option_value: value -}}
+      {%- else -%}
+        {{- value -}}
+      {%- endif %}
+    </option>
+  {%- endif -%}
+{%- endfor -%}

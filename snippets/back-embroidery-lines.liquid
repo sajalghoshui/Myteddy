@@ -1,0 +1,96 @@
+{% comment %}
+  Back embroidery line inputs when Back Embroidery option is Yes.
+  Line item properties: properties[1st Line] … properties[4th Line]
+
+  Accepts:
+  - variant: {Object}
+  - section_id: {String}
+  - product_form_id: {String}
+  - product: {Object}
+{% endcomment %}
+{%- liquid
+  if product_form_id == blank
+    assign product_form_id = 'product-form-' | append: section_id
+  endif
+
+  assign back_embroidery_yes = false
+  for product_option in product.options
+    assign option_label_down = product_option | downcase | strip
+    if option_label_down contains 'back embroidery'
+      assign back_embroidery_option_index = forloop.index0
+      assign back_embroidery_value = variant.options[back_embroidery_option_index]
+      assign back_embroidery_value_down = back_embroidery_value | downcase
+      if back_embroidery_value_down contains 'yes'
+        assign back_embroidery_yes = true
+      endif
+      break
+    endif
+  endfor
+-%}
+
+{%- if back_embroidery_yes -%}
+  <div class="back-embroidery-lines" data-back-embroidery-lines>
+    <div class="back-embroidery-lines__layout">
+      <div class="back-embroidery-lines__fields">
+        <div class="ear-text-field">
+          <label for="BackEmbroideryLine1-{{ section_id }}">1st Line <span class="mctext">(max 11 character)</span></label>
+          <input
+            type="text"
+            id="BackEmbroideryLine1-{{ section_id }}"
+            name="properties[1st Line]"
+            data-line-item-property="1st Line"
+            maxlength="11"
+            form="{{ product_form_id }}"
+            autocomplete="off"
+          >
+        </div>
+        <div class="ear-text-field">
+          <label for="BackEmbroideryLine2-{{ section_id }}">2nd Line <span class="mctext">(max 11 character)</span></label>
+          <input
+            type="text"
+            id="BackEmbroideryLine2-{{ section_id }}"
+            name="properties[2nd Line]"
+            data-line-item-property="2nd Line"
+            maxlength="11"
+            form="{{ product_form_id }}"
+            autocomplete="off"
+          >
+        </div>
+        <div class="ear-text-field">
+          <label for="BackEmbroideryLine3-{{ section_id }}">3rd Line <span class="mctext">(max 11 character)</span></label>
+          <input
+            type="text"
+            id="BackEmbroideryLine3-{{ section_id }}"
+            name="properties[3rd Line]"
+            data-line-item-property="3rd Line"
+            maxlength="11"
+            form="{{ product_form_id }}"
+            autocomplete="off"
+          >
+        </div>
+        <div class="ear-text-field">
+          <label for="BackEmbroideryLine4-{{ section_id }}">4th Line <span class="mctext">(max 11 character)</span></label>
+          <input
+            type="text"
+            id="BackEmbroideryLine4-{{ section_id }}"
+            name="properties[4th Line]"
+            data-line-item-property="4th Line"
+            maxlength="11"
+            form="{{ product_form_id }}"
+            autocomplete="off"
+          >
+        </div>
+      </div>
+      <div class="back-embroidery-lines__sample">
+        <img
+          src="{{ 'rearl.png' | asset_url }}"
+          alt=""
+          width="280"
+          height="280"
+          loading="lazy"
+          class="back-embroidery-lines__sample-image"
+        >
+      </div>
+    </div>
+  </div>
+{%- endif -%}

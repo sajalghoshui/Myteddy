@@ -1,0 +1,66 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "contact_banner": {
+      "type": "image-banner",
+      "blocks": {
+        "banner_heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Contact us",
+            "heading_size": "h1"
+          }
+        }
+      },
+      "block_order": [
+        "banner_heading"
+      ],
+      "disabled": true,
+      "settings": {
+        "image_overlay_opacity": 30,
+        "image_height": "small",
+        "image_behavior": "none",
+        "desktop_content_position": "middle-center",
+        "desktop_content_alignment": "center",
+        "show_text_box": true,
+        "color_scheme": "scheme-1",
+        "stack_images_on_mobile": true,
+        "mobile_content_alignment": "center",
+        "show_text_below": true
+      }
+    },
+    "contact_us": {
+      "type": "contact-us",
+      "settings": {
+        "contact_email": "yourgift@myteddy.com.au",
+        "contact_phone": "0411 634 176",
+        "contact_address": "NOT OPEN TO PUBLIC\nShed 5 / 10 Exeter Way\nCaloundra West\nQLD 4551 Australia",
+        "contact_hours": "",
+        "heading": "Contact MyTeddy",
+        "heading_size": "h1",
+        "intro": "",
+        "details_heading": "Get in touch",
+        "email_label": "Email",
+        "phone_label": "Phone",
+        "address_label": "Address",
+        "hours_label": "Hours",
+        "form_heading": "Send an online enquiry",
+        "color_scheme": "scheme-1",
+        "padding_top": 48,
+        "padding_bottom": 64
+      }
+    }
+  },
+  "order": [
+    "contact_banner",
+    "contact_us"
+  ]
+}

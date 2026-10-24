@@ -1,0 +1,97 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "newsletter_CK4J76": {
+      "type": "newsletter",
+      "blocks": {
+        "heading_qBpjNQ": {
+          "type": "heading",
+          "settings": {
+            "heading": "Sign Up to the Newsletter",
+            "heading_size": "h1"
+          }
+        },
+        "paragraph_jQX7EP": {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>Join us for smiles, updates and competitions...</p>"
+          }
+        },
+        "email_form_EbmYyz": {
+          "type": "email_form",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "heading_qBpjNQ",
+        "paragraph_jQX7EP",
+        "email_form_EbmYyz"
+      ],
+      "name": "t:sections.newsletter.presets.name",
+      "settings": {
+        "color_scheme": "scheme-5",
+        "full_width": true,
+        "padding_top": 100,
+        "padding_bottom": 100
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "brand_information_4WyVeV": {
+          "type": "brand_information",
+          "settings": {
+            "show_social": true
+          }
+        },
+        "link_list_d6C4Ga": {
+          "type": "link_list",
+          "settings": {
+            "heading": "QUICK LINKS",
+            "menu": "footer"
+          }
+        },
+        "link_list_miPkgp": {
+          "type": "link_list",
+          "settings": {
+            "heading": "SUPPORT",
+            "menu": "support"
+          }
+        }
+      },
+      "block_order": [
+        "brand_information_4WyVeV",
+        "link_list_d6C4Ga",
+        "link_list_miPkgp"
+      ],
+      "settings": {
+        "color_scheme": "scheme-5",
+        "newsletter_enable": false,
+        "newsletter_heading": "Sign Up to the Newsletter",
+        "enable_follow_on_shop": false,
+        "show_social": true,
+        "enable_country_selector": false,
+        "enable_language_selector": false,
+        "payment_enable": false,
+        "show_policy": false,
+        "margin_top": 0,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "newsletter_CK4J76",
+    "footer"
+  ]
+}

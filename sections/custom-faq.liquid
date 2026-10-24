@@ -1,0 +1,670 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+<section
+  class="custom-faq-section color-{{ section.settings.color_scheme }} isolate gradient"
+  id="CustomFAQ-{{ section.id }}"
+>
+    <div class="page-width">
+  <div class="custom-faq-container">
+
+    {% if section.settings.heading != blank %}
+      <div class="custom-faq-header custom-faq-header--{{ section.settings.heading_alignment }}">
+        {% if section.settings.subheading != blank %}
+          <div class="custom-faq-subheading">
+            {{ section.settings.subheading }}
+          </div>
+        {% endif %}
+
+        <h2 class="custom-faq-title h1">
+          {{ section.settings.heading }}
+        </h2>
+         <div class="custom-faq-desc rte">
+          {{ section.settings.desc }}
+         </div>
+      </div>
+    {% endif %}
+
+
+    {% if section.blocks.size > 0 %}
+
+      <div class="custom-faq-list">
+
+       {% for block in section.blocks %}
+
+  {% if block.settings.answer == blank %}
+
+    <div
+      class="custom-faq-group-title h2"
+      {{ block.shopify_attributes }}
+    >
+      {{ block.settings.title }}
+    </div>
+
+  {% else %}
+
+    <div
+      class="custom-faq-item"
+      {{ block.shopify_attributes }}
+    >
+
+      <button
+        type="button"
+        class="custom-faq-question"
+        aria-expanded="false"
+        aria-controls="CustomFAQAnswer-{{ section.id }}-{{ block.id }}"
+      >
+
+        <span class="custom-faq-question-text">
+          {{ block.settings.title }}
+        </span>
+
+        <span
+          class="custom-faq-icon"
+          aria-hidden="true"
+        >
+          <span></span>
+          <span></span>
+        </span>
+
+      </button>
+
+      <div
+        class="custom-faq-answer"
+        id="CustomFAQAnswer-{{ section.id }}-{{ block.id }}"
+        role="region"
+      >
+        <div class="custom-faq-answer-inner">
+          {{ block.settings.answer }}
+        </div>
+      </div>
+
+    </div>
+
+  {% endif %}
+
+{% endfor %}
+
+      </div>
+
+    {% endif %}
+
+  </div>
+   </div>
+</section>
+
+
+<style>
+
+  /* =========================================
+     CUSTOM FAQ SECTION
+  ========================================= */
+
+  #CustomFAQ-{{ section.id }} {
+    --custom-faq-border: #e5e5e5;
+    --custom-faq-text: #b465a7;
+    --custom-faq-muted: #666666;
+    --custom-faq-icon: #fff;
+    --custom-faq-speed: 0.4s;
+
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+.custom-faq-section{
+    margin-top:0px;
+    margin-bottom:0;
+}
+
+  .custom-faq-container {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+
+  /* =========================================
+     HEADER
+  ========================================= */
+  .custom-faq-group-title{
+    margin-bottom:15px;
+    margin-top:40px;
+  }
+  .custom-faq-header {
+    margin-bottom: 35px;
+    max-width:700px;
+    margin-bottom:50px;
+  }
+
+  .custom-faq-header--left {
+    text-align: left;
+  }
+
+  .custom-faq-header--center {
+    text-align: center;
+     max-width:700px;
+    margin:0 auto 50px auto;
+  }
+
+  .custom-faq-header--right {
+    text-align: right;
+  }
+
+  .custom-faq-subheading {
+    margin-bottom: 8px;
+
+    font-size: 13px;
+    line-height: 1.4;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .custom-faq-title {
+    margin: 0;
+
+    font-size: {{ section.settings.heading_size }}px;
+    line-height: 1.2;
+    font-weight: 600;
+  }
+
+
+  /* =========================================
+     FAQ LIST
+  ========================================= */
+
+  .custom-faq-list {
+    width: 100%;
+    
+  }
+
+
+  .custom-faq-item {
+    box-shadow: #101010 -8px 8px;
+    border-radius: 20px;
+    background: #fff;
+
+    z-index: 1;
+    position: relative;
+    padding:0 15px;
+        margin: 0 0 15px 0;
+  }
+
+
+  /* =========================================
+     QUESTION
+  ========================================= */
+
+  .custom-faq-question {
+    position: relative;
+
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 22px 0;
+
+    margin: 0;
+
+    border: 0;
+    background: transparent;
+
+    color: var(--custom-faq-text);
+
+    text-align: left;
+
+    cursor: pointer;
+
+   font-family: var(--font-heading-family);
+   font-size:24px;
+  }
+
+
+  .custom-faq-question-text {
+    flex: 1;
+
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+
+  /* =========================================
+     PLUS / MINUS ICON
+  ========================================= */
+
+  .custom-faq-icon {
+   position: relative;
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+    background: #b465a7;
+    border-radius: 100%;
+    color: #fff;
+  }
+
+
+  .custom-faq-icon span {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 14px;
+    height: 2px;
+
+    background: var(--custom-faq-icon);
+
+    transform: translate(-50%, -50%);
+
+    transition:
+      transform var(--custom-faq-speed) ease,
+      opacity var(--custom-faq-speed) ease;
+  }
+
+
+  .custom-faq-icon span:last-child {
+    transform:
+      translate(-50%, -50%)
+      rotate(90deg);
+  }
+
+
+  /* Open state */
+
+  .custom-faq-item.is-open
+  .custom-faq-icon span:last-child {
+    opacity: 0;
+
+    transform:
+      translate(-50%, -50%)
+      rotate(90deg)
+      scale(0.5);
+  }
+
+
+  /* =========================================
+     ANSWER
+  ========================================= */
+
+  .custom-faq-answer {
+    height: 0;
+
+    overflow: hidden;
+
+    transition:
+      height var(--custom-faq-speed) ease;
+  }
+
+
+  .custom-faq-answer-inner {
+    padding: 0 45px 22px 0;
+    font-size: 15px;
+    line-height: 1.7;
+    color:#000;
+  }
+  .custom-faq-answer-inner *{
+    color:inherit;
+  }
+
+  .custom-faq-answer-inner p {
+    margin-top: 0;
+  }
+
+  .custom-faq-answer-inner p:last-child {
+    margin-bottom: 0;
+  }
+
+
+  /* =========================================
+     HOVER
+  ========================================= */
+
+  .custom-faq-question:hover
+  .custom-faq-question-text {
+    opacity: 0.7;
+  }
+
+
+  /* =========================================
+     MOBILE
+  ========================================= */
+
+  @media screen and (max-width: 749px) {
+
+    #CustomFAQ-{{ section.id }} {
+      padding-top: {{ section.settings.mobile_padding_top }}px;
+      padding-bottom: {{ section.settings.mobile_padding_bottom }}px;
+    }
+
+    .custom-faq-container {
+      padding: 0 0;
+    }
+
+    .custom-faq-header {
+      margin-bottom: 25px;
+    }
+
+    .custom-faq-title {
+      font-size: 26px;
+    }
+
+    .custom-faq-question {
+      padding: 15px 0;
+      gap: 15px;
+    }
+
+    .custom-faq-question-text {
+      font-size: 15px;
+    }
+
+    .custom-faq-answer-inner {
+      padding-right: 30px;
+      padding-bottom: 18px;
+
+      font-size: 14px;
+    }
+    .custom-faq-section {
+    margin-top: 0px;
+    margin-bottom: 0;
+}
+.custom-faq-icon {
+   
+    width: 30px;
+    height: 30px;
+    flex: 0 0 30px;
+   
+}
+.product__info-container {
+  
+    padding: 20px 15px;
+  
+}
+ .custom-faq-group-title{
+    margin-bottom:15px;
+    margin-top:20px;
+  }
+  }
+
+</style>
+
+
+<script>
+  (function () {
+
+    const faqSection = document.getElementById(
+      'CustomFAQ-{{ section.id }}'
+    );
+
+    if (!faqSection) return;
+
+
+    const faqItems = faqSection.querySelectorAll(
+      '.custom-faq-item'
+    );
+
+
+    faqItems.forEach(function (item) {
+
+      const button = item.querySelector(
+        '.custom-faq-question'
+      );
+
+      const answer = item.querySelector(
+        '.custom-faq-answer'
+      );
+
+
+      button.addEventListener('click', function () {
+
+        const isOpen = item.classList.contains(
+          'is-open'
+        );
+
+
+        /*
+         * Close every other FAQ
+         */
+        faqItems.forEach(function (otherItem) {
+
+          if (otherItem !== item) {
+
+            const otherButton =
+              otherItem.querySelector(
+                '.custom-faq-question'
+              );
+
+            const otherAnswer =
+              otherItem.querySelector(
+                '.custom-faq-answer'
+              );
+
+
+            otherItem.classList.remove(
+              'is-open'
+            );
+
+            otherButton.setAttribute(
+              'aria-expanded',
+              'false'
+            );
+
+            otherAnswer.style.height = '0px';
+
+          }
+
+        });
+
+
+        /*
+         * Close current FAQ
+         */
+        if (isOpen) {
+
+          item.classList.remove(
+            'is-open'
+          );
+
+          button.setAttribute(
+            'aria-expanded',
+            'false'
+          );
+
+          answer.style.height = '0px';
+
+          return;
+        }
+
+
+        /*
+         * Open current FAQ
+         */
+        item.classList.add(
+          'is-open'
+        );
+
+        button.setAttribute(
+          'aria-expanded',
+          'true'
+        );
+
+
+        answer.style.height =
+          answer.scrollHeight + 'px';
+
+      });
+
+    });
+
+
+    /*
+     * Keep height correct if the
+     * browser/window size changes.
+     */
+    window.addEventListener(
+      'resize',
+      function () {
+
+        const openItem =
+          faqSection.querySelector(
+            '.custom-faq-item.is-open'
+          );
+
+        if (!openItem) return;
+
+
+        const answer =
+          openItem.querySelector(
+            '.custom-faq-answer'
+          );
+
+        answer.style.height =
+          answer.scrollHeight + 'px';
+
+      }
+    );
+
+  })();
+</script>
+
+
+{% schema %}
+{
+  "name": "Custom FAQ",
+  "tag": "section",
+  "class": "custom-faq-wrapper",
+  "settings": [
+     {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "info": "t:sections.all.colors.has_cards_info",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Frequently Asked Questions"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Have questions?"
+    },
+    {
+      "type": "richtext",
+      "id": "desc",
+      "label": "Description"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    }
+  
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "FAQ",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Question",
+          "default": "What is your return policy?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>We offer a simple and hassle-free return policy. Please contact us for more information.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom FAQ",
+      "blocks": [
+        {
+          "type": "faq",
+          "settings": {
+            "title": "What is your return policy?"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "title": "How long does shipping take?"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "title": "Can I change my order?"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "title": "How can I contact you?"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

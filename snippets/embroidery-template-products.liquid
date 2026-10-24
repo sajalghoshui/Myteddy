@@ -1,0 +1,232 @@
+{% comment %}
+  Embroidery template add-ons from product metafield custom.embroidery_template (collection reference).
+  Swatches are products in that collection (e.g. tagged template).
+
+  Accepts:
+  - product: {Object} main product
+  - section_id: {String}
+  - product_form_id: {String} main product form id for line item properties
+  - colour_variant: {Object} optional — selected main product variant (colour_set)
+  - option_name: {String} legend label
+  - helper_text: {String} optional
+  - mini_design_helper_text: {String} optional — helper under Mini Design heading
+{% endcomment %}
+{%- liquid
+  if product_form_id == blank
+    assign product_form_id = 'product-form-' | append: section_id
+  endif
+
+  assign collection_ref = product.metafields.custom.embroidery_template.value | default: product.metafields.custom.embroidery_template
+
+  if option_name == blank
+    assign option_name = 'Choose your embroidery template'
+  endif
+
+  assign template_product_ids = ''
+  assign template_products_count = 0
+
+  if collection_ref != blank
+    for template_product in collection_ref.products limit: 50
+      if template_product == blank or template_product.id == blank
+        continue
+      endif
+
+      assign has_available_variant = false
+      for candidate_variant in template_product.variants
+        if candidate_variant.available
+          assign has_available_variant = true
+          break
+        endif
+      endfor
+      unless has_available_variant
+        continue
+      endunless
+
+      assign template_products_count = template_products_count | plus: 1
+      if template_product_ids != ''
+        assign template_product_ids = template_product_ids | append: ','
+      endif
+      assign template_product_ids = template_product_ids | append: template_product.id
+    endfor
+  endif
+
+  assign embroidery_placeholder_url = 'embroidery-template-placeholder.svg' | asset_url
+-%}
+
+{%- if template_products_count > 0 -%}
+<embroidery-template-picker
+  class="embroidery-template-picker"
+  data-section-id="{{ section_id }}"
+  data-parent-product-id="{{ product.id }}"
+  data-template-product-ids="{{ template_product_ids }}"
+  data-currency-code="{{ cart.currency.iso_code }}"
+>
+  <fieldset class="js product-form__input product-form__input--embroidery-template">
+    <legend class="form__label">{{ option_name | escape }}</legend>
+    {%- if helper_text != blank -%}
+      <p class="product-form__option-hint">{{ helper_text | escape }}</p>
+    {%- endif -%}
+
+    {%- for template_product in collection_ref.products limit: 50 -%}
+      {%- if template_product == blank or template_product.id == blank -%}
+        {%- continue -%}
+      {%- endif -%}
+
+      {%- liquid
+        assign addon_variant = template_product.selected_or_first_available_variant
+        assign has_available_variant = false
+        for candidate_variant in template_product.variants
+          if candidate_variant.available
+            assign has_available_variant = true
+            assign addon_variant = candidate_variant
+            break
+          endif
+        endfor
+        unless has_available_variant
+          continue
+        endunless
+
+        assign addon_price = addon_variant.price | default: 0
+        assign input_id = section_id | append: '-embroidery-template-product-' | append: forloop.index0
+        assign swatch_src = embroidery_placeholder_url
+        if template_product.featured_image
+          assign swatch_src = template_product.featured_image | image_url: width: 128
+        elsif template_product.featured_media and template_product.featured_media.preview_image
+          assign swatch_src = template_product.featured_media.preview_image | image_url: width: 128
+        endif
+
+        assign swatch_embroidery_raw = template_product.metafields.custom.embroidery_text.value | default: template_product.metafields.custom.embroidery_text | strip
+      -%}
+
+      <input
+        type="radio"
+        id="{{ input_id }}"
+        name="embroidery-template-product-{{ section_id }}"
+        value="{{ template_product.id }}"
+        data-addon-variant-id="{{ addon_variant.id }}"
+        data-addon-product-id="{{ template_product.id }}"
+        data-addon-price="{{ addon_price }}"
+        data-embroidery-text="{{ swatch_embroidery_raw | escape }}"
+        {% unless addon_variant.available %}
+          class="disabled"
+          disabled
+        {% endunless %}
+        aria-label="{{ template_product.title | escape }}"
+      >
+      <label for="{{ input_id }}" class="embroidery-template-swatch">
+        <img
+          class="embroidery-template-swatch__image"
+          src="{{ swatch_src }}"
+          alt=""
+          width="64"
+          height="64"
+          loading="lazy"
+          data-embroidery-placeholder="{{ embroidery_placeholder_url }}"
+          onerror="if(!this.dataset.embroideryFallback){this.dataset.embroideryFallback='1';this.src=this.dataset.embroideryPlaceholder;}"
+        >
+        <span class="embroidery-template-swatch__tooltip ear-colour-swatch__tooltip" aria-hidden="true">
+          {{- template_product.title | escape -}}
+        </span>
+        {%- if addon_price > 0 -%}
+          <span class="embroidery-template-swatch__price" aria-hidden="true">
+            +{{ addon_price | money }}
+          </span>
+        {%- endif -%}
+      </label>
+    {%- endfor -%}
+  </fieldset>
+
+  {%- capture mini_design_template_blocks -%}
+    {%- for template_product in collection_ref.products limit: 50 -%}
+      {%- if template_product == blank or template_product.id == blank -%}
+        {%- continue -%}
+      {%- endif -%}
+
+      {%- liquid
+        assign addon_variant = template_product.selected_or_first_available_variant
+        assign has_available_variant = false
+        for candidate_variant in template_product.variants
+          if candidate_variant.available
+            assign has_available_variant = true
+            assign addon_variant = candidate_variant
+            break
+          endif
+        endfor
+        unless has_available_variant
+          continue
+        endunless
+      -%}
+
+      {% render 'variant-design-display',
+        render_mode: 'template_block',
+        design_product: template_product,
+        design_variant: addon_variant,
+        section_id: section_id,
+        product_form_id: product_form_id,
+        addon_product_id: template_product.id,
+        start_hidden: true
+      %}
+    {%- endfor -%}
+  {%- endcapture -%}
+
+  {%- assign mini_design_template_blocks = mini_design_template_blocks | strip -%}
+  {%- if mini_design_template_blocks != blank -%}
+    <div
+      class="design-selection hidden"
+      data-design-selection-picker
+      data-mini-design-template-picker
+      data-has-designs="false"
+    >
+      <fieldset class="design-selection__group" aria-labelledby="VariantDesign-heading-{{ section_id }}">
+        <legend class="design-selection__legend visually-hidden">Choose your design</legend>
+        <p id="VariantDesign-heading-{{ section_id }}" class="design-selection__heading form__label">Mini Design</p>
+        {%- if mini_design_helper_text != blank -%}
+          <p class="product-form__option-hint design-selection__hint">{{ mini_design_helper_text | escape }}</p>
+        {%- endif -%}
+        <div data-mini-design-template-blocks-container>
+          {{ mini_design_template_blocks }}
+        </div>
+      </fieldset>
+      <div
+        id="DesignSelection-error-{{ section_id }}"
+        class="design-selection__error ear-text-field__colour-error form__message hidden"
+        role="alert"
+      >
+        {{- 'icon-error.svg' | inline_asset_content -}}
+        <span class="error-message">Please choose a design</span>
+      </div>
+    </div>
+  {%- endif -%}
+
+  <div class="embroidery-template-text-fields" data-embroidery-template-text-fields-container>
+    {%- for template_product in collection_ref.products limit: 50 -%}
+      {%- if template_product == blank or template_product.id == blank -%}
+        {%- continue -%}
+      {%- endif -%}
+
+      {%- liquid
+        assign has_available_variant = false
+        for candidate_variant in template_product.variants
+          if candidate_variant.available
+            assign has_available_variant = true
+            break
+          endif
+        endfor
+        unless has_available_variant
+          continue
+        endunless
+      -%}
+
+      {% render 'variant-embroidery-text-fields',
+        product: template_product,
+        colour_product: product,
+        colour_variant: colour_variant,
+        section_id: section_id,
+        product_form_id: product_form_id,
+        addon_product_id: template_product.id,
+        start_hidden: true
+      %}
+    {%- endfor -%}
+  </div>
+</embroidery-template-picker>
+{%- endif -%}

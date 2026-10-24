@@ -1,0 +1,687 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "header_banner_homepage_3RAj3G": {
+      "type": "header-banner-homepage",
+      "blocks": {
+        "slide_XyHgMR": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/ChatGPT_Image_Aug_29_2026_01_47_56_AM.png",
+            "mobile_image": "shopify://shop_images/mobile_022e9127-a49e-4def-9d2f-ea6650fbc066.png",
+            "heading": "A Wonderful, Personal Touch",
+            "description": "<p>A personal gift made especially for someone special.</p>",
+            "button_text": "Explore the collection",
+            "button_link": "",
+            "background_color": "#b15da5",
+            "text_color": "#ffffff"
+          }
+        },
+        "slide_EwDe49": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/blanket.png",
+            "mobile_image": "shopify://shop_images/mobile2_72b126a3-4c2c-40e3-82ea-3e6e4787d31e.png",
+            "heading": "Wrap Them in Love, Made Just for Them",
+            "description": "<p>Personalised Blankets</p>",
+            "button_text": "Explore the collection",
+            "button_link": "",
+            "background_color": "#b15da5",
+            "text_color": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "slide_XyHgMR",
+        "slide_EwDe49"
+      ],
+      "name": "Header Banner Home",
+      "settings": {
+        "desktop_height": 600,
+        "autoplay": false,
+        "autoplay_speed": 9000,
+        "loop": true,
+        "show_arrows": true,
+        "show_pagination": true
+      }
+    },
+    "scroll_section_LnUzP3": {
+      "type": "scroll-section",
+      "blocks": {
+        "item_RgYtUh": {
+          "type": "item",
+          "settings": {
+            "svg_code": "<svg viewbox=\"0 0 24 24\" class=\"size-5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 3l2.4 5.2 5.6.6-4.2 3.8 1.2 5.6L12 15.4 7 18.2l1.2-5.6L4 8.8l5.6-.6z\"></path></svg>",
+            "title": "Experience"
+          }
+        },
+        "item_CdmNXK": {
+          "type": "item",
+          "settings": {
+            "svg_code": "<svg viewbox=\"0 0 24 24\" class=\"size-5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z\"></path></svg>",
+            "title": "Security"
+          }
+        },
+        "item_EXYXrT": {
+          "type": "item",
+          "settings": {
+            "svg_code": "<svg viewbox=\"0 0 24 24\" class=\"size-5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z\"></path><path d=\"M9 12l2 2 4-4\"></path></svg>",
+            "title": "Safety"
+          }
+        },
+        "item_AxUDUq": {
+          "type": "item",
+          "settings": {
+            "svg_code": "<svg viewbox=\"0 0 24 24\" class=\"size-5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 3l8 3v5c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z\"></path><path d=\"M12 8v4M12 15h.01\"></path></svg>",
+            "title": "Trust"
+          }
+        },
+        "item_AXwP49": {
+          "type": "item",
+          "settings": {
+            "svg_code": "<svg viewbox=\"0 0 24 24\" class=\"size-5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M13 3L4 14h6l-1 7 9-11h-6z\"></path></svg>",
+            "title": "Super Quick Delivery"
+          }
+        },
+        "item_qg3AAT": {
+          "type": "item",
+          "settings": {
+            "svg_code": "<svg viewbox=\"0 0 24 24\" class=\"size-5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 4h11l3 3v13H6z\"></path><path d=\"M9 4v4M15 4v4M9 12h.01M12 12h.01M15 12h.01M9 16h.01M12 16h.01M15 16h.01\"></path></svg>",
+            "title": "Competitive Price"
+          }
+        },
+        "item_abLCVp": {
+          "type": "item",
+          "settings": {
+            "svg_code": "<svg viewbox=\"0 0 24 24\" class=\"size-4\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" data-tsd-source=\"/src/routes/index.tsx:172:17\"><circle cx=\"12\" cy=\"12\" r=\"9\" data-tsd-source=\"/src/routes/index.tsx:181:19\"></circle><path d=\"M12 8v4l2.5 2.5\" data-tsd-source=\"/src/routes/index.tsx:182:19\"></path></svg>",
+            "title": "40 day money back guarantee*"
+          }
+        }
+      },
+      "block_order": [
+        "item_RgYtUh",
+        "item_CdmNXK",
+        "item_EXYXrT",
+        "item_AxUDUq",
+        "item_AXwP49",
+        "item_qg3AAT",
+        "item_abLCVp"
+      ],
+      "name": "Infinite Marquee",
+      "settings": {
+        "color_scheme": "scheme-5",
+        "heading_size": "h2",
+        "speed": 20,
+        "gap": 40,
+        "icon_width": 32,
+        "pause_on_hover": true,
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "proecess_section_r8GDM9": {
+      "type": "proecess-section",
+      "blocks": {
+        "step_7WBRJz": {
+          "type": "step",
+          "settings": {
+            "icon": "teddy",
+            "title": "Choose a gift",
+            "description": ""
+          }
+        },
+        "step_KKrgym": {
+          "type": "step",
+          "settings": {
+            "icon": "special",
+            "title": "Make it special",
+            "description": ""
+          }
+        },
+        "step_rAz9B9": {
+          "type": "step",
+          "settings": {
+            "icon": "gift",
+            "title": "Send your gift",
+            "description": ""
+          }
+        }
+      },
+      "block_order": [
+        "step_7WBRJz",
+        "step_KKrgym",
+        "step_rAz9B9"
+      ],
+      "name": "Gift process",
+      "settings": {
+        "heading": "It's Easy!",
+        "background_color": "#f3eef5",
+        "heading_color": "#a0338d",
+        "text_color": "#a0338d",
+        "icon_background": "#ffffff",
+        "icon_color": "#ffffff",
+        "line_color": "#a0338d",
+        "animation_color": "#b45aaa",
+        "max_width": 1240,
+        "border_radius": 40,
+        "heading_size": 48,
+        "title_size": 23,
+        "icon_size": 120,
+        "animation_speed": 2,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "feature_collection_new_xeNcMJ": {
+      "type": "feature-collection-new",
+      "name": "Featured Collection New",
+      "settings": {
+        "collection": "personalised-plush-toys",
+        "products_to_show": 25,
+        "title": "New Personalised Gift Ideas",
+        "heading_size": "h1",
+        "description": "<p>Over 135,000 Personalised Teddy Bears and counting....</p>",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 5,
+        "enable_desktop_slider": false,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "color_scheme": "scheme-2",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "swipe_on_mobile": false,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "collection_slider_dHrcCY": {
+      "type": "collection-slider",
+      "blocks": {
+        "collection_RrhWtD": {
+          "type": "collection",
+          "settings": {
+            "collection": "personalised-plush-toys",
+            "image": "shopify://shop_images/2.png",
+            "show_description": true
+          }
+        },
+        "collection_LjCkqY": {
+          "type": "collection",
+          "settings": {
+            "collection": "personalised-bunnies",
+            "image": "shopify://shop_images/bunny.png",
+            "show_description": true
+          }
+        },
+        "collection_YzGCh7": {
+          "type": "collection",
+          "settings": {
+            "collection": "afl-personalised-teddy",
+            "image": "shopify://shop_images/ChatGPT_Image_Aug_29_2026_11_40_53_PM.png",
+            "show_description": true
+          }
+        },
+        "collection_hei3fG": {
+          "type": "collection",
+          "settings": {
+            "collection": "jellycat-bunnies",
+            "image": "shopify://shop_images/ChatGPT_Image_Aug_29_2026_11_53_41_PM.png",
+            "show_description": true
+          }
+        },
+        "collection_id6jNR": {
+          "type": "collection",
+          "settings": {
+            "collection": "personalised-bunny-jumpers",
+            "image": "shopify://shop_images/bunny-jumpers.png",
+            "show_description": true
+          }
+        },
+        "collection_9jFzD4": {
+          "type": "collection",
+          "settings": {
+            "collection": "personalised-teddy-bears",
+            "image": "shopify://shop_images/ptb.png",
+            "show_description": true
+          }
+        },
+        "collection_a9xVDi": {
+          "type": "collection",
+          "settings": {
+            "collection": "personalised-blankets",
+            "image": "shopify://shop_images/personalized-blanket.png",
+            "show_description": true
+          }
+        },
+        "collection_afATtR": {
+          "type": "collection",
+          "settings": {
+            "collection": "personalised-towels",
+            "image": "shopify://shop_images/towels.png",
+            "show_description": true
+          }
+        },
+        "collection_fYMQE6": {
+          "type": "collection",
+          "settings": {
+            "collection": "personalised-christmas-gifts",
+            "image": "shopify://shop_images/chrismas-gift.png",
+            "show_description": true
+          }
+        },
+        "collection_AVVRFq": {
+          "type": "collection",
+          "settings": {
+            "collection": "personalised-santa-sacks",
+            "image": "shopify://shop_images/santa-gift.png",
+            "show_description": true
+          }
+        },
+        "collection_KxXTUd": {
+          "type": "collection",
+          "settings": {
+            "collection": "sale-items",
+            "image": "shopify://shop_images/sale-item.png",
+            "show_description": true
+          }
+        },
+        "collection_fTJHTV": {
+          "type": "collection",
+          "settings": {
+            "collection": "personalised-comforters",
+            "image": "shopify://shop_images/comforters.png",
+            "show_description": true
+          }
+        },
+        "collection_WKDRcD": {
+          "type": "collection",
+          "settings": {
+            "collection": "personalised-easter-gifts",
+            "image": "shopify://shop_images/easter-gift.png",
+            "show_description": true
+          }
+        }
+      },
+      "block_order": [
+        "collection_RrhWtD",
+        "collection_LjCkqY",
+        "collection_YzGCh7",
+        "collection_hei3fG",
+        "collection_id6jNR",
+        "collection_9jFzD4",
+        "collection_a9xVDi",
+        "collection_afATtR",
+        "collection_fYMQE6",
+        "collection_AVVRFq",
+        "collection_KxXTUd",
+        "collection_fTJHTV",
+        "collection_WKDRcD"
+      ],
+      "name": "Shop by category",
+      "settings": {
+        "color_scheme": "scheme-3dc9f179-1f0d-4a0a-8f74-aa26894896c3",
+        "heading": "Shop by product",
+        "subheading": "<p>Our online gift shop has a massive range of custom animal plush toys, and personalised toys</p>",
+        "slides_desktop": 4,
+        "slides_tablet": 2,
+        "slides_mobile": 1.1,
+        "space_desktop": 0,
+        "space_tablet": 16,
+        "space_mobile": 12,
+        "speed": 600,
+        "loop": true,
+        "autoplay": false,
+        "autoplay_delay": 4000,
+        "show_navigation": true,
+        "show_pagination": false,
+        "show_description": true,
+        "card_background": "#ffffff",
+        "card_radius": 12,
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "feature_collection_new_dVWfwx": {
+      "type": "feature-collection-new",
+      "name": "Featured Collection New",
+      "settings": {
+        "collection": "personalised-bunnies",
+        "products_to_show": 25,
+        "title": "Personalised Bunnies",
+        "heading_size": "h1",
+        "description": "<p>Over 135,000 Personalised Teddy Bears and counting....</p>",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 5,
+        "enable_desktop_slider": false,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "color_scheme": "scheme-2",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "swipe_on_mobile": false,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "collection_slider_wByQGD": {
+      "type": "collection-slider",
+      "blocks": {
+        "collection_pgD6Yb": {
+          "type": "collection",
+          "settings": {
+            "collection": "birth-and-baby-gifts",
+            "image": "shopify://shop_images/ChatGPT_Image_Aug_30_2026_07_07_10_PM.png",
+            "show_description": true
+          }
+        },
+        "collection_kAqTHn": {
+          "type": "collection",
+          "settings": {
+            "collection": "birthday-gift",
+            "image": "shopify://shop_images/ChatGPT_Image_Aug_30_2026_07_13_42_PM.png",
+            "show_description": true
+          }
+        },
+        "collection_UtXCkm": {
+          "type": "collection",
+          "settings": {
+            "collection": "christening-day-gifts",
+            "image": "shopify://shop_images/ChatGPT_Image_Aug_30_2026_07_40_08_PM.png",
+            "show_description": true
+          }
+        },
+        "collection_4bNtMz": {
+          "type": "collection",
+          "settings": {
+            "collection": "christmas-gifts",
+            "image": "shopify://shop_images/ChatGPT_Image_Aug_30_2026_07_53_42_PM.png",
+            "show_description": true
+          }
+        },
+        "collection_X33E7V": {
+          "type": "collection",
+          "settings": {
+            "collection": "easter-gift-ideas",
+            "image": "shopify://shop_images/ChatGPT_Image_Aug_30_2026_08_03_57_PM.png",
+            "show_description": true
+          }
+        },
+        "collection_7WgNPd": {
+          "type": "collection",
+          "settings": {
+            "collection": "eid-ramadan-gifts",
+            "image": "shopify://shop_images/ChatGPT_Image_Aug_30_2026_08_11_54_PM.png",
+            "show_description": true
+          }
+        },
+        "collection_38bj8Y": {
+          "type": "collection",
+          "settings": {
+            "collection": "graduation-teacher-gifts",
+            "image": "shopify://shop_images/graduate.png",
+            "show_description": true
+          }
+        },
+        "collection_bkyp3M": {
+          "type": "collection",
+          "settings": {
+            "collection": "mothers-day-gifts",
+            "image": "shopify://shop_images/mothersday.png",
+            "show_description": true
+          }
+        },
+        "collection_czWjQV": {
+          "type": "collection",
+          "settings": {
+            "collection": "pride",
+            "image": "shopify://shop_images/pride.png",
+            "show_description": true
+          }
+        },
+        "collection_xGCVbq": {
+          "type": "collection",
+          "settings": {
+            "collection": "sympathy-bereavement-gifts",
+            "image": "shopify://shop_images/sympathy.png",
+            "show_description": true
+          }
+        }
+      },
+      "block_order": [
+        "collection_pgD6Yb",
+        "collection_kAqTHn",
+        "collection_UtXCkm",
+        "collection_4bNtMz",
+        "collection_X33E7V",
+        "collection_7WgNPd",
+        "collection_38bj8Y",
+        "collection_bkyp3M",
+        "collection_czWjQV",
+        "collection_xGCVbq"
+      ],
+      "name": "Shop by category",
+      "settings": {
+        "color_scheme": "scheme-5",
+        "heading": "Shop by Occasion",
+        "subheading": "<p>Our online gift shop has a massive range of custom animal plush toys, and personalised toys</p>",
+        "slides_desktop": 4,
+        "slides_tablet": 2,
+        "slides_mobile": 1.1,
+        "space_desktop": 0,
+        "space_tablet": 16,
+        "space_mobile": 12,
+        "speed": 600,
+        "loop": true,
+        "autoplay": false,
+        "autoplay_delay": 4000,
+        "show_navigation": true,
+        "show_pagination": false,
+        "show_description": true,
+        "card_background": "#ffffff",
+        "card_radius": 12,
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "about_us_section_LbmRpN": {
+      "type": "about-us-section",
+      "name": "Teddy About",
+      "settings": {
+        "image_1": "shopify://shop_images/788187239_18624642781058225_5091375365536534854_n.jpg",
+        "image_2": "shopify://shop_images/783754397_18623328892058225_2828240148377899089_n.jpg",
+        "image_3": "shopify://shop_images/thumb2.jpg",
+        "heading": "My Teddy, the Teddy Bear Store Today",
+        "subheading": "We celebrate our 16th year of being self employed and working for My Teddy this year.",
+        "description": "<p>We're adding to our online gift shop site all the time, in the last few years we have added the lovely cuddly cubbies and critters. There are also personalised teddies and blankets, and every Christmas we do our famous personalised Santa sacks.</p>",
+        "button_text": "SEE THEM HERE",
+        "button_link": "",
+        "background_color": "#2db8c1",
+        "text_color": "#ffffff",
+        "button_color": "#d36ba4"
+      }
+    },
+    "testimonials_yWbnqU": {
+      "type": "testimonials",
+      "blocks": {
+        "testimonial_NqiWct": {
+          "type": "testimonial",
+          "settings": {
+            "text": "Absolutely adorable! The bunny I purchased arrived in two days! It is so soft and will be a forever toy. My Teddy were so easy to deal with and responded to my queries straight away. Thank you! I will definitely be back!",
+            "name": "Frankie",
+            "date": "March 2021"
+          }
+        },
+        "testimonial_YrJ9LE": {
+          "type": "testimonial",
+          "settings": {
+            "text": "Beautiful and quick contact. It arrived so quick during the Xmas week which was amazing. Thank you",
+            "name": "Peta",
+            "date": "December 2020"
+          }
+        },
+        "testimonial_4rXBTJ": {
+          "type": "testimonial",
+          "settings": {
+            "text": "Thank you Chris! Amazing service, such speedy delivery and the Teddy is just perfect! Highly recommend",
+            "name": "Rita",
+            "date": "December 2020"
+          }
+        },
+        "testimonial_DDa9PV": {
+          "type": "testimonial",
+          "settings": {
+            "text": "I want to thank everyone at My Teddy for the fast service and delivery. My granddaughter ended up in hospital and I ordered a personalised Charlie Cream 47cm Gund bear. He is beautiful, and you made his top look exactly as I envisaged it. Amazing job, amazing speed. Thank you! I will be recommending you to everyone.",
+            "name": "Ana",
+            "date": "September 2020"
+          }
+        },
+        "testimonial_Yz9VRn": {
+          "type": "testimonial",
+          "settings": {
+            "text": "Extremely happy with the service received from My Teddy. I have ordered 4 times through this company and i have to say I am most impressed with the latest order. I ordered a personalised easter bunny for my baby's 1st easter on Monday 06/04/2020. I had received the proof to approve on Tuedsay 07/04/2020 at 8:34 QLD time, to which I approved. The order was sent on Wednesday 08/04/2020 and received Today 09/04/2020 in the AM. I honestly did not think I would have received this before easter. I am extremely thankful that the team was able to put this through so promptly. I will definitely be back time and time again!!",
+            "name": "Bree ",
+            "date": "March 2020"
+          }
+        },
+        "testimonial_fBphbd": {
+          "type": "testimonial",
+          "settings": {
+            "text": "Who ever would have thought there was a custom teddy shop. Wow.!!!! Best idea for a gift. Super friendly and fast delivery.",
+            "name": "Brent ",
+            "date": "Feb  2021"
+          }
+        },
+        "testimonial_tGU7Je": {
+          "type": "testimonial",
+          "settings": {
+            "text": "I am amazed by the excellent service I received from the My Teddy team. Toni was amazing and made sure that I received my teddy in time for when I needed it. It also arrived earlier than I expected. The whole process was extremely easy and I am extremely happy with my teddy and the quality of it. 100% would recommend them to everyone!!",
+            "name": "Vanitha ",
+            "date": "Aug 2019"
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_NqiWct",
+        "testimonial_YrJ9LE",
+        "testimonial_4rXBTJ",
+        "testimonial_DDa9PV",
+        "testimonial_Yz9VRn",
+        "testimonial_fBphbd",
+        "testimonial_tGU7Je"
+      ],
+      "name": "Testimonials Swiper",
+      "settings": {
+        "subheading": "My Teddy Bear Store",
+        "heading": "Testimonials"
+      }
+    },
+    "featured_blog_8GA8jy": {
+      "type": "featured-blog",
+      "disabled": true,
+      "name": "t:sections.featured-blog.presets.name",
+      "settings": {
+        "blog": "my-teddy-blog",
+        "post_limit": 3,
+        "heading": "Blog posts",
+        "heading_size": "h1",
+        "columns_desktop": 3,
+        "show_view_all": true,
+        "show_image": true,
+        "show_date": true,
+        "show_author": false,
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "newsletter_4NAdMT": {
+      "type": "newsletter",
+      "blocks": {
+        "heading_F7Cf7T": {
+          "type": "heading",
+          "settings": {
+            "heading": "Sign Up to the Newsletter",
+            "heading_size": "h1"
+          }
+        },
+        "paragraph_UxLWc4": {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>Be the first to get notified about New Arrivals, Discounts, and Bargain Deals!</p>"
+          }
+        },
+        "email_form_MApeKf": {
+          "type": "email_form",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "heading_F7Cf7T",
+        "paragraph_UxLWc4",
+        "email_form_MApeKf"
+      ],
+      "disabled": true,
+      "name": "t:sections.newsletter.presets.name",
+      "settings": {
+        "color_scheme": "scheme-5",
+        "full_width": true,
+        "padding_top": 100,
+        "padding_bottom": 100
+      }
+    },
+    "1788309575aaf21468": {
+      "type": "apps",
+      "blocks": {
+        "elfsight_instagram_gallery_widget_n4qWPD": {
+          "type": "shopify://apps/elfsight-instagram-gallery/blocks/widget/019f89c7-dff8-7449-b275-e9861010378e",
+          "settings": {
+            "code": "<div class=\"elfsight-sapp-d9b22dba-1183-4e69-b17d-3565b72b58c2\"></div>",
+            "margin_top": 0,
+            "margin_bottom": 0,
+            "margin_side": 0
+          }
+        }
+      },
+      "block_order": [
+        "elfsight_instagram_gallery_widget_n4qWPD"
+      ],
+      "settings": {
+        "include_margins": false
+      }
+    }
+  },
+  "order": [
+    "header_banner_homepage_3RAj3G",
+    "scroll_section_LnUzP3",
+    "proecess_section_r8GDM9",
+    "feature_collection_new_xeNcMJ",
+    "collection_slider_dHrcCY",
+    "feature_collection_new_dVWfwx",
+    "collection_slider_wByQGD",
+    "about_us_section_LbmRpN",
+    "testimonials_yWbnqU",
+    "featured_blog_8GA8jy",
+    "newsletter_4NAdMT",
+    "1788309575aaf21468"
+  ]
+}
